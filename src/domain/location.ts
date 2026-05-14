@@ -22,4 +22,5 @@ export interface Location {
   hours: OpeningHours[];
   clickAndCollectUrl: string | null;
   deliveryLinks: DeliveryLink[];
+  imageUrl?: string | null;
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
-import { LocationsView } from "@/components/locations/locations-view";
+import { LocationsPageGrid } from "@/components/locations/locations-page-grid";
 import { getLocations } from "@/data/repositories/locations-repository";
 
 export const revalidate = 60;
@@ -15,15 +15,17 @@ export default async function LocationsPage() {
 
   return (
     <>
-      <Container className="pt-20 pb-10">
-        <div className="display-eyebrow text-gbd-red mb-4">Locations</div>
-        <h1 className="display-h1 text-gbd-navy max-w-3xl">Find your spot.</h1>
-        <p className="body-lg text-gbd-navy/70 max-w-2xl mt-6">
-          Pick a store for opening hours, Click + Collect, or order through your favourite
-          delivery app.
-        </p>
+      <Container className="pt-24 pb-6">
+        <div className="flex items-end justify-between gap-6">
+          <h1 className="font-display font-bold uppercase tracking-tight text-[#0F1E2D] text-4xl md:text-5xl">
+            Our Locations
+          </h1>
+          <span className="hidden sm:block font-display font-bold uppercase tracking-widest text-[#0F1E2D] text-sm">
+            Est 2026 | London
+          </span>
+        </div>
       </Container>
-      <LocationsView locations={locations} />
+      <LocationsPageGrid locations={locations} />
     </>
   );
 }

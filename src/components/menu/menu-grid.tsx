@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MenuCard } from "@/components/menu/menu-card";
-import { cn } from "@/lib/utils";
+import { cn, formatGBP } from "@/lib/utils";
 import type { MenuItem, MenuCategory, MenuCategorySlug } from "@/domain/menu-item";
 
 type Filter = MenuCategorySlug | "all";
@@ -41,8 +41,14 @@ export function MenuGrid({
 
       <motion.div layout className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
-          {filtered.map((item, i) => (
-            <MenuCard key={item.id} item={item} index={i} />
+          {filtered.map((item) => (
+            <MenuCard
+              key={item.id}
+              title={item.title}
+              price={formatGBP(item.priceGBP)}
+              description={item.description}
+              imageUrl={item.imageUrl}
+            />
           ))}
         </AnimatePresence>
       </motion.div>
