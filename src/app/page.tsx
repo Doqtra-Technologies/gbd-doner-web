@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/hero";
 import { BestSellers } from "@/components/home/best-sellers";
+import { Community } from "@/components/home/community";
 import { Newsletter } from "@/components/home/newsletter";
 import { getBestSellers } from "@/data/repositories/menu-repository";
 
@@ -11,6 +12,7 @@ export default async function HomePage() {
     <>
       <Hero />
       <BestSellers items={bestSellers} />
+      <Community />
       <Newsletter />
     </>
   );
