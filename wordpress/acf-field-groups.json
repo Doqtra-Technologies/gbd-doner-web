@@ -1,0 +1,150 @@
+[
+  {
+    "key": "group_gbd_menu_item",
+    "title": "Menu Item Fields",
+    "fields": [
+      {
+        "key": "field_gbd_price_gbp",
+        "label": "Price (GBP)",
+        "name": "price_gbp",
+        "type": "number",
+        "required": 1,
+        "min": 0,
+        "step": 0.01,
+        "graphql_field_name": "priceGbp",
+        "show_in_graphql": 1
+      },
+      {
+        "key": "field_gbd_is_best_seller",
+        "label": "Best Seller?",
+        "name": "is_best_seller",
+        "type": "true_false",
+        "ui": 1,
+        "graphql_field_name": "isBestSeller",
+        "show_in_graphql": 1
+      },
+      {
+        "key": "field_gbd_category",
+        "label": "Category",
+        "name": "category",
+        "type": "select",
+        "choices": {
+          "bowls": "Bowls",
+          "plates": "Plates",
+          "wraps": "Wraps",
+          "sides": "Sides",
+          "drinks": "Drinks",
+          "desserts": "Desserts"
+        },
+        "required": 1,
+        "graphql_field_name": "category",
+        "show_in_graphql": 1
+      },
+      {
+        "key": "field_gbd_allergens",
+        "label": "Allergens",
+        "name": "allergens",
+        "type": "repeater",
+        "graphql_field_name": "allergens",
+        "show_in_graphql": 1,
+        "sub_fields": [
+          {
+            "key": "field_gbd_allergen_code",
+            "label": "Code",
+            "name": "code",
+            "type": "text",
+            "graphql_field_name": "code",
+            "show_in_graphql": 1
+          },
+          {
+            "key": "field_gbd_allergen_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "graphql_field_name": "label",
+            "show_in_graphql": 1
+          }
+        ]
+      },
+      {
+        "key": "field_gbd_nutrition",
+        "label": "Nutrition",
+        "name": "nutrition",
+        "type": "group",
+        "graphql_field_name": "nutrition",
+        "show_in_graphql": 1,
+        "sub_fields": [
+          { "key": "field_gbd_n_calories", "label": "Calories", "name": "calories", "type": "number", "graphql_field_name": "calories", "show_in_graphql": 1 },
+          { "key": "field_gbd_n_protein",  "label": "Protein (g)", "name": "protein", "type": "number", "graphql_field_name": "protein", "show_in_graphql": 1 },
+          { "key": "field_gbd_n_carbs",    "label": "Carbs (g)", "name": "carbs", "type": "number", "graphql_field_name": "carbs", "show_in_graphql": 1 },
+          { "key": "field_gbd_n_fat",      "label": "Fat (g)", "name": "fat", "type": "number", "graphql_field_name": "fat", "show_in_graphql": 1 }
+        ]
+      }
+    ],
+    "location": [[{ "param": "post_type", "operator": "==", "value": "menu_item" }]],
+    "graphql_field_name": "menuItemFields",
+    "show_in_graphql": 1,
+    "map_graphql_types_from_location_rules": 1,
+    "graphql_types": ["MenuItem"]
+  },
+  {
+    "key": "group_gbd_location",
+    "title": "Location Fields",
+    "fields": [
+      { "key": "field_gbd_addr1", "label": "Address Line 1", "name": "address_line1", "type": "text", "required": 1, "graphql_field_name": "addressLine1", "show_in_graphql": 1 },
+      { "key": "field_gbd_addr2", "label": "Address Line 2", "name": "address_line2", "type": "text", "graphql_field_name": "addressLine2", "show_in_graphql": 1 },
+      { "key": "field_gbd_city", "label": "City", "name": "city", "type": "text", "required": 1, "graphql_field_name": "city", "show_in_graphql": 1 },
+      { "key": "field_gbd_postcode", "label": "Postcode", "name": "postcode", "type": "text", "required": 1, "graphql_field_name": "postcode", "show_in_graphql": 1 },
+      { "key": "field_gbd_phone", "label": "Phone", "name": "phone", "type": "text", "graphql_field_name": "phone", "show_in_graphql": 1 },
+      { "key": "field_gbd_lat", "label": "Latitude", "name": "lat", "type": "number", "required": 1, "graphql_field_name": "lat", "show_in_graphql": 1 },
+      { "key": "field_gbd_lng", "label": "Longitude", "name": "lng", "type": "number", "required": 1, "graphql_field_name": "lng", "show_in_graphql": 1 },
+      { "key": "field_gbd_cc_url", "label": "Click + Collect URL", "name": "click_and_collect_url", "type": "url", "graphql_field_name": "clickAndCollectUrl", "show_in_graphql": 1 },
+      {
+        "key": "field_gbd_delivery_links",
+        "label": "Delivery Links",
+        "name": "delivery_links",
+        "type": "repeater",
+        "graphql_field_name": "deliveryLinks",
+        "show_in_graphql": 1,
+        "sub_fields": [
+          {
+            "key": "field_gbd_dl_provider",
+            "label": "Provider",
+            "name": "provider",
+            "type": "select",
+            "choices": { "deliveroo": "Deliveroo", "ubereats": "Uber Eats", "justeat": "Just Eat" },
+            "graphql_field_name": "provider",
+            "show_in_graphql": 1
+          },
+          { "key": "field_gbd_dl_url", "label": "URL", "name": "url", "type": "url", "graphql_field_name": "url", "show_in_graphql": 1 }
+        ]
+      },
+      {
+        "key": "field_gbd_hours",
+        "label": "Opening Hours",
+        "name": "hours",
+        "type": "repeater",
+        "graphql_field_name": "hours",
+        "show_in_graphql": 1,
+        "sub_fields": [
+          {
+            "key": "field_gbd_h_day",
+            "label": "Day",
+            "name": "day",
+            "type": "select",
+            "choices": { "Mon": "Mon", "Tue": "Tue", "Wed": "Wed", "Thu": "Thu", "Fri": "Fri", "Sat": "Sat", "Sun": "Sun" },
+            "graphql_field_name": "day",
+            "show_in_graphql": 1
+          },
+          { "key": "field_gbd_h_open",  "label": "Open",  "name": "open",  "type": "text", "graphql_field_name": "open",  "show_in_graphql": 1 },
+          { "key": "field_gbd_h_close", "label": "Close", "name": "close", "type": "text", "graphql_field_name": "close", "show_in_graphql": 1 }
+        ]
+      }
+    ],
+    "location": [[{ "param": "post_type", "operator": "==", "value": "location" }]],
+    "graphql_field_name": "locationFields",
+    "show_in_graphql": 1,
+    "map_graphql_types_from_location_rules": 1,
+    "graphql_types": ["Location"]
+  }
+]
