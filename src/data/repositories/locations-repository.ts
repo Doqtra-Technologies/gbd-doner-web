@@ -21,6 +21,7 @@ interface RawLocationsResponse {
         clickAndCollectUrl: string | null;
         deliveryLinks: DeliveryLink[] | null;
         hours: OpeningHours[] | null;
+        imageUrl: string | null;
       } | null;
     }>;
   };
@@ -47,6 +48,7 @@ export async function getLocations(): Promise<Location[]> {
       hours: f?.hours ?? [],
       clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
       deliveryLinks: f?.deliveryLinks ?? [],
+      imageUrl: f?.imageUrl ?? null,
     };
   });
 }

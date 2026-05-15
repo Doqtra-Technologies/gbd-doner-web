@@ -125,6 +125,7 @@ export const MOCK_LOCATIONS: Location[] = [
       { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/london/shoreditch/gbd" },
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-shoreditch" },
     ],
+    imageUrl: placeholder("1517248135467-4c7edcad34c4"),
   },
   {
     id: "loc-2",
@@ -150,6 +151,7 @@ export const MOCK_LOCATIONS: Location[] = [
       { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/london/soho/gbd" },
       { provider: "justeat", url: "https://just-eat.co.uk/restaurants-gbd-soho" },
     ],
+    imageUrl: placeholder("1559339352-11d035aa65de"),
   },
   {
     id: "loc-3",
@@ -174,6 +176,7 @@ export const MOCK_LOCATIONS: Location[] = [
     deliveryLinks: [
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-manchester" },
     ],
+    imageUrl: placeholder("1466978913421-dad2ebd01d17"),
   },
 ];
 

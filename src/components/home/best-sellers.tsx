@@ -1,71 +1,64 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { ButtonLink } from "@/components/ui/button";
+import { Section } from "@/components/layout/section";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Heading } from "@/components/ui/heading";
+import { CTAButton } from "@/components/ui/cta-button";
+import { ProductCard } from "@/components/product/product-card";
 import { formatGBP } from "@/lib/utils";
+import { EASE } from "@/brand/motion";
 import type { MenuItem } from "@/domain/menu-item";
 
 export function BestSellers({ items }: { items: MenuItem[] }) {
   return (
-    <section className="py-24 md:py-32">
+    <Section size="standard">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-          <div>
-            <div className="display-eyebrow text-gbd-red mb-3">Best Sellers</div>
-            <h2 className="display-h2 text-gbd-navy max-w-xl">
-              The ones we can&apos;t keep on the spit.
-            </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end mb-16">
+          <div className="lg:col-span-7">
+            <Eyebrow tone="accent" className="block mb-6">
+              The Lineup
+            </Eyebrow>
+            <Heading level={2}>
+              Salad Bowls
+              <br />
+              <span className="text-text-disabled">&amp;</span> Power Plates.
+            </Heading>
           </div>
-          <ButtonLink href="/menu" variant="ghost">
-            Full Menu
-          </ButtonLink>
+          <div className="lg:col-span-4 lg:col-start-9">
+            <p className="font-body text-base md:text-lg leading-relaxed text-text-secondary">
+              Real ingredients. Real protein. Built for runners, builders, and
+              everyone in between.
+            </p>
+            <CTAButton variant="tertiary" href="/menu" className="mt-8">
+              Full Menu
+            </CTAButton>
+          </div>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: i * 0.06, ease: EASE.out }}
             >
-              <Link
+              <ProductCard
+                variant="hero"
+                title={item.title}
+                price={formatGBP(item.priceGBP)}
+                description={item.description}
+                imageUrl={item.imageUrl}
                 href="/menu"
-                className="group block"
-                aria-label={`See ${item.title} on the menu`}
-              >
-                <div className="relative aspect-[4/5] overflow-hidden bg-gbd-cream">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  />
-                  <div className="absolute top-4 left-4 bg-gbd-red text-white display-eyebrow px-3 py-1.5">
-                    Best Seller
-                  </div>
-                </div>
-                <div className="pt-5 flex items-baseline justify-between gap-3">
-                  <h3 className="font-display font-bold uppercase tracking-display text-lg text-gbd-navy">
-                    {item.title}
-                  </h3>
-                  <span className="font-display font-bold text-gbd-red">
-                    {formatGBP(item.priceGBP)}
-                  </span>
-                </div>
-                <p className="body-base text-gbd-navy/70 mt-2 line-clamp-2">
-                  {item.description}
-                </p>
-              </Link>
+                nutrition={item.nutrition}
+              />
             </motion.div>
           ))}
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

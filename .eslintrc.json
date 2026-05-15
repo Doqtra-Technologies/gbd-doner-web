@@ -1,3 +1,46 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Literal[value=/text-\\[#|bg-\\[#|border-\\[#|fill-\\[#|stroke-\\[#|ring-\\[#/]",
+        "message": "Forbidden: bracketed hex utility. Use semantic tokens from src/brand/tokens.ts (text-text-primary, bg-canvas, border-border-strong, etc.). See src/brand/README.md."
+      },
+      {
+        "selector": "Literal[value=/gbd-red-dark|gbd-navy-soft|gbd-cream/]",
+        "message": "Forbidden: off-brand colour token. Only gbd-red, gbd-navy, gbd-white are permitted, and they should be consumed via semantic tokens (text-*, bg-*, border-*)."
+      },
+      {
+        "selector": "Literal[value=/\\btracking-tight\\b|\\btracking-tighter\\b/]",
+        "message": "Forbidden: off-brand tracking. Use tracking-display, tracking-eyebrow, or tracking-button."
+      },
+      {
+        "selector": "Literal[value=/\\bpy-20\\b|\\bpy-28\\b|\\bpy-40\\b|\\bpy-44\\b|\\bpy-48\\b/]",
+        "message": "Forbidden: arbitrary section padding. Wrap in <Section size=\"standard\"|\"hero\"> (py-24 or py-32)."
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["**/components/ui/button"],
+            "message": "ui/button is deprecated. Use <CTAButton /> from @/components/ui/cta-button."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/brand/**/*.{ts,tsx}",
+        "src/components/brand/**/*.{ts,tsx}"
+      ],
+      "rules": {
+        "no-restricted-syntax": "off"
+      }
+    }
+  ]
 }

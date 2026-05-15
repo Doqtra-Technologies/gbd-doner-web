@@ -1,3 +1,5 @@
+@import "leaflet/dist/leaflet.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,24 +13,6 @@ body {
   background: #ffffff;
   color: #0f1e2d;
   -webkit-font-smoothing: antialiased;
-}
-
-@layer components {
-  .display-h1 {
-    @apply font-display font-bold uppercase tracking-display leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl;
-  }
-  .display-h2 {
-    @apply font-display font-bold uppercase tracking-display leading-[1.02] text-3xl sm:text-4xl md:text-5xl;
-  }
-  .display-eyebrow {
-    @apply font-display font-bold uppercase tracking-[0.18em] text-xs;
-  }
-  .body-lg {
-    @apply font-body text-lg leading-relaxed;
-  }
-  .body-base {
-    @apply font-body text-base leading-relaxed;
-  }
 }
 
 ::selection {

@@ -1,71 +1,88 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Container } from "@/components/ui/container";
-import { ButtonLink } from "@/components/ui/button";
+import { CTAButton } from "@/components/ui/cta-button";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Heading } from "@/components/ui/heading";
+import { EASE } from "@/brand/motion";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gbd-navy text-white">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full bg-gbd-red/30 blur-3xl" />
-        <div className="absolute -bottom-32 -left-20 w-[420px] h-[420px] rounded-full bg-gbd-red/10 blur-3xl" />
-      </div>
+    <section className="relative bg-canvas">
+      <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+        <div className="lg:col-span-5 flex items-center px-6 sm:px-10 lg:pl-16 xl:pl-24 py-24 lg:py-32">
+          <div className="max-w-xl">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE.out }}
+              className="mb-10"
+            >
+              <Eyebrow>Est. London · 2026</Eyebrow>
+            </motion.div>
 
-      <Container className="relative py-28 md:py-40 grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div className="lg:col-span-8">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="display-eyebrow text-gbd-red mb-6"
-          >
-            Est. 2026 · London
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: EASE.out }}
+            >
+              <Heading level={1}>
+                British
+                <br />
+                Doner
+                <br />
+                Redefined.
+              </Heading>
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="display-h1"
-          >
-            British <span className="text-gbd-red">Doner</span>
-            <br />
-            Redefined.
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: EASE.out }}
+              className="mt-10 max-w-md font-body text-base md:text-lg leading-relaxed text-text-secondary"
+            >
+              Ethically sourced. Spit-fired. Built for the 90-second lunch and
+              the 1AM craving. Honest food, raised to a higher bar.
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="body-lg mt-8 max-w-xl text-white/75"
-          >
-            Ethically sourced. Urban kinetic. Built for the 90-second lunch and
-            the 1AM craving. This is doner with a backbone.
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45, ease: EASE.out }}
+              className="mt-12 flex flex-wrap items-center gap-8"
+            >
+              <CTAButton variant="primary" size="lg" href="/locations">
+                Order Now
+              </CTAButton>
+              <CTAButton variant="tertiary" href="/menu">
+                See the Menu
+              </CTAButton>
+            </motion.div>
+          </div>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.9, ease: EASE.out }}
+          className="lg:col-span-7 relative min-h-[60vh] lg:min-h-[88vh] bg-canvas"
         >
-          <ButtonLink href="/menu" size="lg" variant="primary">
-            See the Menu
-          </ButtonLink>
-          <ButtonLink href="/locations" size="lg" variant="ghost" className="text-white border-white/30 hover:border-white">
-            Find a Store
-          </ButtonLink>
-        </motion.div>
-      </Container>
+          <Image
+            src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=2000&q=85"
+            alt="Spit-fired British doner plate"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 58vw"
+            className="object-cover"
+          />
 
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="h-1 bg-gbd-red origin-left"
-      />
+          <div className="absolute bottom-8 left-8 lg:bottom-12 lg:left-12 flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-accent" />
+            <Eyebrow tone="inverse">Spit-Fired · Served Fast</Eyebrow>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }

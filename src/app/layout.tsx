@@ -4,18 +4,19 @@ import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["500", "600", "700", "800"],
+  weight: ["700"],
   display: "swap",
 });
 
 const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-open-sans",
-  weight: ["400", "500", "600"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -50,7 +51,7 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
       <body className="font-body antialiased">
         <Nav />
-        <main>{children}</main>
+        <main className="pt-20">{children}</main>
         <Footer />
       </body>
     </html>

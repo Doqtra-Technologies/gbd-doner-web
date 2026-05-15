@@ -1,99 +1,138 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Container } from "@/components/ui/container";
-import { ButtonLink } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Logo } from "@/components/brand/logo";
+import { CTAButton } from "@/components/ui/cta-button";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-black/5">
-      <Container className="flex h-16 items-center justify-between">
-        <Link
-          href="/"
-          className="font-display font-bold uppercase tracking-[0.18em] text-base text-gbd-navy"
-        >
-          GBD<span className="text-gbd-red">.</span>Doner
-        </Link>
-
-        <nav className="hidden lg:flex items-center gap-8">
-          {siteConfig.nav.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
+    <>
+      <header className="fixed left-0 right-0 top-0 z-[100] border-b border-border-hairline bg-canvas/95 backdrop-blur">
+        <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+          >
+            <span className="sr-only">Menu</span>
+            <span className="relative block h-3.5 w-7">
+              <span
                 className={cn(
-                  "font-display text-xs uppercase tracking-[0.16em] transition-colors duration-300",
-                  active ? "text-gbd-red" : "text-gbd-navy hover:text-gbd-red",
+                  "absolute left-0 top-0 block h-[2px] w-7 bg-current transition-transform duration-300 ease-smooth",
+                  open && "top-1/2 -translate-y-1/2 rotate-45",
                 )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+              />
+              <span
+                className={cn(
+                  "absolute left-0 bottom-0 block h-[2px] w-7 bg-current transition-all duration-300 ease-smooth",
+                  open && "bottom-1/2 translate-y-1/2 -rotate-45",
+                )}
+              />
+            </span>
+          </button>
 
-        <div className="hidden lg:block">
-          <ButtonLink href="/locations" size="md">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Logo size="md" />
+          </div>
+
+          <CTAButton variant="primary" size="md" href="/locations" className="ml-auto">
             Order Now
-          </ButtonLink>
+          </CTAButton>
+        </div>
+      </header>
+
+      <div
+        className={cn(
+          "fixed inset-0 z-[110] bg-surface-inverse/40 transition-opacity duration-300 ease-smooth",
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+        )}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+
+      <div
+        className={cn(
+          "fixed inset-0 z-[120] bg-canvas/95 backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
+          open
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
+        )}
+      >
+        <div className="relative flex h-20 w-full flex-none items-center px-5 sm:px-8">
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+          >
+            <span className="sr-only">Close</span>
+            <span className="relative block h-3.5 w-7">
+              <span className="absolute left-0 top-1/2 block h-[2px] w-7 -translate-y-1/2 rotate-45 bg-current transition-transform duration-300 ease-smooth" />
+              <span className="absolute left-0 top-1/2 block h-[2px] w-7 -translate-y-1/2 -rotate-45 bg-current transition-transform duration-300 ease-smooth" />
+            </span>
+          </button>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Logo size="md" />
+          </div>
         </div>
 
-        <button
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 -mr-2"
-        >
-          <div className="space-y-1.5">
-            <span
-              className={cn(
-                "block h-0.5 w-6 bg-gbd-navy transition-transform duration-300",
-                open && "translate-y-2 rotate-45",
-              )}
-            />
-            <span
-              className={cn(
-                "block h-0.5 w-6 bg-gbd-navy transition-opacity duration-300",
-                open && "opacity-0",
-              )}
-            />
-            <span
-              className={cn(
-                "block h-0.5 w-6 bg-gbd-navy transition-transform duration-300",
-                open && "-translate-y-2 -rotate-45",
-              )}
-            />
-          </div>
-        </button>
-      </Container>
-
-      {open && (
-        <nav className="lg:hidden border-t border-black/5 bg-white">
-          <Container className="py-6 flex flex-col gap-4">
+        <nav className="mx-auto flex flex-1 w-full max-w-shell flex-col justify-between px-5 py-12 sm:px-8 overflow-y-auto">
+          <ul className="space-y-6">
             {siteConfig.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="font-display text-base uppercase tracking-[0.14em] text-gbd-navy hover:text-gbd-red"
-              >
-                {item.label}
-              </Link>
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth block"
+                >
+                  {item.label}
+                </Link>
+              </li>
             ))}
-            <ButtonLink href="/locations" size="lg" className="mt-2 w-full">
-              Order Now
-            </ButtonLink>
-          </Container>
+          </ul>
+          <div className="pt-10 border-t border-border-hairline flex items-center justify-between mt-8 flex-none">
+            <span className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">
+              Est. London
+            </span>
+            <div className="flex items-center gap-6">
+              <a
+                href={siteConfig.social.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+              >
+                Instagram
+              </a>
+              <a
+                href={siteConfig.social.tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+              >
+                TikTok
+              </a>
+            </div>
+          </div>
         </nav>
-      )}
-    </header>
+      </div>
+    </>
   );
 }
