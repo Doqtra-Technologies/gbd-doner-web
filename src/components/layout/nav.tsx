@@ -22,40 +22,42 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-[100] border-b border-border-hairline bg-canvas/95 backdrop-blur">
-      <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
-        >
-          <span className="sr-only">Menu</span>
-          <span className="relative block h-3.5 w-7">
-            <span
-              className={cn(
-                "absolute left-0 top-0 block h-[2px] w-7 bg-current transition-transform duration-300 ease-smooth",
-                open && "top-1/2 -translate-y-1/2 rotate-45",
-              )}
-            />
-            <span
-              className={cn(
-                "absolute left-0 bottom-0 block h-[2px] w-7 bg-current transition-all duration-300 ease-smooth",
-                open && "bottom-1/2 translate-y-1/2 -rotate-45",
-              )}
-            />
-          </span>
-        </button>
+    <>
+      <header className="fixed left-0 right-0 top-0 z-[100] border-b border-border-hairline bg-canvas/95 backdrop-blur">
+        <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+          >
+            <span className="sr-only">Menu</span>
+            <span className="relative block h-3.5 w-7">
+              <span
+                className={cn(
+                  "absolute left-0 top-0 block h-[2px] w-7 bg-current transition-transform duration-300 ease-smooth",
+                  open && "top-1/2 -translate-y-1/2 rotate-45",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 bottom-0 block h-[2px] w-7 bg-current transition-all duration-300 ease-smooth",
+                  open && "bottom-1/2 translate-y-1/2 -rotate-45",
+                )}
+              />
+            </span>
+          </button>
 
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <Logo size="md" />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Logo size="md" />
+          </div>
+
+          <CTAButton variant="primary" size="md" href="/locations" className="ml-auto">
+            Order Now
+          </CTAButton>
         </div>
-
-        <CTAButton variant="primary" size="md" href="/locations" className="ml-auto">
-          Order Now
-        </CTAButton>
-      </div>
+      </header>
 
       <div
         className={cn(
@@ -68,27 +70,45 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[120] origin-top bg-canvas transition-all duration-300 ease-smooth pt-20",
+          "fixed inset-0 z-[120] bg-canvas/95 backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
           open
-            ? "pointer-events-auto opacity-100 translate-y-0"
-            : "pointer-events-none opacity-0 -translate-y-2",
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
         )}
       >
-        <nav className="mx-auto flex h-full w-full max-w-shell flex-col justify-between px-5 py-16 sm:px-8">
+        <div className="relative flex h-20 w-full flex-none items-center px-5 sm:px-8">
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+          >
+            <span className="sr-only">Close</span>
+            <span className="relative block h-3.5 w-7">
+              <span className="absolute left-0 top-1/2 block h-[2px] w-7 -translate-y-1/2 rotate-45 bg-current transition-transform duration-300 ease-smooth" />
+              <span className="absolute left-0 top-1/2 block h-[2px] w-7 -translate-y-1/2 -rotate-45 bg-current transition-transform duration-300 ease-smooth" />
+            </span>
+          </button>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Logo size="md" />
+          </div>
+        </div>
+
+        <nav className="mx-auto flex flex-1 w-full max-w-shell flex-col justify-between px-5 py-12 sm:px-8 overflow-y-auto">
           <ul className="space-y-6">
             {siteConfig.nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="font-display font-bold uppercase tracking-display text-5xl md:text-7xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth block"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="pt-10 border-t border-border-hairline flex items-center justify-between">
+          <div className="pt-10 border-t border-border-hairline flex items-center justify-between mt-8 flex-none">
             <span className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">
               Est. London
             </span>
@@ -113,6 +133,6 @@ export function Nav() {
           </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

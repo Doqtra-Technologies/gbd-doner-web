@@ -1,4 +1,18 @@
-1. locations-layout.tsx: Use standard flex layout without vh hacks where possible. Ensure min-width: 0 on map and sidebar.
-2. locations-sidebar.tsx: Fix list to use flex-1, overflow-y-auto, flex-col. Add shrink-0 to list items so they don't overlap.
-3. location-card.tsx: Add relative, shrink-0, min-w-0.
-4. sticky-location-header.tsx: Add shrink-0.
+# Navigation System Rebuild
+
+## User Review Required
+No major architectural blockers. The `backdrop-blur` containing block bug has been identified as the root cause. 
+
+## Proposed Changes
+
+### [MODIFY] src/components/layout/nav.tsx
+- Decouple the Overlay and Menu Panel from the `<header>` element so they are not constrained by the `<header>`'s `backdrop-blur` containing block.
+- Implement the exact Z-index stack: Map (10), Sidebar (30), Navbar (100), Overlay (110), Menu (120).
+- Since Menu is z-120, add a replicated top bar inside the Menu Panel containing the Close Button and Logo.
+- Update Menu Panel background to `bg-canvas/95 backdrop-blur-xl` for a premium glassmorphism effect.
+- Reduce typography size from `text-7xl` to `text-5xl`.
+- Update animations to be a smooth, premium fade.
+- Ensure the overlay has `pointer-events-auto` when open to block all map and sidebar interactions.
+
+## Verification Plan
+- Build project using `npm run build`.
