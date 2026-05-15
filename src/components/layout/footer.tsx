@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { Container } from "@/components/ui/container";
+import { Logo } from "@/components/brand/logo";
 import { siteConfig } from "@/lib/config";
 
 type Column = {
@@ -17,27 +18,14 @@ const columns: Column[] = [
       { label: "Menu", href: "/menu" },
       { label: "Locations", href: "/locations" },
       { label: "Our Story", href: "/our-story" },
-      {
-        label: "Franchise Enquiries",
-        href: "https://germandonerkebab.com/gb/german-doner-kebab-gdk-fast-food-franchise-opportunity/uk",
-        external: true,
-      },
-      {
-        label: "Allergens Info",
-        href: "https://germandonerkebab.com/gb/allergen-information",
-        external: true,
-      },
+      { label: "Catering", href: "/catering" },
     ],
   },
   {
     heading: "Connect",
     links: [
-      {
-        label: "Contact Us",
-        href: "https://germandonerkebab.com/gb/contact-us",
-        external: true,
-      },
-      { label: "Catering", href: "/catering" },
+      { label: "Contact", href: "/contact" },
+      { label: "The Feed", href: "/feed" },
       { label: "Instagram", href: siteConfig.social.instagram, external: true },
       { label: "TikTok", href: siteConfig.social.tiktok, external: true },
     ],
@@ -45,30 +33,20 @@ const columns: Column[] = [
   {
     heading: "Legal",
     links: [
-      {
-        label: "Privacy Policy",
-        href: "https://atis.life/privacy-policy",
-        external: true,
-      },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Allergens Info", href: "/allergens" },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-gbd-navy">
-      <Container className="pt-24 md:pt-32 pb-12">
+    <footer className="bg-canvas border-t border-border-strong">
+      <Container className="pt-24 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-14">
           <div>
-            <Link href="/" aria-label={`${siteConfig.name} — Home`} className="inline-block">
-              <img
-                src="/logo.svg"
-                alt="Great British Doner"
-                className="h-10 w-auto"
-                style={{ objectFit: "contain" }}
-              />
-            </Link>
-            <p className="mt-6 max-w-xs font-body text-sm leading-relaxed text-gbd-navy/70">
+            <Logo size="md" />
+            <p className="mt-6 max-w-xs font-body text-sm text-text-secondary">
               British Doner Redefined. Ethically sourced, spit-fired, built for
               the city.
             </p>
@@ -79,12 +57,12 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-24 md:mt-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+        <div className="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           <div className="lg:col-span-7">
-            <h2 className="font-display font-bold uppercase tracking-tighter text-2xl md:text-3xl text-gbd-navy">
+            <h2 className="font-display font-bold uppercase tracking-display text-2xl md:text-3xl text-text-primary">
               Sign up to our newsletter
             </h2>
-            <p className="mt-3 font-body text-sm text-gbd-navy/65 max-w-md">
+            <p className="mt-3 font-body text-sm text-text-secondary max-w-md">
               New drops, store openings, and the occasional 1AM offer. No spam.
             </p>
           </div>
@@ -94,12 +72,12 @@ export function Footer() {
         </div>
       </Container>
 
-      <div className="border-t border-gbd-navy/15">
+      <div className="border-t border-border-hairline">
         <Container className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-body text-xs text-gbd-navy/60">
+          <p className="font-body text-xs text-text-secondary">
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <p className="font-display font-bold uppercase tracking-[0.2em] text-[10px] text-gbd-navy/60">
+          <p className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">
             British Doner Redefined
           </p>
         </Container>
@@ -111,7 +89,7 @@ export function Footer() {
 function FooterColumn({ column }: { column: Column }) {
   return (
     <div>
-      <h3 className="font-display font-bold uppercase tracking-[0.16em] text-sm text-gbd-navy">
+      <h3 className="font-display font-bold uppercase tracking-eyebrow text-sm text-text-primary">
         {column.heading}
       </h3>
       <ul className="mt-6 space-y-3">
@@ -122,14 +100,14 @@ function FooterColumn({ column }: { column: Column }) {
                 href={l.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="font-body text-sm text-gbd-navy hover:opacity-70 transition-opacity"
+                className="font-body text-sm text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
               >
                 {l.label}
               </a>
             ) : (
               <Link
                 href={l.href}
-                className="font-body text-sm text-gbd-navy hover:opacity-70 transition-opacity"
+                className="font-body text-sm text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
               >
                 {l.label}
               </Link>
@@ -157,7 +135,7 @@ function NewsletterField() {
       <label htmlFor="footer-email" className="sr-only">
         Email address
       </label>
-      <div className="relative flex items-center border-b border-gbd-navy focus-within:border-b-2">
+      <div className="relative flex items-center border-b border-border-strong focus-within:border-b-2">
         <input
           id="footer-email"
           type="email"
@@ -165,12 +143,12 @@ function NewsletterField() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="w-full bg-transparent py-3 pr-12 font-body text-base text-gbd-navy placeholder:text-gbd-navy/40 focus:outline-none"
+          className="w-full bg-transparent py-3 pr-12 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none"
         />
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute right-0 inline-flex h-10 w-10 items-center justify-center text-gbd-navy hover:text-gbd-red transition-colors"
+          className="absolute right-0 inline-flex h-10 w-10 items-center justify-center text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
         >
           <svg
             viewBox="0 0 24 24"
@@ -180,12 +158,16 @@ function NewsletterField() {
             className="h-5 w-5"
             aria-hidden
           >
-            <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="square" strokeLinejoin="miter" />
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
           </svg>
         </button>
       </div>
       <p
-        className="mt-2 min-h-[1.25rem] font-body text-xs text-gbd-navy/60"
+        className="mt-2 min-h-[1.25rem] font-body text-xs text-text-secondary"
         aria-live="polite"
       >
         {status === "ok" && "Thanks — you're on the list."}

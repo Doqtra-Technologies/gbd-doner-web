@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
+import { Section } from "@/components/layout/section";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Heading } from "@/components/ui/heading";
 import { LocationsPageGrid } from "@/components/locations/locations-page-grid";
 import { getLocations } from "@/data/repositories/locations-repository";
 
@@ -15,16 +18,21 @@ export default async function LocationsPage() {
 
   return (
     <>
-      <Container className="pt-24 pb-6">
-        <div className="flex items-end justify-between gap-6">
-          <h1 className="font-display font-bold uppercase tracking-tight text-[#0F1E2D] text-4xl md:text-5xl">
-            Our Locations
-          </h1>
-          <span className="hidden sm:block font-display font-bold uppercase tracking-widest text-[#0F1E2D] text-sm">
-            Est 2026 | London
-          </span>
-        </div>
-      </Container>
+      <Section size="hero">
+        <Container>
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <Eyebrow tone="accent" className="block mb-4">
+                Locations
+              </Eyebrow>
+              <Heading level={1}>Our Locations.</Heading>
+            </div>
+            <Eyebrow tone="primary" className="block">
+              Est 2026 · London
+            </Eyebrow>
+          </div>
+        </Container>
+      </Section>
       <LocationsPageGrid locations={locations} />
     </>
   );

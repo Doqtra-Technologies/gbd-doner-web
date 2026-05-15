@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MenuCard } from "@/components/menu/menu-card";
+import { ProductCard } from "@/components/product/product-card";
 import { cn, formatGBP } from "@/lib/utils";
+import { EASE } from "@/brand/motion";
 import type { MenuItem, MenuCategory, MenuCategorySlug } from "@/domain/menu-item";
 
 type Filter = MenuCategorySlug | "all";
@@ -18,7 +19,8 @@ export function MenuGrid({
   const [filter, setFilter] = useState<Filter>("all");
 
   const filtered = useMemo(
-    () => (filter === "all" ? items : items.filter((i) => i.category === filter)),
+    () =>
+      filter === "all" ? items : items.filter((i) => i.category === filter),
     [filter, items],
   );
 
@@ -39,16 +41,25 @@ export function MenuGrid({
         ))}
       </div>
 
-      <motion.div layout className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div layout className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((item) => (
-            <MenuCard
+            <motion.div
               key={item.id}
-              title={item.title}
-              price={formatGBP(item.priceGBP)}
-              description={item.description}
-              imageUrl={item.imageUrl}
-            />
+              layout
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.3, ease: EASE.out }}
+            >
+              <ProductCard
+                variant="compact"
+                title={item.title}
+                price={formatGBP(item.priceGBP)}
+                description={item.description}
+                imageUrl={item.imageUrl}
+              />
+            </motion.div>
           ))}
         </AnimatePresence>
       </motion.div>
@@ -69,10 +80,10 @@ function FilterChip({
     <button
       onClick={onClick}
       className={cn(
-        "font-display font-bold uppercase tracking-[0.14em] text-xs px-4 h-10 transition-colors duration-300",
+        "font-display font-bold uppercase tracking-button text-xs px-4 h-10 rounded-full transition-colors duration-300 ease-smooth",
         active
-          ? "bg-gbd-navy text-white"
-          : "bg-transparent text-gbd-navy/70 border border-gbd-navy/15 hover:text-gbd-navy hover:border-gbd-navy/40",
+          ? "bg-surface-inverse text-text-inverse"
+          : "bg-canvas text-text-primary border border-border-hairline hover:border-border-strong",
       )}
     >
       {children}

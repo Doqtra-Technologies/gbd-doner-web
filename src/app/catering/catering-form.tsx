@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { CTAButton } from "@/components/ui/cta-button";
 
 type Status = "idle" | "submitting" | "ok" | "error";
 
@@ -28,7 +29,7 @@ export function CateringForm() {
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-4">
         <p
-          className="font-body text-sm text-gbd-navy/65 min-h-[1.25rem]"
+          className="font-body text-sm text-text-secondary min-h-[1.25rem]"
           aria-live="polite"
         >
           {status === "idle" && "We'll get back to you within one working day."}
@@ -36,13 +37,14 @@ export function CateringForm() {
           {status === "ok" && "Thanks — your brief is in. We'll reply shortly."}
           {status === "error" && "Something went wrong — please try again."}
         </p>
-        <button
+        <CTAButton
           type="submit"
+          variant="primary"
+          size="lg"
           disabled={status === "submitting"}
-          className="inline-flex h-14 items-center justify-center rounded-none bg-gbd-navy px-10 font-display font-bold uppercase tracking-[0.16em] text-xs text-white transition-colors duration-300 hover:bg-gbd-red disabled:opacity-60"
         >
           {status === "submitting" ? "Sending…" : "Send Brief"}
-        </button>
+        </CTAButton>
       </div>
     </form>
   );
@@ -63,13 +65,13 @@ function Field({
 }) {
   const id = `catering-${name}`;
   const input =
-    "w-full bg-transparent rounded-none border border-gbd-navy px-4 py-3.5 font-body text-base text-gbd-navy placeholder:text-gbd-navy/40 focus:outline-none focus:[outline:2px_solid_#0F1E2D] focus:[outline-offset:-2px] transition-colors";
+    "w-full bg-transparent rounded-none border border-border-strong px-4 py-3.5 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-0 transition-colors";
 
   return (
     <label htmlFor={id} className="block">
-      <span className="block font-body text-sm text-gbd-navy mb-2">
+      <span className="block font-body text-sm text-text-primary mb-2">
         {label}
-        {required && <span className="text-gbd-navy"> *</span>}
+        {required && <span className="text-text-primary"> *</span>}
       </span>
       {textarea ? (
         <textarea

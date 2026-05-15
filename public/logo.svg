@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" width="220" height="40">
-  <g fill="#0F1E2D" font-family="'Montserrat', system-ui, sans-serif" font-weight="700">
-    <text x="0" y="27" font-size="22" letter-spacing="2">GBD</text>
-    <circle cx="62" cy="20" r="2.5" fill="#C94035"/>
-    <text x="72" y="27" font-size="14" letter-spacing="3.5">GREAT BRITISH DONER</text>
-  </g>
-</svg>

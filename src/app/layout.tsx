@@ -8,14 +8,14 @@ import "./globals.css";
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["500", "600", "700", "800"],
+  weight: ["700"],
   display: "swap",
 });
 
 const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-open-sans",
-  weight: ["400", "500", "600"],
+  weight: ["400"],
   display: "swap",
 });
 
