@@ -4,6 +4,7 @@ import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

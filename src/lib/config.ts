@@ -28,8 +28,6 @@ export const dataConfig = {
 } as const;
 
 export const mapConfig = {
-  token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "",
-  style: "mapbox://styles/mapbox/dark-v11",
   defaultCenter: { lng: -0.1276, lat: 51.5074 },
   defaultZoom: 11,
 } as const;
