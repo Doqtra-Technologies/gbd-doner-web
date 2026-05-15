@@ -1,213 +1,300 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import L from "leaflet";
-import type { Location } from "@/domain/location";
+import { useLocationState } from "@/components/locations/location-state";
+import { calculateDistance, formatKilometres } from "@/lib/distance";
 
-interface LocationsMapProps {
-  locations: Location[];
-  selectedLocationId?: string | null;
-  filter: string;
-  allLocations: Location[];
-  searchCoordinates?: { lat: number; lng: number } | null;
-}
+const NAVY = "#0F1E2D";
+const RED = "#C94035";
+const WHITE = "#FFFFFF";
 
-export function LocationsMap({
-  locations,
-  selectedLocationId,
-  filter,
-  allLocations,
-  searchCoordinates,
-}: LocationsMapProps) {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<L.Map | null>(null);
-  const markers = useRef<Map<string, L.Marker>>(new Map());
-  const markerGroup = useRef<L.FeatureGroup | null>(null);
-  const [isMapReady, setIsMapReady] = useState(false);
+/**
+ * Operational map for the locations page.
+ *
+ * Uses Leaflet over OpenStreetMap tiles — no Mapbox token required. The
+ * basemap is desaturated via CSS filter to keep it visually quiet so the
+ * brand-coloured markers carry the focus.
+ *
+ * Reads everything it needs from the shared LocationState context:
+ * filteredLocations, selectedId, hoveredId, searchCoordinates. Writes
+ * back: selectedId on marker click, hoveredId on marker hover.
+ *
+ * Markers are pure DOM (Leaflet divIcon) so they inherit no Leaflet
+ * styling and follow the brand contract strictly: navy 14px dot by
+ * default, red 20px dot when selected (with subtle red wash), red 18px
+ * dot on hover.
+ */
+export function LocationsMap() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const markersRef = useRef<Map<string, L.Marker>>(new Map());
+  const searchMarkerRef = useRef<L.Marker | null>(null);
+  const styleElRef = useRef<HTMLStyleElement | null>(null);
 
-  // Initialize map once
+  const {
+    filteredLocations,
+    allLocations,
+    selectedId,
+    setSelectedId,
+    hoveredId,
+    setHoveredId,
+    searchCoordinates,
+  } = useLocationState();
+
+  // Initialise the map once.
   useEffect(() => {
-    if (map.current || !mapContainer.current) return;
+    if (!containerRef.current || mapRef.current) return;
+    const map = L.map(containerRef.current, {
+      zoomControl: false,
+      attributionControl: false,
+    }).setView([51.5074, -0.1278], 11);
 
-    // Initialize map centered on London
-    map.current = L.map(mapContainer.current).setView([51.5074, -0.1278], 11);
+    L.control.zoom({ position: "topright" }).addTo(map);
+    L.control
+      .attribution({ position: "bottomright", prefix: false })
+      .addAttribution(
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      )
+      .addTo(map);
 
-    // Add OpenStreetMap tile layer with aesthetic filters
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
-    }).addTo(map.current);
+    }).addTo(map);
 
-    // Apply CSS filter to tiles
+    // Quiet the basemap so the brand markers carry visual weight.
     const style = document.createElement("style");
     style.textContent = `
       .leaflet-tile-container img {
-        filter: brightness(1.1) contrast(0.9) saturate(0.75) !important;
+        filter: grayscale(0.85) brightness(1.05) contrast(0.95) saturate(0.6);
+      }
+      .leaflet-container { background: #f6f4ee; outline: none; }
+      .leaflet-control-container { position: relative; z-index: 20; }
+      .gbd-marker { display: flex; align-items: center; justify-content: center; cursor: pointer; }
+      .gbd-marker-dot {
+        display: block; width: 14px; height: 14px; border-radius: 50%;
+        background: ${NAVY}; border: 2px solid ${WHITE};
+        transition: width 220ms cubic-bezier(0.22,1,0.36,1),
+                    height 220ms cubic-bezier(0.22,1,0.36,1),
+                    background 220ms ease-out,
+                    box-shadow 220ms ease-out;
+      }
+      .gbd-marker[data-hovered="true"] .gbd-marker-dot { width: 18px; height: 18px; background: ${RED}; }
+      .gbd-marker[data-selected="true"] .gbd-marker-dot {
+        width: 22px; height: 22px; background: ${RED};
+        box-shadow: 0 0 0 6px rgba(201, 64, 53, 0.18);
+      }
+      .gbd-search-dot {
+        display: block; width: 14px; height: 14px; border-radius: 50%;
+        background: ${WHITE}; border: 2px solid ${NAVY};
       }
     `;
     document.head.appendChild(style);
+    styleElRef.current = style;
 
-    // Create marker group
-    markerGroup.current = L.featureGroup().addTo(map.current);
+    mapRef.current = map;
 
-    setIsMapReady(true);
-
+    const markers = markersRef.current;
     return () => {
-      // Cleanup
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
+      map.remove();
+      mapRef.current = null;
+      markers.clear();
+      if (styleElRef.current && document.head.contains(styleElRef.current)) {
+        document.head.removeChild(styleElRef.current);
       }
-      document.head.removeChild(style);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create or update markers based on filtered locations
+  // Reconcile markers with filteredLocations.
   useEffect(() => {
-    if (!map.current || !markerGroup.current || !isMapReady) return;
+    const map = mapRef.current;
+    if (!map) return;
 
-    // Clear existing markers
-    markers.current.forEach((marker) => marker.remove());
-    markers.current.clear();
-    markerGroup.current.clearLayers();
+    const visibleIds = new Set(filteredLocations.map((l) => l.id));
 
-    // Create red icon for regular markers
-    const redIcon = L.icon({
-      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' fill='%23f0e68c'%3E%3Cpath d='M16 0C8.27 0 2 6.27 2 14c0 8 14 26 14 26s14-18 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z' fill='%23f0e68c' stroke='%23d4af37' stroke-width='1'/%3E%3Ccircle cx='16' cy='14' r='5' fill='none' stroke='%23333' stroke-width='1.5'/%3E%3C/svg%3E",
-      iconSize: [32, 40],
-      iconAnchor: [16, 40],
-      popupAnchor: [0, -40],
-      shadowUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cellipse cx='16' cy='38' rx='10' ry='2' fill='%23000' opacity='0.2'/%3E%3C/svg%3E",
-      shadowSize: [32, 40],
-      shadowAnchor: [16, 40],
+    // Remove markers that left the visible set.
+    markersRef.current.forEach((marker, id) => {
+      if (!visibleIds.has(id)) {
+        marker.remove();
+        markersRef.current.delete(id);
+      }
     });
 
-    // Create blue icon for selected marker
-    const blueIcon = L.icon({
-      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' fill='%233b82f6'%3E%3Cpath d='M16 0C8.27 0 2 6.27 2 14c0 8 14 26 14 26s14-18 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z' fill='%233b82f6' stroke='%232563eb' stroke-width='1'/%3E%3Ccircle cx='16' cy='14' r='5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E",
-      iconSize: [36, 45],
-      iconAnchor: [18, 45],
-      popupAnchor: [0, -45],
-      shadowUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cellipse cx='16' cy='38' rx='12' ry='2' fill='%23000' opacity='0.3'/%3E%3C/svg%3E",
-      shadowSize: [36, 45],
-      shadowAnchor: [18, 45],
-    });
-
-    // Add markers for all filtered locations
-    locations.forEach((location) => {
-      if (!location.coordinates.lat || !location.coordinates.lng) return;
-
-      const isSelected = location.id === selectedLocationId;
-      const icon = isSelected ? blueIcon : redIcon;
-
-      const marker = L.marker([location.coordinates.lat, location.coordinates.lng], {
-        icon,
+    // Add markers for newly-visible locations.
+    filteredLocations.forEach((loc) => {
+      if (markersRef.current.has(loc.id)) return;
+      const html = `<div class="gbd-marker" aria-label="${escapeAttr(loc.name)}"><span class="gbd-marker-dot"></span></div>`;
+      const icon = L.divIcon({
+        html,
+        className: "gbd-marker-wrap",
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
       });
-
-      const popupContent = `
-        <div class="font-body text-sm max-w-xs">
-          <p class="font-semibold text-text-primary">${location.name}</p>
-          <p class="text-text-secondary text-xs">${location.addressLine1}</p>
-          <p class="text-text-secondary text-xs">${location.city}, ${location.postcode}</p>
-          ${location.phone ? `<p class="text-text-secondary text-xs mt-1">${location.phone}</p>` : ""}
-        </div>
-      `;
-
-      marker.bindPopup(popupContent);
-
-      if (isSelected) {
-        marker.openPopup();
-      }
-
-      marker.addTo(markerGroup.current!);
-      markers.current.set(location.id, marker);
+      const marker = L.marker([loc.coordinates.lat, loc.coordinates.lng], { icon });
+      marker.on("click", () => setSelectedId(loc.id));
+      marker.on("mouseover", () => setHoveredId(loc.id));
+      marker.on("mouseout", () => setHoveredId(null));
+      marker.addTo(map);
+      markersRef.current.set(loc.id, marker);
     });
-  }, [locations, isMapReady, selectedLocationId]);
 
-  // Handle location selection - zoom to selected marker
-  useEffect(() => {
-    if (!selectedLocationId || !map.current || !isMapReady) return;
-
-    // Small delay to ensure marker is in the map
-    const timer = setTimeout(() => {
-      const marker = markers.current.get(selectedLocationId);
-      if (marker && map.current) {
-        const latLng = marker.getLatLng();
-        // Center the map on the marker with smooth animation
-        map.current.setView(latLng, 16, { 
-          animate: true, 
-          duration: 0.8,
-          easeLinearity: 0.5
-        });
-        // Open popup after animation
-        setTimeout(() => {
-          if (marker) marker.openPopup();
-        }, 300);
-      }
-    }, 50);
-
-    return () => clearTimeout(timer);
-  }, [selectedLocationId, isMapReady]);
-
-  // Handle search - zoom to search location ONLY if no location is selected
-  useEffect(() => {
-    if (!searchCoordinates || !map.current || !isMapReady || selectedLocationId) return;
-
-    // Only zoom to search area if no location is selected yet
-    map.current.setView([searchCoordinates.lat, searchCoordinates.lng], 15, {
-      animate: true,
-      duration: 0.8,
-      easeLinearity: 0.5,
-    });
-  }, [searchCoordinates, isMapReady, selectedLocationId]);
-
-  // Handle city filter - zoom to show all locations of that city
-  useEffect(() => {
-    if (!map.current || !markerGroup.current || !isMapReady) return;
-
-    // If "all" filter, zoom to show all locations
-    if (filter === "all" && locations.length > 0) {
+    // Default framing — fit all visible markers when no search is active.
+    if (!searchCoordinates && filteredLocations.length > 0) {
       const bounds = L.latLngBounds(
-        locations
-          .filter((l) => l.coordinates.lat && l.coordinates.lng)
-          .map((l) => [l.coordinates.lat, l.coordinates.lng] as L.LatLngTuple)
+        filteredLocations.map(
+          (l) => [l.coordinates.lat, l.coordinates.lng] as L.LatLngTuple,
+        ),
       );
-
       if (bounds.isValid()) {
-        map.current.fitBounds(bounds, { 
-          padding: [50, 50], 
-          animate: true, 
-          duration: 0.8,
-          easeLinearity: 0.5
-        });
-      }
-    } else if (filter !== "all" && locations.length > 0) {
-      // Zoom to city-specific locations
-      const bounds = L.latLngBounds(
-        locations
-          .filter((l) => l.city === filter && l.coordinates.lat && l.coordinates.lng)
-          .map((l) => [l.coordinates.lat, l.coordinates.lng] as L.LatLngTuple)
-      );
-
-      if (bounds.isValid()) {
-        map.current.fitBounds(bounds, { 
-          padding: [50, 50], 
-          animate: true, 
-          duration: 0.8,
-          easeLinearity: 0.5
+        map.fitBounds(bounds, {
+          padding: [60, 60],
+          maxZoom: 12,
+          animate: true,
+          duration: 0.6,
         });
       }
     }
-  }, [filter, locations, isMapReady]);
+  }, [filteredLocations, searchCoordinates, setSelectedId, setHoveredId]);
+
+  // Highlight selected + hovered markers.
+  useEffect(() => {
+    markersRef.current.forEach((marker, id) => {
+      const el = marker.getElement();
+      if (!el) return;
+      const dotWrap = el.querySelector(".gbd-marker") as HTMLElement | null;
+      if (!dotWrap) return;
+      dotWrap.dataset.selected = id === selectedId ? "true" : "false";
+      dotWrap.dataset.hovered = id === hoveredId ? "true" : "false";
+      // Selected marker should sit above the others.
+      if (id === selectedId) {
+        marker.setZIndexOffset(1000);
+      } else {
+        marker.setZIndexOffset(0);
+      }
+    });
+  }, [selectedId, hoveredId]);
+
+  // Fly to selection.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selectedId) return;
+    const loc = allLocations.find((l) => l.id === selectedId);
+    if (!loc) return;
+    map.flyTo([loc.coordinates.lat, loc.coordinates.lng], Math.max(map.getZoom(), 14), {
+      animate: true,
+      duration: 0.7,
+    });
+  }, [selectedId, allLocations]);
+
+  // Drop a search-centre marker + frame search + nearest branches.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (searchMarkerRef.current) {
+      searchMarkerRef.current.remove();
+      searchMarkerRef.current = null;
+    }
+
+    if (!searchCoordinates) return;
+
+    const icon = L.divIcon({
+      html: `<div class="gbd-marker"><span class="gbd-search-dot"></span></div>`,
+      className: "gbd-search-wrap",
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+    });
+    const marker = L.marker(
+      [searchCoordinates.lat, searchCoordinates.lng],
+      { icon, interactive: false },
+    ).addTo(map);
+    searchMarkerRef.current = marker;
+
+    const nearest = [...allLocations]
+      .map((l) => ({
+        loc: l,
+        d: calculateDistance(
+          searchCoordinates.lat,
+          searchCoordinates.lng,
+          l.coordinates.lat,
+          l.coordinates.lng,
+        ),
+      }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, 3);
+
+    const bounds = L.latLngBounds([
+      [searchCoordinates.lat, searchCoordinates.lng],
+      ...nearest.map(
+        ({ loc }) => [loc.coordinates.lat, loc.coordinates.lng] as L.LatLngTuple,
+      ),
+    ]);
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, {
+        padding: [80, 80],
+        maxZoom: 14,
+        animate: true,
+        duration: 0.7,
+      });
+    }
+  }, [searchCoordinates, allLocations]);
 
   return (
-    <div className="rounded-lg border border-border-hairline overflow-hidden bg-canvas">
-      <div
-        ref={mapContainer}
-        className="h-[calc(100vh-120px)] w-full"
-        style={{ background: "#f5f5f5" }}
-      />
+    <div className="relative z-[10] h-full w-full">
+      <div ref={containerRef} className="absolute inset-0" />
+      {searchCoordinates && (
+        <NearestBranchBanner
+          searchCoordinates={searchCoordinates}
+          nearest={filteredLocations[0]}
+        />
+      )}
     </div>
   );
+}
+
+function NearestBranchBanner({
+  searchCoordinates,
+  nearest,
+}: {
+  searchCoordinates: { lat: number; lng: number };
+  nearest: ReturnType<typeof useLocationState>["filteredLocations"][number] | undefined;
+}) {
+  if (!nearest) return null;
+  const distance = calculateDistance(
+    searchCoordinates.lat,
+    searchCoordinates.lng,
+    nearest.coordinates.lat,
+    nearest.coordinates.lng,
+  );
+  return (
+    <div className="pointer-events-none absolute left-4 top-4 z-[30] bg-canvas border border-border-strong px-4 py-3">
+      <div className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-secondary">
+        Nearest Branch
+      </div>
+      <div className="mt-1 font-display font-bold uppercase tracking-display text-sm text-text-primary">
+        {nearest.name}
+      </div>
+      <div className="mt-1 font-body text-xs text-text-secondary">
+        {formatKilometres(distance)} away
+      </div>
+    </div>
+  );
+}
+
+function escapeAttr(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => {
+    switch (c) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      default:
+        return "&#39;";
+    }
+  });
 }

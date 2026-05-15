@@ -1,181 +1,148 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import { useLocationState } from "@/components/locations/location-state";
 import { calculateDistance } from "@/lib/distance";
-import { geocodeLocation } from "@/lib/geocoding";
-import type { Location } from "@/domain/location";
 
-export function LocationSearch({
-  locations,
-  onSearch,
-  onUseMyLocation,
-  onFilterChange,
-  activeFilter,
-}: {
-  locations: Location[];
-  onSearch: (searchTerm: string) => void;
-  onUseMyLocation: (closestLocation: Location) => void;
-  onFilterChange: (city: string | null) => void;
-  activeFilter: string | null;
-}) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
-  const [locationError, setLocationError] = useState<string | null>(null);
-  const [isGeocodingSearch, setIsGeocodingSearch] = useState(false);
-  const debounceTimer = useRef<NodeJS.Timeout>();
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-    onSearch(term);
-
-    // Clear previous debounce timer
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current);
-    }
-
-    // Debounce the geocoding search
-    if (term.trim()) {
-      setIsGeocodingSearch(true);
-      debounceTimer.current = setTimeout(async () => {
-        const result = await geocodeLocation(term);
-        if (result) {
-          // Find the closest location to the geocoded coordinates
-          let closestLocation = locations[0];
-          let closestDistance = calculateDistance(
-            result.lat,
-            result.lng,
-            closestLocation.coordinates.lat,
-            closestLocation.coordinates.lng
-          );
-
-          for (let i = 1; i < locations.length; i++) {
-            const distance = calculateDistance(
-              result.lat,
-              result.lng,
-              locations[i].coordinates.lat,
-              locations[i].coordinates.lng
-            );
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestLocation = locations[i];
-            }
-          }
-
-          onUseMyLocation(closestLocation);
-        }
-        setIsGeocodingSearch(false);
-      }, 1000);
-    } else {
-      setIsGeocodingSearch(false);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-    };
-  }, []);
+/**
+ * Operational search input.
+ *
+ * Reads/writes query through LocationState (debounced geocoding lives in
+ * the provider). Exposes an optional "Use my location" affordance that
+ * resolves the device geolocation, finds the nearest branch, and selects it.
+ */
+export function LocationSearch() {
+  const { query, setQuery, isSearching, allLocations, setSelectedId } =
+    useLocationState();
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoError, setGeoError] = useState<string | null>(null);
 
   const handleUseMyLocation = () => {
-    setIsLoadingLocation(true);
-    setLocationError(null);
-
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported by your browser");
-      setIsLoadingLocation(false);
+    setGeoError(null);
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setGeoError("Geolocation is not supported by your browser.");
       return;
     }
-
+    setGeoLoading(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-
-        // Find the closest location
-        let closestLocation = locations[0];
-        let closestDistance = calculateDistance(
-          latitude,
-          longitude,
-          closestLocation.coordinates.lat,
-          closestLocation.coordinates.lng
-        );
-
-        for (let i = 1; i < locations.length; i++) {
-          const distance = calculateDistance(
-            latitude,
-            longitude,
-            locations[i].coordinates.lat,
-            locations[i].coordinates.lng
-          );
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestLocation = locations[i];
-          }
-        }
-
-        setSearchTerm("");
-        onUseMyLocation(closestLocation);
-        setIsLoadingLocation(false);
+        const nearest = [...allLocations]
+          .map((l) => ({
+            loc: l,
+            d: calculateDistance(
+              latitude,
+              longitude,
+              l.coordinates.lat,
+              l.coordinates.lng,
+            ),
+          }))
+          .sort((a, b) => a.d - b.d)[0];
+        if (nearest) setSelectedId(nearest.loc.id);
+        setGeoLoading(false);
       },
-      (error) => {
-        setLocationError("Unable to access your location. Please try again.");
-        setIsLoadingLocation(false);
-      }
+      () => {
+        setGeoError("Unable to access your location.");
+        setGeoLoading(false);
+      },
+      { enableHighAccuracy: false, timeout: 8000 },
     );
   };
 
   return (
-    <div className="p-6 border-b border-gbd-navy/10 bg-gbd-cream/30">
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            placeholder="Search location or enter postcode..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="w-full px-4 py-3 border border-gbd-navy/20 rounded-lg text-gbd-navy placeholder-gbd-navy/40 focus:outline-none focus:border-gbd-red focus:ring-2 focus:ring-gbd-red/20"
-          />
-          {isGeocodingSearch && (
-            <div className="absolute right-3 top-3 text-sm text-gbd-navy/60">
-              Searching...
-            </div>
-          )}
-        </div>
-        <button
-          onClick={handleUseMyLocation}
-          disabled={isLoadingLocation}
-          className="px-6 py-3 bg-gbd-red text-white rounded-lg font-semibold hover:bg-gbd-red/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
-        >
-          {isLoadingLocation ? "Finding..." : "Use My Location"}
-        </button>
-      </div>
-      {locationError && (
-        <div className="mt-2 text-sm text-red-600">{locationError}</div>
+    <div className="flex flex-col gap-2">
+      <label className="flex items-center gap-3 border-b border-border-strong py-1.5">
+        {isSearching ? <SpinnerIcon /> : <SearchIcon />}
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by location or address"
+          className="w-full bg-transparent font-body text-sm text-text-primary placeholder:text-text-disabled focus:outline-none"
+          aria-label="Search locations"
+        />
+      </label>
+
+      <button
+        type="button"
+        onClick={handleUseMyLocation}
+        disabled={geoLoading}
+        className="inline-flex items-center gap-2 self-start font-display font-bold uppercase tracking-button text-[11px] text-text-primary transition-colors duration-300 ease-smooth hover:text-accent disabled:opacity-50"
+      >
+        <PinIcon />
+        {geoLoading ? "Locating…" : "Use my location"}
+      </button>
+
+      {geoError && (
+        <p className="font-body text-xs text-text-secondary" role="status">
+          {geoError}
+        </p>
       )}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button
-          onClick={() => onFilterChange(activeFilter === "London" ? null : "London")}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-            activeFilter === "London"
-              ? "bg-gbd-red text-white"
-              : "bg-gbd-navy/10 text-gbd-navy hover:bg-gbd-navy/20"
-          }`}
-        >
-          London
-        </button>
-        <button
-          onClick={() => onFilterChange(activeFilter === "Manchester" ? null : "Manchester")}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-            activeFilter === "Manchester"
-              ? "bg-gbd-red text-white"
-              : "bg-gbd-navy/10 text-gbd-navy hover:bg-gbd-navy/20"
-          }`}
-        >
-          Manchester
-        </button>
-      </div>
     </div>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="text-text-primary"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  );
+}
+
+function SpinnerIcon() {
+  return (
+    <svg
+      className="animate-spin h-4 w-4 text-text-primary"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="3"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 21s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12Z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
   );
 }

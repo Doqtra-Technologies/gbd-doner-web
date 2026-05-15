@@ -22,7 +22,7 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 bg-canvas border-b border-border-hairline">
+    <header className="fixed left-0 right-0 top-0 z-[100] border-b border-border-hairline bg-canvas/95 backdrop-blur">
       <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
         <button
           type="button"
@@ -59,13 +59,22 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-x-0 top-20 bottom-0 z-40 origin-top bg-canvas transition-all duration-300 ease-smooth",
+          "fixed inset-0 z-[110] bg-surface-inverse/40 transition-opacity duration-300 ease-smooth",
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+        )}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+
+      <div
+        className={cn(
+          "fixed inset-0 z-[120] origin-top bg-canvas transition-all duration-300 ease-smooth pt-20",
           open
             ? "pointer-events-auto opacity-100 translate-y-0"
             : "pointer-events-none opacity-0 -translate-y-2",
         )}
       >
-        <nav className="mx-auto flex h-full w-full max-w-shell flex-col justify-between px-5 sm:px-8 py-16">
+        <nav className="mx-auto flex h-full w-full max-w-shell flex-col justify-between px-5 py-16 sm:px-8">
           <ul className="space-y-6">
             {siteConfig.nav.map((item) => (
               <li key={item.href}>
