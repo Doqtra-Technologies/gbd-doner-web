@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { useLocationState } from "@/components/locations/location-state";
+import { createLocationMarkerIcon, createSearchMarkerIcon } from "./location-marker";
 import { calculateDistance, formatKilometres } from "@/lib/distance";
 
 const NAVY = "#0F1E2D";
@@ -17,7 +18,7 @@ const WHITE = "#FFFFFF";
  * brand-coloured markers carry the focus.
  *
  * Reads everything it needs from the shared LocationState context:
- * filteredLocations, selectedId, hoveredId, searchCoordinates. Writes
+ * filteredLocations, selectedId, hoveredId, activeCoordinates. Writes
  * back: selectedId on marker click, hoveredId on marker hover.
  *
  * Markers are pure DOM (Leaflet divIcon) so they inherit no Leaflet
@@ -39,7 +40,7 @@ export function LocationsMap() {
     setSelectedId,
     hoveredId,
     setHoveredId,
-    searchCoordinates,
+    activeCoordinates,
   } = useLocationState();
 
   // Initialise the map once.
@@ -124,13 +125,7 @@ export function LocationsMap() {
     // Add markers for newly-visible locations.
     filteredLocations.forEach((loc) => {
       if (markersRef.current.has(loc.id)) return;
-      const html = `<div class="gbd-marker" aria-label="${escapeAttr(loc.name)}"><span class="gbd-marker-dot"></span></div>`;
-      const icon = L.divIcon({
-        html,
-        className: "gbd-marker-wrap",
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
-      });
+      const icon = createLocationMarkerIcon(loc.name);
       const marker = L.marker([loc.coordinates.lat, loc.coordinates.lng], { icon });
       marker.on("click", () => setSelectedId(loc.id));
       marker.on("mouseover", () => setHoveredId(loc.id));
@@ -140,7 +135,7 @@ export function LocationsMap() {
     });
 
     // Default framing — fit all visible markers when no search is active.
-    if (!searchCoordinates && filteredLocations.length > 0) {
+    if (!activeCoordinates && filteredLocations.length > 0) {
       const bounds = L.latLngBounds(
         filteredLocations.map(
           (l) => [l.coordinates.lat, l.coordinates.lng] as L.LatLngTuple,
@@ -155,7 +150,7 @@ export function LocationsMap() {
         });
       }
     }
-  }, [filteredLocations, searchCoordinates, setSelectedId, setHoveredId]);
+  }, [filteredLocations, activeCoordinates, setSelectedId, setHoveredId]);
 
   // Highlight selected + hovered markers.
   useEffect(() => {
@@ -169,6 +164,8 @@ export function LocationsMap() {
       // Selected marker should sit above the others.
       if (id === selectedId) {
         marker.setZIndexOffset(1000);
+      } else if (id === hoveredId) {
+        marker.setZIndexOffset(500);
       } else {
         marker.setZIndexOffset(0);
       }
@@ -197,16 +194,11 @@ export function LocationsMap() {
       searchMarkerRef.current = null;
     }
 
-    if (!searchCoordinates) return;
+    if (!activeCoordinates) return;
 
-    const icon = L.divIcon({
-      html: `<div class="gbd-marker"><span class="gbd-search-dot"></span></div>`,
-      className: "gbd-search-wrap",
-      iconSize: [18, 18],
-      iconAnchor: [9, 9],
-    });
+    const icon = createSearchMarkerIcon();
     const marker = L.marker(
-      [searchCoordinates.lat, searchCoordinates.lng],
+      [activeCoordinates.lat, activeCoordinates.lng],
       { icon, interactive: false },
     ).addTo(map);
     searchMarkerRef.current = marker;
@@ -215,8 +207,8 @@ export function LocationsMap() {
       .map((l) => ({
         loc: l,
         d: calculateDistance(
-          searchCoordinates.lat,
-          searchCoordinates.lng,
+          activeCoordinates.lat,
+          activeCoordinates.lng,
           l.coordinates.lat,
           l.coordinates.lng,
         ),
@@ -225,7 +217,7 @@ export function LocationsMap() {
       .slice(0, 3);
 
     const bounds = L.latLngBounds([
-      [searchCoordinates.lat, searchCoordinates.lng],
+      [activeCoordinates.lat, activeCoordinates.lng],
       ...nearest.map(
         ({ loc }) => [loc.coordinates.lat, loc.coordinates.lng] as L.LatLngTuple,
       ),
@@ -238,14 +230,14 @@ export function LocationsMap() {
         duration: 0.7,
       });
     }
-  }, [searchCoordinates, allLocations]);
+  }, [activeCoordinates, allLocations]);
 
   return (
     <div className="relative z-[10] h-full w-full">
       <div ref={containerRef} className="absolute inset-0" />
-      {searchCoordinates && (
+      {activeCoordinates && (
         <NearestBranchBanner
-          searchCoordinates={searchCoordinates}
+          activeCoordinates={activeCoordinates}
           nearest={filteredLocations[0]}
         />
       )}
@@ -254,16 +246,16 @@ export function LocationsMap() {
 }
 
 function NearestBranchBanner({
-  searchCoordinates,
+  activeCoordinates,
   nearest,
 }: {
-  searchCoordinates: { lat: number; lng: number };
+  activeCoordinates: { lat: number; lng: number };
   nearest: ReturnType<typeof useLocationState>["filteredLocations"][number] | undefined;
 }) {
   if (!nearest) return null;
   const distance = calculateDistance(
-    searchCoordinates.lat,
-    searchCoordinates.lng,
+    activeCoordinates.lat,
+    activeCoordinates.lng,
     nearest.coordinates.lat,
     nearest.coordinates.lng,
   );
@@ -282,19 +274,3 @@ function NearestBranchBanner({
   );
 }
 
-function escapeAttr(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => {
-    switch (c) {
-      case "&":
-        return "&amp;";
-      case "<":
-        return "&lt;";
-      case ">":
-        return "&gt;";
-      case '"':
-        return "&quot;";
-      default:
-        return "&#39;";
-    }
-  });
-}

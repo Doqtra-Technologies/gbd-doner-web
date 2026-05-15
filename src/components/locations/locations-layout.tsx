@@ -39,19 +39,14 @@ const LocationsMap = dynamic(
 export function LocationsLayout({ locations }: { locations: Location[] }) {
   return (
     <LocationStateProvider locations={locations}>
-      <section className="relative w-screen min-h-[100svh] bg-canvas lg:-mt-20 lg:h-screen lg:overflow-hidden lg:overscroll-none">
-        <div className="flex h-full w-full flex-col lg:flex-row">
-          {/* Map — preview first on mobile, fullscreen on desktop */}
-          <div className="order-first lg:order-last relative z-[10] h-[40vh] w-full sm:h-[45vh] lg:h-full lg:flex-1">
-            <LocationsMap />
-          </div>
+      <main className="flex h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] w-screen flex-col md:flex-row overflow-hidden bg-canvas min-w-0 min-h-0">
+        <LocationsSidebar />
 
-          {/* Sidebar — fixed-width operational panel */}
-          <div className="order-last lg:order-first relative z-[40] w-full bg-canvas lg:h-full lg:w-[440px] lg:shrink-0 lg:border-r lg:border-border-hairline xl:w-[480px] 2xl:w-[520px]">
-            <LocationsSidebar />
-          </div>
+        {/* Map — preview on mobile, fullscreen on desktop */}
+        <div className="order-2 md:order-none relative z-[10] flex-none h-[40vh] sm:h-[45vh] md:flex-1 md:h-full min-w-0 min-h-0 overflow-hidden">
+          <LocationsMap />
         </div>
-      </section>
+      </main>
     </LocationStateProvider>
   );
 }

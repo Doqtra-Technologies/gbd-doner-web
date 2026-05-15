@@ -2,10 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { useLocationState } from "@/components/locations/location-state";
-import { LocationSearch } from "@/components/locations/location-search";
-import { LocationFilters } from "@/components/locations/location-filters";
-import { LocationListItem } from "@/components/locations/location-list-item";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { StickyLocationHeader } from "@/components/locations/sticky-location-header";
+import { LocationCard } from "@/components/locations/location-card";
 
 /**
  * Left panel of the locations split-screen.
@@ -34,47 +32,25 @@ export function LocationsSidebar() {
   }, [selectedId]);
 
   return (
-    <aside className="flex h-full flex-col bg-canvas">
-      <div className="flex-1 overflow-y-auto overscroll-contain">
-        <div className="sticky top-0 z-[30] border-b border-border-hairline bg-canvas/95 px-5 pb-4 pt-6 backdrop-blur sm:px-6 lg:px-6 lg:pt-20">
-          <Eyebrow tone="accent" className="block mb-2">
-            Locations
-          </Eyebrow>
-          <h1 className="font-display font-bold uppercase tracking-display text-xl text-text-primary">
-            Find your nearest branch.
-          </h1>
-          <p className="mt-2 font-body text-sm text-text-secondary">
-            For pickup or delivery. Search by postcode, area, or address.
+    <aside className="contents md:flex md:h-full md:w-[360px] md:min-w-0 md:shrink-0 md:flex-col md:overflow-hidden md:border-r md:border-border-hairline md:bg-canvas lg:w-[440px] xl:w-[480px] 2xl:w-[520px]">
+      <StickyLocationHeader className="order-1 md:order-none shrink-0 min-w-0" />
+
+      <div
+        ref={listRef}
+        className="order-3 md:order-none flex flex-col flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden px-5 py-4 sm:px-6 md:px-6 gap-2"
+        role="list"
+      >
+        {filteredLocations.length === 0 ? (
+          <p className="font-body text-sm text-text-disabled py-8 text-center">
+            No locations match your search.
           </p>
-
-          <div className="mt-4 space-y-3">
-            <LocationSearch />
-            <LocationFilters />
-          </div>
-
-          <div className="mt-3 font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-secondary">
-            {filteredLocations.length}
-            {filteredLocations.length === 1 ? " branch" : " branches"}
-          </div>
-        </div>
-
-        <div
-          ref={listRef}
-          className="space-y-2 px-5 py-4 sm:px-6 lg:px-6"
-          role="list"
-        >
-          {filteredLocations.length === 0 ? (
-            <p className="font-body text-sm text-text-disabled py-8 text-center">
-              No locations match your search.
-            </p>
-          ) : (
-            filteredLocations.map((loc) => (
-              <div key={loc.id} data-location-id={loc.id} role="listitem">
-                <LocationListItem location={loc} />
-              </div>
-            ))
-          )}
-        </div>
+        ) : (
+          filteredLocations.map((loc) => (
+            <div key={loc.id} data-location-id={loc.id} role="listitem" className="shrink-0 relative">
+              <LocationCard location={loc} />
+            </div>
+          ))
+        )}
       </div>
     </aside>
   );

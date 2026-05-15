@@ -17,9 +17,10 @@ import type { Location } from "@/domain/location";
 /**
  * Shared state for the operational locations surface.
  *
- * Owns: search query, geocoded search centre, active city filter, the
- * currently-selected branch (synchronised between map and list), and the
- * currently-hovered branch (drives marker scale-up on hover).
+ * Owns: search query, geocoded search centre, optional user location,
+ * active city filter, the currently-selected branch (synchronised between
+ * map and list), and the currently-hovered branch (drives marker scale-up
+ * on hover).
  *
  * Derives: `filteredLocations` — locations passing the city filter, sorted
  * by distance from the search centre when one exists; sorted by name
@@ -29,7 +30,9 @@ interface LocationStateContextValue {
   query: string;
   setQuery: (q: string) => void;
   isSearching: boolean;
-  searchCoordinates: { lat: number; lng: number } | null;
+  activeCoordinates: { lat: number; lng: number } | null;
+  userCoordinates: { lat: number; lng: number } | null;
+  setUserCoordinates: (coords: { lat: number; lng: number } | null) => void;
 
   filter: string;
   setFilter: (f: string) => void;
@@ -58,6 +61,9 @@ export function LocationStateProvider({
   const [searchCoordinates, setSearchCoordinates] = useState<
     { lat: number; lng: number } | null
   >(null);
+  const [userCoordinates, setUserCoordinatesRaw] = useState<
+    { lat: number; lng: number } | null
+  >(null);
 
   const [filter, setFilterRaw] = useState<string>("all");
   const [selectedId, setSelectedIdRaw] = useState<string | null>(null);
@@ -73,6 +79,10 @@ export function LocationStateProvider({
   const setFilter = useCallback((f: string) => setFilterRaw(f), []);
   const setSelectedId = useCallback(
     (id: string | null) => setSelectedIdRaw(id),
+    [],
+  );
+  const setUserCoordinates = useCallback(
+    (coords: { lat: number; lng: number } | null) => setUserCoordinatesRaw(coords),
     [],
   );
 
@@ -100,39 +110,45 @@ export function LocationStateProvider({
   const filteredLocations = useMemo(() => {
     const cityScoped =
       filter === "all" ? locations : locations.filter((l) => l.city === filter);
-    if (!searchCoordinates) {
+    const activeCoordinates = searchCoordinates ?? userCoordinates;
+    if (!activeCoordinates) {
       return [...cityScoped].sort((a, b) => a.name.localeCompare(b.name));
     }
     return [...cityScoped].sort(
       (a, b) =>
         calculateDistance(
-          searchCoordinates.lat,
-          searchCoordinates.lng,
+          activeCoordinates.lat,
+          activeCoordinates.lng,
           a.coordinates.lat,
           a.coordinates.lng,
         ) -
         calculateDistance(
-          searchCoordinates.lat,
-          searchCoordinates.lng,
+          activeCoordinates.lat,
+          activeCoordinates.lng,
           b.coordinates.lat,
           b.coordinates.lng,
         ),
     );
-  }, [locations, filter, searchCoordinates]);
+  }, [locations, filter, searchCoordinates, userCoordinates]);
 
   // Auto-select the nearest result whenever a search resolves.
   useEffect(() => {
-    if (searchCoordinates && filteredLocations.length > 0) {
+    const activeCoordinates = searchCoordinates ?? userCoordinates;
+    if (activeCoordinates && filteredLocations.length > 0) {
       setSelectedIdRaw(filteredLocations[0].id);
     }
-  }, [searchCoordinates, filteredLocations]);
+  }, [searchCoordinates, userCoordinates, filteredLocations]);
+
+  const activeCoordinates = searchCoordinates ?? userCoordinates;
 
   const value = useMemo<LocationStateContextValue>(
     () => ({
       query,
       setQuery,
       isSearching,
-      searchCoordinates,
+      activeCoordinates,
+      userCoordinates,
+      setUserCoordinates,
       filter,
       setFilter,
       cities,
@@ -147,7 +163,9 @@ export function LocationStateProvider({
       query,
       setQuery,
       isSearching,
-      searchCoordinates,
+      activeCoordinates,
+      userCoordinates,
+      setUserCoordinates,
       filter,
       setFilter,
       cities,

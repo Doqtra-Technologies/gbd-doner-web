@@ -1,0 +1,4 @@
+1. locations-layout.tsx: Use standard flex layout without vh hacks where possible. Ensure min-width: 0 on map and sidebar.
+2. locations-sidebar.tsx: Fix list to use flex-1, overflow-y-auto, flex-col. Add shrink-0 to list items so they don't overlap.
+3. location-card.tsx: Add relative, shrink-0, min-w-0.
+4. sticky-location-header.tsx: Add shrink-0.

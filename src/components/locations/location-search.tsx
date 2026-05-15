@@ -12,8 +12,14 @@ import { calculateDistance } from "@/lib/distance";
  * resolves the device geolocation, finds the nearest branch, and selects it.
  */
 export function LocationSearch() {
-  const { query, setQuery, isSearching, allLocations, setSelectedId } =
-    useLocationState();
+  const {
+    query,
+    setQuery,
+    isSearching,
+    allLocations,
+    setSelectedId,
+    setUserCoordinates,
+  } = useLocationState();
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
 
@@ -27,6 +33,8 @@ export function LocationSearch() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
+        setUserCoordinates({ lat: latitude, lng: longitude });
+        setQuery("");
         const nearest = [...allLocations]
           .map((l) => ({
             loc: l,
@@ -51,7 +59,7 @@ export function LocationSearch() {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="flex items-center gap-3 border-b border-border-strong py-1.5">
+      <label className="flex h-12 items-center gap-3 border-b border-border-strong px-1">
         {isSearching ? <SpinnerIcon /> : <SearchIcon />}
         <input
           type="search"
@@ -67,7 +75,7 @@ export function LocationSearch() {
         type="button"
         onClick={handleUseMyLocation}
         disabled={geoLoading}
-        className="inline-flex items-center gap-2 self-start font-display font-bold uppercase tracking-button text-[11px] text-text-primary transition-colors duration-300 ease-smooth hover:text-accent disabled:opacity-50"
+        className="inline-flex h-10 items-center gap-2 self-start rounded-full border border-border-hairline px-3 font-display font-bold uppercase tracking-button text-[11px] text-text-primary transition-all duration-300 ease-smooth hover:border-border-strong hover:text-accent disabled:opacity-50"
       >
         <PinIcon />
         {geoLoading ? "Locating…" : "Use my location"}
