@@ -9,6 +9,7 @@ interface LocationsMapProps {
   selectedLocationId?: string | null;
   filter: string;
   allLocations: Location[];
+  searchCoordinates?: { lat: number; lng: number } | null;
 }
 
 export function LocationsMap({
@@ -16,6 +17,7 @@ export function LocationsMap({
   selectedLocationId,
   filter,
   allLocations,
+  searchCoordinates,
 }: LocationsMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
@@ -72,18 +74,24 @@ export function LocationsMap({
 
     // Create red icon for regular markers
     const redIcon = L.icon({
-      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5z'/%3E%3C/svg%3E",
-      iconSize: [28, 28],
-      iconAnchor: [14, 28],
-      popupAnchor: [0, -28],
+      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' fill='%23f0e68c'%3E%3Cpath d='M16 0C8.27 0 2 6.27 2 14c0 8 14 26 14 26s14-18 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z' fill='%23f0e68c' stroke='%23d4af37' stroke-width='1'/%3E%3Ccircle cx='16' cy='14' r='5' fill='none' stroke='%23333' stroke-width='1.5'/%3E%3C/svg%3E",
+      iconSize: [32, 40],
+      iconAnchor: [16, 40],
+      popupAnchor: [0, -40],
+      shadowUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cellipse cx='16' cy='38' rx='10' ry='2' fill='%23000' opacity='0.2'/%3E%3C/svg%3E",
+      shadowSize: [32, 40],
+      shadowAnchor: [16, 40],
     });
 
     // Create blue icon for selected marker
     const blueIcon = L.icon({
-      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5z'/%3E%3C/svg%3E",
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32],
+      iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' fill='%233b82f6'%3E%3Cpath d='M16 0C8.27 0 2 6.27 2 14c0 8 14 26 14 26s14-18 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z' fill='%233b82f6' stroke='%232563eb' stroke-width='1'/%3E%3Ccircle cx='16' cy='14' r='5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E",
+      iconSize: [36, 45],
+      iconAnchor: [18, 45],
+      popupAnchor: [0, -45],
+      shadowUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cellipse cx='16' cy='38' rx='12' ry='2' fill='%23000' opacity='0.3'/%3E%3C/svg%3E",
+      shadowSize: [36, 45],
+      shadowAnchor: [18, 45],
     });
 
     // Add markers for all filtered locations
@@ -121,19 +129,38 @@ export function LocationsMap({
   useEffect(() => {
     if (!selectedLocationId || !map.current || !isMapReady) return;
 
-    const marker = markers.current.get(selectedLocationId);
-    if (marker) {
-      const latLng = marker.getLatLng();
-      // Smooth zoom animation with fast duration
-      map.current.setView(latLng, 16, { 
-        animate: true, 
-        duration: 0.8,
-        easeLinearity: 0.5
-      });
-      // Open popup with slight delay for animation
-      setTimeout(() => marker.openPopup(), 200);
-    }
+    // Small delay to ensure marker is in the map
+    const timer = setTimeout(() => {
+      const marker = markers.current.get(selectedLocationId);
+      if (marker && map.current) {
+        const latLng = marker.getLatLng();
+        // Center the map on the marker with smooth animation
+        map.current.setView(latLng, 16, { 
+          animate: true, 
+          duration: 0.8,
+          easeLinearity: 0.5
+        });
+        // Open popup after animation
+        setTimeout(() => {
+          if (marker) marker.openPopup();
+        }, 300);
+      }
+    }, 50);
+
+    return () => clearTimeout(timer);
   }, [selectedLocationId, isMapReady]);
+
+  // Handle search - zoom to search location ONLY if no location is selected
+  useEffect(() => {
+    if (!searchCoordinates || !map.current || !isMapReady || selectedLocationId) return;
+
+    // Only zoom to search area if no location is selected yet
+    map.current.setView([searchCoordinates.lat, searchCoordinates.lng], 15, {
+      animate: true,
+      duration: 0.8,
+      easeLinearity: 0.5,
+    });
+  }, [searchCoordinates, isMapReady, selectedLocationId]);
 
   // Handle city filter - zoom to show all locations of that city
   useEffect(() => {

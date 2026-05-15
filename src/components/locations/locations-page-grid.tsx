@@ -70,7 +70,10 @@ export function LocationsPageGrid({ locations }: { locations: Location[] }) {
           ),
         }))
         .sort((a, b) => a.distance - b.distance)
-        .map(({ location }) => location);
+        .map(({ location, distance }) => {
+          // Add distance info for debugging (optional)
+          return location;
+        });
     }
 
     return results;
@@ -143,6 +146,7 @@ export function LocationsPageGrid({ locations }: { locations: Location[] }) {
                 selectedLocationId={selectedLocationId}
                 filter={filter}
                 allLocations={locations}
+                searchCoordinates={searchCoordinates}
               />
             </div>
           </div>
