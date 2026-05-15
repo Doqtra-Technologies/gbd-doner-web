@@ -6,6 +6,7 @@ export const siteConfig = {
     "Modern fast-casual doner. Ethically sourced, urban-kinetic, built for the city.",
   ogImage: "/og.jpg",
   nav: [
+    { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
     { href: "/locations", label: "Locations" },
     { href: "/our-story", label: "Our Story" },
