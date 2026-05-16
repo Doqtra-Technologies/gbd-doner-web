@@ -29,11 +29,11 @@ type Variant = "primary" | "tertiary";
 type Size = "md" | "lg";
 
 const primaryBase =
-  "inline-flex items-center justify-center rounded-full border border-border-strong bg-canvas font-display font-bold uppercase tracking-button text-text-primary transition-all duration-300 ease-smooth hover:border-accent hover:bg-accent hover:text-text-inverse disabled:opacity-50 disabled:hover:bg-canvas disabled:hover:text-text-primary disabled:hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
+  "group/cta-primary relative inline-flex items-center justify-center select-none rounded-full border border-border-strong bg-canvas font-display font-bold uppercase tracking-button text-text-primary transition-all duration-[420ms] ease-smooth hover:border-accent hover:bg-accent hover:text-text-inverse active:translate-y-px disabled:opacity-50 disabled:hover:bg-canvas disabled:hover:text-text-primary disabled:hover:border-border-strong disabled:active:translate-y-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-4 focus-visible:ring-accent";
 
 const primarySizes: Record<Size, string> = {
-  md: "h-11 px-6 text-xs",
-  lg: "h-14 px-10 text-sm",
+  md: "h-11 px-7 text-[11px]",
+  lg: "h-14 px-12 text-sm",
 };
 
 const tertiaryBase =
