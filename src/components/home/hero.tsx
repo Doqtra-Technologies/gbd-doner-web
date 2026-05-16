@@ -4,82 +4,70 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { CTAButton } from "@/components/ui/cta-button";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { Heading } from "@/components/ui/heading";
 import { Numeral } from "@/components/ui/numeral";
 import { DUR, EASE } from "@/brand/motion";
 
 /**
- * Hero — editorial 7/5 split.
+ * HeroBlueprint — architectural-grid hero.
  *
- * Left column (col-span-7 lg+): type column. A 1px navy hairline runs
- * down its right edge, drawing the physical division between word and
- * image like the gutter of a print magazine. Massive padding (p-12 lg+
- * p-24). Internal layout is a tall flex column with `justify-between`:
- * the headline anchors to the top-left, the body + CTA anchors to the
- * bottom-left, creating a tension of empty middle space.
+ * Exact 50/50 split, edge-to-edge. The left box is white; the right box
+ * is a full-bleed photograph. A single 1px navy hairline acts as the
+ * centerline of the blueprint.
  *
- * Right column (col-span-5 lg+): photograph. No padding, no rounded
- * corners. The image is `absolute inset-0 object-cover` so it fills the
- * column edge-to-edge. On mobile the columns stack — image first, type
- * second — so the user lands on the food before the wordmark.
+ * The left box uses `flex flex-col` with `mt-auto` on the headline
+ * cluster so the title is **pushed to the absolute bottom-left** of
+ * the container. The chapter marker (01 — BRITAIN) anchors the top.
+ * The middle is empty by design — the blueprint convention is that
+ * empty white *is* a structural element, not unused space.
  *
- * Min-height 85vh on lg+ so the hero owns the first screen without
- * forcing it to be exactly viewport-sized.
+ * The headline uses leading-[0.85] for the "brick of ink" compression
+ * that the editorial-grid system asks for, while remaining brand-
+ * compliant on tracking (`tracking-display` — slightly positive).
  */
 export function Hero() {
   return (
     <section className="bg-canvas">
-      <div className="grid grid-cols-1 lg:grid-cols-12 lg:min-h-[85vh]">
-        {/* Type column */}
-        <div className="relative col-span-12 lg:col-span-7 order-2 lg:order-1 lg:border-r lg:border-border-strong">
-          <div className="flex flex-col justify-between min-h-[60vh] lg:min-h-[85vh] p-10 sm:p-12 lg:p-20 xl:p-24 gap-16">
-            {/* Top — chapter mark + headline */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: DUR.reveal, ease: EASE.editorial }}
-                className="mb-10"
-              >
-                <Numeral index="01" label="Britain" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: DUR.reveal,
-                  delay: 0.1,
-                  ease: EASE.editorial,
-                }}
-              >
-                <Heading level={1}>
-                  <span className="block">British</span>
-                  <span className="block pl-[10%]">Doner</span>
-                  <span className="block">
-                    Redefined<span className="text-accent">.</span>
-                  </span>
-                </Heading>
-              </motion.div>
-            </div>
-
-            {/* Bottom — body copy + CTA */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[85vh]">
+        {/* Left box — type column. Centerline border on its right edge. */}
+        <div className="relative order-2 lg:order-1 lg:border-r lg:border-border-hairline">
+          <div className="flex flex-col min-h-[60vh] lg:min-h-[85vh] p-6 sm:p-10 lg:p-12 xl:p-16 gap-6">
+            {/* Top anchor — chapter mark */}
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: DUR.reveal, ease: EASE.editorial }}
+            >
+              <Numeral index="01" label="Britain" />
+            </motion.div>
+
+            {/* Empty structural void */}
+            <div className="flex-1" />
+
+            {/* Bottom-left anchor — headline + body + CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: DUR.reveal,
-                delay: 0.3,
+                delay: 0.1,
                 ease: EASE.editorial,
               }}
-              className="max-w-md"
+              className="mt-auto"
             >
-              <p className="font-body text-base md:text-lg leading-relaxed text-text-secondary">
-                Ethically sourced. Spit-fired. Built for the 90-second lunch
-                and the 1AM craving. Honest food, raised to a higher bar.
+              <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-5xl md:text-6xl lg:text-[5.5rem] max-w-[90%]">
+                <span className="block">British</span>
+                <span className="block">Doner</span>
+                <span className="block">
+                  Redefined<span className="text-accent">.</span>
+                </span>
+              </h1>
+
+              <p className="mt-8 max-w-md font-body text-sm md:text-base leading-relaxed text-text-secondary">
+                Ethically sourced. Spit-fired. Built for the 90-second
+                lunch and the 1AM craving.
               </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
+              <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <CTAButton variant="primary" size="lg" href="/locations">
                   Order Now
                 </CTAButton>
@@ -87,21 +75,17 @@ export function Hero() {
                   See the Menu
                 </CTAButton>
               </div>
-
-              <div className="mt-12 flex items-center gap-3 text-text-secondary">
-                <span className="h-px w-10 bg-text-secondary opacity-60" />
-                <Eyebrow tone="secondary">Est. London · 2026</Eyebrow>
-              </div>
             </motion.div>
           </div>
         </div>
 
-        {/* Image column — full-bleed, no padding, no radius */}
+        {/* Right box — full-bleed photograph. Zero padding, no radius,
+            physically touches the centerline and the viewport's right edge. */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: DUR.drift, ease: EASE.editorial }}
-          className="relative col-span-12 lg:col-span-5 order-1 lg:order-2 min-h-[55vh] lg:min-h-[85vh] overflow-hidden"
+          className="relative order-1 lg:order-2 min-h-[55vh] lg:min-h-[85vh] overflow-hidden"
         >
           <motion.div
             initial={{ scale: 1.03 }}
@@ -114,13 +98,13 @@ export function Hero() {
               alt="Spit-fired British doner plate"
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, 42vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.98)]"
             />
           </motion.div>
 
-          {/* Signature mark — accent dot + 16px rule at the photo's bottom-left */}
-          <div className="absolute bottom-8 left-8 lg:bottom-12 lg:left-12 flex flex-col gap-3 z-10">
+          {/* Signature mark on the photograph */}
+          <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10 flex flex-col gap-3 z-10">
             <div className="flex items-center gap-3">
               <span className="h-2 w-2 rounded-full bg-accent" />
               <Eyebrow tone="inverse">Spit-Fired · Served Fast</Eyebrow>

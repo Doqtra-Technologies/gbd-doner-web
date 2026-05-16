@@ -1,176 +1,184 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Container } from "@/components/ui/container";
-import { CTAButton } from "@/components/ui/cta-button";
-import { Heading } from "@/components/ui/heading";
-import { Numeral } from "@/components/ui/numeral";
-import { formatGBP } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { formatGBP, cn } from "@/lib/utils";
 import { DUR, EASE } from "@/brand/motion";
-import { cn } from "@/lib/utils";
 import type { MenuItem } from "@/domain/menu-item";
 
 /**
- * The Lineup — editorial menu intro.
+ * HomeLineup — architectural-grid menu preview.
  *
- * Two-zone section:
+ * Edge-to-edge. No Container, no max-w. The section physically spans
+ * the viewport. Internal structure is drawn with 1px hairlines, not
+ * gaps:
  *
- *  1. Header zone — `02 ── THE LINEUP` numeral + oversized split-line
- *     headline indented at column 2 of the 12-col grid (`col-start-2`).
- *     The header lives inside the standard Container so the type column
- *     respects the page rhythm.
+ *   ╔══════════════════════════════════════════════════════════════╗
+ *   ║                Header row · border-y                          ║
+ *   ║  ┌──────────────────────────────┬─────────────────────────┐ ║
+ *   ║  │ 02 — THE LINEUP              │ Real ingredients…       │ ║
+ *   ║  │ SALAD BOWLS                  │                         │ ║
+ *   ║  │   & POWER PLATES.            │ FULL MENU ─────         │ ║
+ *   ║  │  (compressed ink brick)      │                         │ ║
+ *   ║  └──────────────────────────────┴─────────────────────────┘ ║
+ *   ║  ┌────────────┬────────────┬────────────┐                   ║
+ *   ║  │  IMG       │  IMG       │  IMG       │  product grid     ║
+ *   ║  │  meta      │  meta      │  meta      │  border-r/b        ║
+ *   ║  │  Cal Pro…  │  Cal Pro…  │  Cal Pro…  │  hairlines         ║
+ *   ║  └────────────┴────────────┴────────────┘                   ║
+ *   ╚══════════════════════════════════════════════════════════════╝
  *
- *  2. Lineup zone — escapes the Container to a full-viewport 12-col grid
- *     so the third card can bleed to the right edge of the screen
- *     (visual signal that the menu continues beyond the frame). Cards
- *     have asymmetric column spans and one offset baseline:
- *
- *       Item 1  col-span-4  baseline
- *       Item 2  col-span-3  baseline + mt-24 (drops below the others)
- *       Item 3  col-span-5  ends at the screen's right edge
- *       Item 4  col-span-4  optional — falls in if items.length >= 4
- *
- * Each item is a flat editorial card: no fill, no shadow, hairline
- * separating the nutrition row from the meta row. Title left, price
- * right. Hover: tertiary-style underline slide under the title; image
- * gets a slow 1.02 drift.
- *
- * Top of the section is sealed with a `border-t border-border-hairline`
- * so it reads as a new spread.
+ * Three products max — engineered for `grid-cols-3` so the
+ * `[&:nth-child(3n)]:border-r-0` rule cancels the rightmost border
+ * cleanly. The grid touches the viewport's right edge directly.
  */
 export function BestSellers({ items }: { items: MenuItem[] }) {
-  const lineup = items.slice(0, 4);
-
-  // Editorial column spans + offset rhythm. The third card extends to
-  // span 5 so it visually reaches the right edge of the viewport grid.
-  const cardSpans: { col: string; offset: string }[] = [
-    { col: "lg:col-span-4 lg:col-start-2", offset: "" },
-    { col: "lg:col-span-3 lg:col-start-7", offset: "lg:mt-24" },
-    { col: "lg:col-span-5 lg:col-start-8", offset: "" }, // bleeds to right edge
-    { col: "lg:col-span-4 lg:col-start-2", offset: "lg:mt-16" },
-  ];
+  const lineup = items.slice(0, 3);
 
   return (
-    <section className="border-t border-border-hairline bg-canvas py-24 lg:py-32">
-      <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-10">
-          <div className="lg:col-span-6 lg:col-start-2">
-            <Numeral index="02" label="The Lineup" className="mb-10" />
-            <Heading level={2}>
-              <span className="block">Salad Bowls</span>
-              <span className="block pl-[8%]">
-                <span className="text-text-disabled">&amp;</span> Power Plates
-                <span className="text-accent">.</span>
-              </span>
-            </Heading>
-          </div>
-          <div className="lg:col-span-4 lg:col-start-9 self-end">
-            <p className="font-body text-base md:text-lg leading-relaxed text-text-secondary max-w-md">
-              Real ingredients. Real protein. Built for runners, builders,
-              and everyone in between.
-            </p>
-            <CTAButton variant="tertiary" href="/menu" className="mt-10">
-              Full Menu
-            </CTAButton>
-          </div>
-        </div>
-      </Container>
+    <section className="w-full max-w-none bg-canvas">
+      {/* Header row */}
+      <div className="grid grid-cols-12 border-y border-border-hairline">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: DUR.reveal, ease: EASE.editorial }}
+          className="col-span-12 md:col-span-8 md:border-r md:border-border-hairline p-6 sm:p-8 lg:p-12"
+        >
+          <span className="block font-display font-bold uppercase tracking-eyebrow text-[11px] text-accent">
+            02 — The Lineup
+          </span>
+          <h2 className="mt-6 font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-4xl md:text-5xl lg:text-[3.5rem]">
+            <span className="block">Salad Bowls</span>
+            <span className="block">
+              <span className="text-text-disabled">&amp;</span> Power Plates
+              <span className="text-accent">.</span>
+            </span>
+          </h2>
+        </motion.div>
 
-      {/* Full-viewport grid so the third card can bleed to the right edge.
-          Padding-left aligns with the Container's shell; padding-right is 0
-          so the rightmost card reaches the viewport edge. */}
-      <div className="mt-20 pl-5 sm:pl-8 lg:pl-12 xl:pl-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-16">
-          {lineup.map((item, i) => {
-            const span = cardSpans[i] ?? cardSpans[cardSpans.length - 1];
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  duration: DUR.reveal,
-                  delay: i * 0.08,
-                  ease: EASE.editorial,
-                }}
-                className={cn(span.col, span.offset)}
-              >
-                <LineupCard item={item} />
-              </motion.div>
-            );
-          })}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{
+            duration: DUR.reveal,
+            delay: 0.1,
+            ease: EASE.editorial,
+          }}
+          className="col-span-12 md:col-span-4 p-6 sm:p-8 lg:p-12 flex flex-col justify-between gap-8"
+        >
+          <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary opacity-80 max-w-md">
+            Real ingredients. Real protein. Built for runners, builders,
+            and everyone in between.
+          </p>
+          <Link
+            href="/menu"
+            className="group inline-flex items-center gap-2 w-max font-display font-bold uppercase tracking-button text-xs text-text-primary border-b border-border-strong pb-1 transition-colors duration-300 ease-smooth hover:text-accent hover:border-accent"
+          >
+            Full Menu
+            <span
+              aria-hidden
+              className="transition-transform duration-300 ease-smooth group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* Product grid — each cell carries its own hairlines.
+          The rightmost column's right border is cancelled so the grid
+          physically touches the viewport's right edge. */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-b border-border-hairline">
+        {lineup.map((item, i) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{
+              duration: DUR.reveal,
+              delay: i * 0.08,
+              ease: EASE.editorial,
+            }}
+            className="border-r border-b border-border-hairline last:border-b-0 md:[&:nth-child(3n)]:border-r-0 md:[&:nth-last-child(-n+3)]:border-b-0"
+          >
+            <LineupCell item={item} />
+          </motion.div>
+        ))}
       </div>
     </section>
   );
 }
 
-function LineupCard({ item }: { item: MenuItem }) {
+function LineupCell({ item }: { item: MenuItem }) {
   return (
-    <Link
-      href="/menu"
-      aria-label={item.title}
-      className="group block w-full"
-    >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-canvas">
-        <Image
-          src={item.imageUrl}
-          alt={item.title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
-        />
-      </div>
+    <article className="group flex h-full flex-col">
+      <Link href="/menu" aria-label={item.title} className="block">
+        {/* Image flushes the cell's top/left/right edges */}
+        <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <Image
+            src={item.imageUrl}
+            alt={item.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
+          />
+        </div>
+      </Link>
 
-      <div className="mt-5 flex items-baseline justify-between gap-4">
-        <h3 className="relative font-display font-bold uppercase tracking-display text-lg md:text-xl text-text-primary">
-          <span className="relative">
+      {/* Metadata block — p-6 inside the cell */}
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg md:text-xl text-text-primary">
             {item.title}
-            <span
-              aria-hidden
-              className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-accent transition-transform duration-500 ease-smooth group-hover:origin-left group-hover:scale-x-100"
-            />
+          </h3>
+          <span className="font-display font-bold text-lg text-text-primary shrink-0">
+            {formatGBP(item.priceGBP)}
           </span>
-        </h3>
-        <span className="font-display font-bold text-base text-text-primary shrink-0">
-          {formatGBP(item.priceGBP)}
-        </span>
-      </div>
+        </div>
 
-      <p className="mt-2 font-body text-sm leading-relaxed text-text-secondary line-clamp-2 max-w-md">
-        {item.description}
-      </p>
+        <p className="mt-2 font-body text-sm leading-relaxed text-text-secondary opacity-80 line-clamp-2 flex-1">
+          {item.description}
+        </p>
 
-      {item.nutrition && (
-        <dl className="mt-5 grid grid-cols-4 border-t border-border-hairline">
-          {(
-            [
+        {item.nutrition && (
+          <NutritionLedger
+            cells={[
               ["Cal", `${item.nutrition.calories}`],
               ["Protein", `${item.nutrition.protein}g`],
               ["Carbs", `${item.nutrition.carbs}g`],
               ["Fat", `${item.nutrition.fat}g`],
-            ] as const
-          ).map(([label, value], i) => (
-            <div
-              key={label}
-              className={cn(
-                "flex flex-col items-start py-3",
-                i > 0 && "border-l border-border-hairline pl-3",
-              )}
-            >
-              <dt className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-disabled">
-                {label}
-              </dt>
-              <dd className="mt-1 font-display font-bold text-xs text-text-primary">
-                {value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      )}
-    </Link>
+            ]}
+          />
+        )}
+      </div>
+    </article>
+  );
+}
+
+function NutritionLedger({ cells }: { cells: ReadonlyArray<readonly [string, string]> }) {
+  return (
+    <dl className="mt-5 -mx-6 -mb-6 grid grid-cols-4 border-t border-border-hairline">
+      {cells.map(([label, value], i) => (
+        <div
+          key={label}
+          className={cn(
+            "flex flex-col gap-1 p-3",
+            i < cells.length - 1 && "border-r border-border-hairline",
+          )}
+        >
+          <dt className="font-body uppercase text-[10px] text-text-primary opacity-60">
+            {label}
+          </dt>
+          <dd className="font-display font-bold text-xs text-text-primary">
+            {value}
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }

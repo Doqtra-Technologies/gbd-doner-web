@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { StickyMenuLedger } from "@/components/menu/sticky-menu-ledger";
+import { FullMenu } from "@/components/menu/full-menu";
 import {
   getMenuItems,
   getMenuCategories,
@@ -19,5 +19,5 @@ export default async function MenuPage() {
     getMenuCategories(),
   ]);
 
-  return <StickyMenuLedger items={items} categories={categories} />;
+  return <FullMenu items={items} categories={categories} />;
 }

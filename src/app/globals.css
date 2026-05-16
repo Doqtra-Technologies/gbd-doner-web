@@ -19,3 +19,18 @@ body {
   background: #c94035;
   color: #ffffff;
 }
+
+/* Editorial marquee — used by StoryMarqueeAndBrick. The content track
+   is rendered twice; this animation slides it half its width so the
+   transition between the two copies is seamless. */
+@keyframes gbd-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes gbd-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(0); }
+  }
+}
