@@ -1,8 +1,7 @@
 import { Hero } from "@/components/home/hero";
 import { BestSellers } from "@/components/home/best-sellers";
 import { Community } from "@/components/home/community";
-import { Newsletter } from "@/components/home/newsletter";
-import { HomeLocationsSlider } from "@/components/locations/home-locations-slider";
+import { ArchitecturalLocations } from "@/components/locations/architectural-locations";
 import { getBestSellers } from "@/data/repositories/menu-repository";
 import { getLocations } from "@/data/repositories/locations-repository";
 
@@ -17,9 +16,9 @@ export default async function HomePage() {
     <>
       <Hero />
       <BestSellers items={bestSellers} />
-      <HomeLocationsSlider locations={locations} />
+      <ArchitecturalLocations locations={locations} />
       <Community />
-      <Newsletter />
+      {/* Newsletter now lives inside <TerminalFooter />, not on the home page. */}
     </>
   );
 }
