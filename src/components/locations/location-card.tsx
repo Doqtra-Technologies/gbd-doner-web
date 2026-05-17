@@ -17,6 +17,7 @@ export function LocationCard({ location }: { location: Location }) {
     setSelectedId,
     setHoveredId,
     activeCoordinates,
+    filteredLocations,
   } = useLocationState();
   const isSelected = selectedId === location.id;
   const isHovered = hoveredId === location.id;
@@ -34,6 +35,11 @@ export function LocationCard({ location }: { location: Location }) {
       )
     : null;
 
+  // Determine if this is the nearest outlet
+  const isNearest = activeCoordinates && filteredLocations.length > 0
+    ? filteredLocations[0].id === location.id
+    : false;
+
   return (
     <article
       onClick={() => setSelectedId(location.id)}
@@ -41,9 +47,10 @@ export function LocationCard({ location }: { location: Location }) {
       onMouseLeave={() => setHoveredId(null)}
       className={cn(
         "relative shrink-0 group cursor-pointer border bg-canvas p-2.5 transition-all duration-300 ease-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border-strong",
-        isSelected || isHovered
+        isNearest && "border-accent border-2",
+        !isNearest && (isSelected || isHovered
           ? "border-border-strong shadow-[0_6px_16px_rgba(15,30,45,0.12)]"
-          : "border-border-hairline hover:border-border-strong hover:shadow-[0_6px_16px_rgba(15,30,45,0.12)]",
+          : "border-border-hairline hover:border-border-strong hover:shadow-[0_6px_16px_rgba(15,30,45,0.12)]"),
       )}
       aria-pressed={isSelected}
       role="button"
@@ -64,6 +71,13 @@ export function LocationCard({ location }: { location: Location }) {
             sizes="64px"
             className="rounded-none object-cover"
           />
+          {isNearest && (
+            <div className="absolute inset-0 bg-gradient-to-t from-accent/30 to-transparent flex items-start justify-end p-1">
+              <span className="text-[8px] font-bold uppercase text-white bg-accent/90 px-1.5 py-0.5 rounded">
+                Nearest
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -82,7 +96,13 @@ export function LocationCard({ location }: { location: Location }) {
           </p>
 
           {distanceLabel && (
-            <p className="mt-1 font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
+            <p
+              className={cn(
+                "mt-1 font-display font-bold uppercase tracking-eyebrow text-[10px]",
+                isNearest ? "text-accent" : "text-accent"
+              )}
+            >
+              {isNearest && "✓ "}
               {distanceLabel} away
             </p>
           )}
