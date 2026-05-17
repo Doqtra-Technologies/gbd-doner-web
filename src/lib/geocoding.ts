@@ -1,5 +1,6 @@
 /**
- * Geocoding utility to convert address text to coordinates using OpenStreetMap Nominatim
+ * Geocoding utility to convert address text to coordinates using OpenStreetMap Nominatim.
+ * Supports global address searching with intelligent fallback strategy.
  */
 
 export interface GeocodingResult {
@@ -12,12 +13,44 @@ export async function geocodeLocation(query: string): Promise<GeocodingResult | 
   if (!query.trim()) return null;
 
   try {
-    // Add London to the query to ensure we search in the right location
-    const searchQuery = query.includes("London") ? query : `${query}, London, UK`;
+    // First attempt: Global search with no restrictions
+    let result = await performGeocodingSearch(query, false);
 
-    // Search with higher limit to get multiple results and pick the best
+    // Fallback: If the query doesn't include "London", try adding it
+    if (!result && !query.toLowerCase().includes("london")) {
+      result = await performGeocodingSearch(`${query}, London, UK`, false);
+    }
+
+    if (!result) {
+      console.warn(`Geocoding failed for query: "${query}"`);
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    return null;
+  }
+}
+
+async function performGeocodingSearch(
+  query: string,
+  restrictToUK: boolean
+): Promise<GeocodingResult | null> {
+  const params = new URLSearchParams({
+    format: "json",
+    q: query,
+    limit: "10",
+    "accept-language": "en",
+  });
+
+  // Optionally restrict to UK for better local results if needed
+  if (restrictToUK) {
+    params.append("countrycodes", "gb");
+  }
+
+  try {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=5&countrycodes=gb&bounded=1&viewbox=-0.51,51.28,-0.05,51.69`,
+      `https://nominatim.openstreetmap.org/search?${params.toString()}`,
       {
         headers: {
           "Accept": "application/json",
@@ -28,31 +61,25 @@ export async function geocodeLocation(query: string): Promise<GeocodingResult | 
 
     if (!response.ok) return null;
 
-    const data = await response.json();
-    if (!data || data.length === 0) return null;
+    const data = await response.json() as any[];
+    if (!Array.isArray(data) || data.length === 0) return null;
 
-    // Filter results to ensure they're in London area (approximate bounds)
-    const londonResults = data.filter((result: any) => {
-      const lat = parseFloat(result.lat);
-      const lng = parseFloat(result.lon);
-      // London approximate bounds
-      return lat >= 51.25 && lat <= 51.75 && lng >= -0.5 && lng <= 0.1;
-    });
+    // Sort by importance score (higher = more relevant)
+    const sortedResults = data.sort(
+      (a, b) => parseFloat(b.importance) - parseFloat(a.importance)
+    );
 
-    // Prefer results with higher importance scores (more accurate)
-    const bestResult = (londonResults.length > 0 ? londonResults : data).sort(
-      (a: any, b: any) => parseFloat(b.importance) - parseFloat(a.importance)
-    )[0];
-
+    // Return the top result with the highest importance
+    const bestResult = sortedResults[0];
     if (!bestResult) return null;
 
     return {
       lat: parseFloat(bestResult.lat),
       lng: parseFloat(bestResult.lon),
-      displayName: bestResult.display_name,
+      displayName: bestResult.display_name || query,
     };
   } catch (error) {
-    console.error("Geocoding error:", error);
+    console.error("Nominatim API error:", error);
     return null;
   }
 }

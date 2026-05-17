@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { useLocationState } from "@/components/locations/location-state";
-import { calculateDistance } from "@/lib/distance";
+import { calculateDistance, formatKilometres } from "@/lib/distance";
 
 /**
  * Operational search input.
  *
- * Reads/writes query through LocationState (debounced geocoding lives in
- * the provider). Exposes an optional "Use my location" affordance that
- * resolves the device geolocation, finds the nearest branch, and selects it.
+ * Features:
+ * - Global address search with automatic geocoding
+ * - "Use my location" button to find nearest outlet
+ * - Displays distance to nearest outlet after search/geolocation
+ * - Improved error handling and user feedback
  */
 export function LocationSearch() {
   const {
@@ -17,8 +19,10 @@ export function LocationSearch() {
     setQuery,
     isSearching,
     allLocations,
+    selectedId,
     setSelectedId,
     setUserCoordinates,
+    activeCoordinates,
   } = useLocationState();
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
@@ -26,15 +30,20 @@ export function LocationSearch() {
   const handleUseMyLocation = () => {
     setGeoError(null);
     if (typeof navigator === "undefined" || !navigator.geolocation) {
-      setGeoError("Geolocation is not supported by your browser.");
+      setGeoError(
+        "Geolocation not supported. Try searching for a location instead."
+      );
       return;
     }
+
     setGeoLoading(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
         setUserCoordinates({ lat: latitude, lng: longitude });
         setQuery("");
+
+        // Find the nearest outlet
         const nearest = [...allLocations]
           .map((l) => ({
             loc: l,
@@ -46,19 +55,56 @@ export function LocationSearch() {
             ),
           }))
           .sort((a, b) => a.d - b.d)[0];
-        if (nearest) setSelectedId(nearest.loc.id);
+
+        if (nearest) {
+          setSelectedId(nearest.loc.id);
+        }
         setGeoLoading(false);
       },
-      () => {
-        setGeoError("Unable to access your location.");
+      (error) => {
+        // More detailed error messages based on geolocation error code
+        if (error.code === 1) {
+          setGeoError(
+            "Please enable location access in your browser settings."
+          );
+        } else if (error.code === 2) {
+          setGeoError("Unable to retrieve your location. Please try again.");
+        } else if (error.code === 3) {
+          setGeoError("Location request timed out. Please try again.");
+        } else {
+          setGeoError("Unable to access your location.");
+        }
         setGeoLoading(false);
       },
-      { enableHighAccuracy: false, timeout: 8000 },
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 300000, // Cache location for 5 minutes
+      }
     );
   };
 
+  // Get the nearest location for distance display
+  const nearestLocation =
+    activeCoordinates && allLocations.length > 0
+      ? [...allLocations]
+          .map((l) => ({
+            loc: l,
+            d: calculateDistance(
+              activeCoordinates.lat,
+              activeCoordinates.lng,
+              l.coordinates.lat,
+              l.coordinates.lng,
+            ),
+          }))
+          .sort((a, b) => a.d - b.d)[0]
+      : null;
+
+  const nearestDistance =
+    nearestLocation ? formatKilometres(nearestLocation.d) : null;
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <label className="flex h-12 items-center gap-3 border-b border-border-strong px-1">
         {isSearching ? <SpinnerIcon /> : <SearchIcon />}
         <input
@@ -71,19 +117,28 @@ export function LocationSearch() {
         />
       </label>
 
-      <button
-        type="button"
-        onClick={handleUseMyLocation}
-        disabled={geoLoading}
-        className="inline-flex h-10 items-center gap-2 self-start rounded-full border border-border-hairline px-3 font-display font-bold uppercase tracking-button text-[11px] text-text-primary transition-all duration-300 ease-smooth hover:border-border-strong hover:text-accent disabled:opacity-50"
-      >
-        <PinIcon />
-        {geoLoading ? "Locating…" : "Use my location"}
-      </button>
+      <div className="flex items-center gap-2 flex-wrap">
+        <button
+          type="button"
+          onClick={handleUseMyLocation}
+          disabled={geoLoading}
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-border-hairline px-3 font-display font-bold uppercase tracking-button text-[11px] text-text-primary transition-all duration-300 ease-smooth hover:border-border-strong hover:text-accent disabled:opacity-50"
+          title="Find the nearest outlet to your current location"
+        >
+          <PinIcon />
+          {geoLoading ? "Locating…" : "Find Nearest"}
+        </button>
+
+        {nearestDistance && (
+          <span className="font-display font-bold uppercase tracking-button text-[11px] text-accent px-2 py-1 bg-accent/10 rounded-full">
+            Nearest: {nearestDistance} away
+          </span>
+        )}
+      </div>
 
       {geoError && (
-        <p className="font-body text-xs text-text-secondary" role="status">
-          {geoError}
+        <p className="font-body text-xs text-red-600" role="status">
+          ⚠️ {geoError}
         </p>
       )}
     </div>
