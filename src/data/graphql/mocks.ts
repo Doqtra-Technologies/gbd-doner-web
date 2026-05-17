@@ -3,12 +3,36 @@ import type { Location } from "@/domain/location";
 import type { Post } from "@/domain/post";
 
 export const MOCK_MENU_CATEGORIES: MenuCategory[] = [
-  { slug: "bowls", label: "Bowls" },
-  { slug: "plates", label: "Plates" },
-  { slug: "wraps", label: "Wraps" },
-  { slug: "sides", label: "Sides" },
-  { slug: "drinks", label: "Drinks" },
-  { slug: "desserts", label: "Desserts" },
+  {
+    slug: "bowls",
+    label: "Bowls",
+    description: "Hearty grain bowls layered with spit-fired protein.",
+  },
+  {
+    slug: "plates",
+    label: "Plates",
+    description: "Plated mains with British seasonal sides.",
+  },
+  {
+    slug: "wraps",
+    label: "Wraps",
+    description: "Charred flatbreads packed for the 90-second lunch.",
+  },
+  {
+    slug: "sides",
+    label: "Sides",
+    description: "Loaded fries, slaws, and small plates.",
+  },
+  {
+    slug: "drinks",
+    label: "Drinks",
+    description: "House-made beverages, low-sugar, ice-cold.",
+  },
+  {
+    slug: "desserts",
+    label: "Desserts",
+    description: "Sweet finishers — short list, all British.",
+  },
 ];
 
 const placeholder = (seed: string) =>
@@ -58,6 +82,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
       { code: "GLUTEN", label: "Gluten" },
     ],
     nutrition: { calories: 560, protein: 26, carbs: 48, fat: 28 },
+    dietaryFlags: ["V"],
   },
   {
     id: "mi-4",
@@ -82,6 +107,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     isBestSeller: false,
     allergens: [{ code: "MILK", label: "Milk" }],
     nutrition: { calories: 110, protein: 6, carbs: 10, fat: 5 },
+    dietaryFlags: ["V", "GF"],
   },
   {
     id: "mi-6",

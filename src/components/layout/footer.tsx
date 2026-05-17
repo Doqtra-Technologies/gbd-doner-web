@@ -2,16 +2,46 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/brand/logo";
 import { siteConfig } from "@/lib/config";
+import { cn } from "@/lib/utils";
 
-type Column = {
+/**
+ * TerminalAnchor — architectural-grid footer.
+ *
+ * Inverts the canvas (navy bg, white type) so the bottom of the site
+ * reads as a physical anchor. Nothing floats. Every cell is locked into
+ * a strict 12-column grid with `border-white/20` hairlines.
+ *
+ *   ┌─────────────────────────────────────────────────────────────┐
+ *   │ Vibe Insider block       (border-y)                          │
+ *   │ ┌────────────────────────────────────────┬────────────────┐ │
+ *   │ │ col-span-8   border-r                  │ col-span-4     │ │
+ *   │ │ 05 — VIBE INSIDER                      │ (empty top)    │ │
+ *   │ │ SIGN UP TO OUR                          │                │ │
+ *   │ │   NEWSLETTER.   (ink brick)            │ ──────  SUBMIT →│ │
+ *   │ │ Subtext...                              │ email input    │ │
+ *   │ └────────────────────────────────────────┴────────────────┘ │
+ *   ├─────────────────────────────────────────────────────────────┤
+ *   │ Footer Matrix            (border-b)                          │
+ *   │ ┌──────────┬───────┬──────────┬──────────┬──────────┐       │
+ *   │ │ col-4    │ col-2 │ col-2    │ col-2    │ col-2    │       │
+ *   │ │ Brand    │ EMPTY │ EXPLORE  │ CONNECT  │ LEGAL    │       │
+ *   │ │ box      │ void  │          │          │          │       │
+ *   │ └──────────┴───────┴──────────┴──────────┴──────────┘       │
+ *   ├─────────────────────────────────────────────────────────────┤
+ *   │ © 2026 GBD Doner.                BRITISH DONER REDEFINED     │
+ *   └─────────────────────────────────────────────────────────────┘
+ *
+ * The "Empty Tension Box" in the matrix is intentional — high-end
+ * editorial restraint. A 2-column structural void between the brand
+ * paragraph and the directory columns. Reads as deliberate space, not
+ * absent content.
+ */
+const directory: Array<{
   heading: string;
   links: Array<{ label: string; href: string; external?: boolean }>;
-};
-
-const columns: Column[] = [
+}> = [
   {
     heading: "Explore",
     links: [
@@ -41,73 +71,159 @@ const columns: Column[] = [
 
 export function Footer() {
   return (
-    <footer className="bg-canvas border-t border-border-strong">
-      <Container className="pt-24 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-14">
-          <div>
-            <Logo size="md" />
-            <p className="mt-6 max-w-xs font-body text-sm text-text-secondary">
-              British Doner Redefined. Ethically sourced, spit-fired, built for
-              the city.
-            </p>
-          </div>
-
-          {columns.map((col) => (
-            <FooterColumn key={col.heading} column={col} />
-          ))}
-        </div>
-
-        <div className="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-          <div className="lg:col-span-7">
-            <h2 className="font-display font-bold uppercase tracking-display text-2xl md:text-3xl text-text-primary">
-              Sign up to our newsletter
-            </h2>
-            <p className="mt-3 font-body text-sm text-text-secondary max-w-md">
-              New drops, store openings, and the occasional 1AM offer. No spam.
-            </p>
-          </div>
-          <div className="lg:col-span-5">
-            <NewsletterField />
-          </div>
-        </div>
-      </Container>
-
-      <div className="border-t border-border-hairline">
-        <Container className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-body text-xs text-text-secondary">
-            © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
-          </p>
-          <p className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">
-            British Doner Redefined
-          </p>
-        </Container>
-      </div>
+    <footer className="w-full bg-surface-inverse text-text-inverse">
+      <VibeInsiderBlock />
+      <FooterMatrix />
+      <CopyrightBaseline />
     </footer>
   );
 }
 
-function FooterColumn({ column }: { column: Column }) {
+function VibeInsiderBlock() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "ok">("idle");
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("submitting");
+    await new Promise((r) => setTimeout(r, 600));
+    setStatus("ok");
+    setEmail("");
+  }
+
   return (
-    <div>
-      <h3 className="font-display font-bold uppercase tracking-eyebrow text-sm text-text-primary">
-        {column.heading}
+    <div className="grid grid-cols-1 md:grid-cols-12 border-t border-b border-white/20">
+      {/* Typographic brick */}
+      <div className="md:col-span-8 md:border-r md:border-white/20 p-8 lg:p-16 flex flex-col justify-between gap-12">
+        <span className="font-body uppercase tracking-eyebrow text-xs opacity-60">
+          05 — Vibe Insider
+        </span>
+
+        <h2 className="font-display font-bold uppercase tracking-display leading-[0.9] text-4xl md:text-5xl lg:text-[3.5rem]">
+          <span className="block">Sign up to</span>
+          <span className="block">
+            our newsletter
+            <span className="text-accent">.</span>
+          </span>
+        </h2>
+
+        <p className="font-body text-sm opacity-70 max-w-md leading-relaxed">
+          Drop-only menu items, store openings, and the occasional free
+          meal. No spam — just signal.
+        </p>
+      </div>
+
+      {/* Input cell */}
+      <div className="md:col-span-4 p-8 lg:p-16 flex flex-col justify-end">
+        <form
+          onSubmit={onSubmit}
+          aria-label="Subscribe to the GBD newsletter"
+          className="w-full"
+        >
+          <label htmlFor="terminal-email" className="sr-only">
+            Email address
+          </label>
+          <div className="relative w-full border-b border-white/30 focus-within:border-white pb-3 transition-colors duration-300 ease-smooth">
+            <input
+              id="terminal-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@city.co.uk"
+              className="w-full bg-transparent outline-none text-sm font-body pr-24 placeholder:text-white/40 text-text-inverse"
+            />
+            <button
+              type="submit"
+              disabled={status === "submitting"}
+              className="absolute right-0 bottom-3 font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-inverse hover:text-accent transition-colors duration-300 ease-smooth disabled:opacity-50"
+            >
+              {status === "submitting" ? "Sending…" : "Submit →"}
+            </button>
+          </div>
+          <p
+            className="mt-4 font-body text-xs opacity-60 min-h-[1rem]"
+            aria-live="polite"
+          >
+            {status === "ok" && "Welcome to the inside. Check your inbox."}
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function FooterMatrix() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-12 border-b border-white/20">
+      {/* Brand box */}
+      <div className="md:col-span-4 md:border-r md:border-white/20 p-8 lg:p-16">
+        <Logo size="sm" variant="inverse" />
+        <p className="mt-6 max-w-xs font-body text-sm opacity-70 leading-relaxed">
+          British Doner Redefined. Ethically sourced, spit-fired, built
+          for the city.
+        </p>
+      </div>
+
+      {/* Empty Tension Box — intentional structural void */}
+      <div
+        aria-hidden
+        className="hidden md:block md:col-span-2 md:border-r md:border-white/20"
+      />
+
+      {/* Directory columns — 3 evenly-split sub-columns inside col-span-6 */}
+      <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-3">
+        {directory.map((col, i) => (
+          <DirectoryColumn
+            key={col.heading}
+            heading={col.heading}
+            links={col.links}
+            isLast={i === directory.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DirectoryColumn({
+  heading,
+  links,
+  isLast,
+}: {
+  heading: string;
+  links: Array<{ label: string; href: string; external?: boolean }>;
+  isLast: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "p-8 lg:p-16 w-full",
+        !isLast && "border-r border-white/20",
+        // First two on mobile keep a bottom hairline; the last does not.
+        !isLast && "border-b border-white/20 sm:border-b-0",
+      )}
+    >
+      <h3 className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent mb-8">
+        {heading}
       </h3>
-      <ul className="mt-6 space-y-3">
-        {column.links.map((l) => (
-          <li key={l.label}>
+      <ul>
+        {links.map((l) => (
+          <li key={l.label} className="mb-4 last:mb-0">
             {l.external ? (
               <a
                 href={l.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="font-body text-sm text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+                className="block font-body text-sm opacity-70 hover:opacity-100 transition-opacity duration-300 ease-smooth"
               >
                 {l.label}
               </a>
             ) : (
               <Link
                 href={l.href}
-                className="font-body text-sm text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+                className="block font-body text-sm opacity-70 hover:opacity-100 transition-opacity duration-300 ease-smooth"
               >
                 {l.label}
               </Link>
@@ -119,59 +235,15 @@ function FooterColumn({ column }: { column: Column }) {
   );
 }
 
-function NewsletterField() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "ok">("idle");
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!email) return;
-    setStatus("ok");
-    setEmail("");
-  }
-
+function CopyrightBaseline() {
   return (
-    <form onSubmit={onSubmit} className="w-full">
-      <label htmlFor="footer-email" className="sr-only">
-        Email address
-      </label>
-      <div className="relative flex items-center border-b border-border-strong focus-within:border-b-2">
-        <input
-          id="footer-email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
-          className="w-full bg-transparent py-3 pr-12 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none"
-        />
-        <button
-          type="submit"
-          aria-label="Subscribe"
-          className="absolute right-0 inline-flex h-10 w-10 items-center justify-center text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            className="h-5 w-5"
-            aria-hidden
-          >
-            <path
-              d="M5 12h14M13 6l6 6-6 6"
-              strokeLinecap="square"
-              strokeLinejoin="miter"
-            />
-          </svg>
-        </button>
-      </div>
-      <p
-        className="mt-2 min-h-[1.25rem] font-body text-xs text-text-secondary"
-        aria-live="polite"
-      >
-        {status === "ok" && "Thanks — you're on the list."}
+    <div className="flex flex-col md:flex-row justify-between items-center py-6 px-8 lg:px-16 gap-3">
+      <p className="font-body text-[11px] opacity-40">
+        © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
       </p>
-    </form>
+      <p className="font-display font-bold uppercase tracking-eyebrow text-[10px] opacity-40">
+        British Doner Redefined
+      </p>
+    </div>
   );
 }

@@ -12,6 +12,16 @@ export interface NutritionFacts {
   fat: number;
 }
 
+/**
+ * Short codes for inline dietary badges shown on menu cards.
+ *   V   — vegetarian
+ *   VG  — vegan
+ *   GF  — gluten-free
+ *   DF  — dairy-free
+ *   N   — contains nuts (informational)
+ */
+export type DietaryFlag = "V" | "VG" | "GF" | "DF" | "N";
+
 export interface MenuItem {
   id: string;
   slug: string;
@@ -23,9 +33,13 @@ export interface MenuItem {
   isBestSeller: boolean;
   allergens: Allergen[];
   nutrition: NutritionFacts | null;
+  /** Optional short dietary badges rendered inline on the menu card. */
+  dietaryFlags?: DietaryFlag[];
 }
 
 export interface MenuCategory {
   slug: MenuCategorySlug;
   label: string;
+  /** Optional one-line muted descriptor shown next to the section title. */
+  description?: string;
 }

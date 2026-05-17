@@ -31,11 +31,17 @@ export interface LogoProps {
 
 export function Logo({
   size = "md",
-  variant: _variant = "default",
+  variant = "default",
   href = "/",
   className,
 }: LogoProps) {
   const spec = sizeMap[size];
+
+  // `variant="inverse"` is a stop-gap until a white-on-transparent logo
+  // PNG is commissioned. The CSS filter converts the navy artwork into
+  // a flat white silhouette — acceptable on the TerminalFooter, not
+  // ideal as a permanent solution. Track in brand backlog.
+  const inverseFilter = "[filter:brightness(0)_invert(1)]";
 
   const image = (
     <Image
@@ -44,7 +50,11 @@ export function Logo({
       width={spec.width}
       height={spec.height}
       priority
-      className={cn(spec.className, "select-none")}
+      className={cn(
+        spec.className,
+        "select-none",
+        variant === "inverse" && inverseFilter,
+      )}
     />
   );
 
