@@ -50,7 +50,7 @@ export function BestSellers({ items }: { items: MenuItem[] }) {
           <span className="block font-display font-bold uppercase tracking-eyebrow text-[11px] text-accent">
             02 — The Lineup
           </span>
-          <h2 className="mt-6 font-display font-bold uppercase tracking-tight leading-none text-text-primary text-3xl lg:text-4xl">
+          <h2 className="mt-6 font-display font-bold uppercase tracking-display leading-none text-text-primary text-3xl lg:text-4xl">
             <span className="block">Salad Bowls</span>
             <span className="block">
               <span className="text-text-disabled">&amp;</span> Power Plates
@@ -133,7 +133,7 @@ function LineupCell({ item }: { item: MenuItem }) {
       {/* Metadata block — p-6 inside the cell */}
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display font-bold uppercase tracking-tight leading-tight text-lg lg:text-xl text-text-primary">
+          <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg lg:text-xl text-text-primary">
             {item.title}
           </h3>
           <span className="font-display font-bold text-lg lg:text-xl text-text-primary shrink-0">

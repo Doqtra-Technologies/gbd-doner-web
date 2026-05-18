@@ -75,7 +75,7 @@ export function StoryMarqueeAndBrick() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: DUR.reveal, ease: EASE.editorial }}
-            className="font-display font-bold uppercase tracking-tight leading-none text-text-primary text-3xl lg:text-4xl"
+            className="font-display font-bold uppercase tracking-display leading-none text-text-primary text-3xl lg:text-4xl"
           >
             <span className="block">A doner</span>
             <span className="block">that earns</span>
@@ -123,7 +123,7 @@ function MarqueeTrack() {
           key={i}
           href="/our-story"
           className={cn(
-            "group inline-flex items-center gap-6 py-3 lg:py-4 px-8 font-display font-bold uppercase tracking-tight text-xl lg:text-2xl text-text-primary",
+            "group inline-flex items-center gap-6 py-3 lg:py-4 px-8 font-display font-bold uppercase tracking-display text-xl lg:text-2xl text-text-primary",
             "transition-colors duration-300 ease-smooth hover:text-accent",
           )}
         >

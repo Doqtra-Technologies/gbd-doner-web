@@ -54,7 +54,7 @@ export function Hero() {
               }}
               className="mt-auto"
             >
-              <h1 className="font-display font-bold uppercase tracking-tighter leading-[0.85] text-text-primary text-5xl lg:text-6xl max-w-[90%]">
+              <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-5xl lg:text-6xl max-w-[90%]">
                 <span className="block">British</span>
                 <span className="block">Doner</span>
                 <span className="block">

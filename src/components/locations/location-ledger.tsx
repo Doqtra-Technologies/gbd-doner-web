@@ -70,7 +70,7 @@ export function LocationLedger({
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="lg:border-r lg:border-border-hairline p-6 sm:p-8 lg:p-12">
             <Numeral index="04" label="The Branches" className="mb-6" />
-            <h2 className="font-display font-bold uppercase tracking-tight leading-none text-text-primary text-3xl lg:text-4xl">
+            <h2 className="font-display font-bold uppercase tracking-display leading-none text-text-primary text-3xl lg:text-4xl">
               <span className="block">Find your</span>
               <span className="block">
                 spot<span className="text-accent">.</span>
@@ -176,7 +176,7 @@ function LedgerRow({
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <h3 className="font-display font-bold uppercase tracking-tight leading-tight text-lg lg:text-xl truncate">
+          <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg lg:text-xl truncate">
             {location.city}
           </h3>
         </div>
