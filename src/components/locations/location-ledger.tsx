@@ -167,18 +167,30 @@ function LedgerRow({
           isHovered ? "bg-accent text-text-inverse" : "bg-canvas text-text-primary",
         )}
       >
-        <div className="flex items-baseline gap-4 sm:gap-8 min-w-0">
+        <div className="flex items-start gap-4 sm:gap-8 min-w-0">
           <span
             className={cn(
-              "font-display font-bold uppercase tracking-eyebrow text-[10px] shrink-0 transition-colors duration-300 ease-smooth",
+              "mt-1 font-display font-bold uppercase tracking-eyebrow text-[10px] shrink-0 transition-colors duration-300 ease-smooth",
               isHovered ? "text-text-inverse opacity-70" : "text-text-secondary",
             )}
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg lg:text-xl truncate">
-            {location.city}
-          </h3>
+          <div className="min-w-0">
+            <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg lg:text-xl truncate">
+              {location.name}
+            </h3>
+            <p
+              className={cn(
+                "mt-1 font-body text-xs sm:text-sm leading-snug truncate transition-colors duration-300 ease-smooth",
+                isHovered ? "text-text-inverse opacity-80" : "text-text-secondary",
+              )}
+            >
+              {[location.addressLine1, location.city, location.postcode]
+                .filter(Boolean)
+                .join(", ")}
+            </p>
+          </div>
         </div>
         <div className="flex flex-col items-end shrink-0 text-right">
           <span

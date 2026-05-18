@@ -1,4 +1,11 @@
-export type MenuCategorySlug = "bowls" | "plates" | "wraps" | "sides" | "drinks" | "desserts";
+export type MenuCategorySlug =
+  | "boxes"
+  | "wraps"
+  | "burgers"
+  | "combos"
+  | "sides"
+  | "drinks"
+  | "desserts";
 
 export interface Allergen {
   code: string;
@@ -27,7 +34,7 @@ export interface MenuItem {
   slug: string;
   title: string;
   description: string;
-  priceGBP: number;
+  priceGBP: number | null;
   imageUrl: string;
   category: MenuCategorySlug;
   isBestSeller: boolean;
