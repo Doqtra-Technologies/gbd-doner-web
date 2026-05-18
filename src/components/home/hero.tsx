@@ -54,7 +54,7 @@ export function Hero() {
               }}
               className="mt-auto"
             >
-              <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-5xl md:text-6xl lg:text-[5.5rem] max-w-[90%]">
+              <h1 className="font-display font-bold uppercase tracking-tighter leading-[0.85] text-text-primary text-5xl lg:text-6xl max-w-[90%]">
                 <span className="block">British</span>
                 <span className="block">Doner</span>
                 <span className="block">
@@ -62,7 +62,7 @@ export function Hero() {
                 </span>
               </h1>
 
-              <p className="mt-8 max-w-md font-body text-sm md:text-base leading-relaxed text-text-secondary">
+              <p className="mt-8 max-w-md font-body text-sm leading-relaxed text-text-secondary opacity-70">
                 Ethically sourced. Spit-fired. Built for the 90-second
                 lunch and the 1AM craving.
               </p>

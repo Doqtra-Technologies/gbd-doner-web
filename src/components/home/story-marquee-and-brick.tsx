@@ -75,7 +75,7 @@ export function StoryMarqueeAndBrick() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: DUR.reveal, ease: EASE.editorial }}
-            className="font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-4xl md:text-5xl lg:text-[3.5rem]"
+            className="font-display font-bold uppercase tracking-tight leading-none text-text-primary text-3xl lg:text-4xl"
           >
             <span className="block">A doner</span>
             <span className="block">that earns</span>
@@ -86,7 +86,7 @@ export function StoryMarqueeAndBrick() {
           </motion.h2>
 
           <div className="mt-auto flex flex-col gap-6">
-            <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary max-w-md">
+            <p className="font-body text-sm leading-relaxed text-text-secondary opacity-70 max-w-md">
               We&apos;re not a chain. We&apos;re a kitchen, a neighbourhood,
               and a way of eating that respects the source and the seat
               at the table.
@@ -123,7 +123,7 @@ function MarqueeTrack() {
           key={i}
           href="/our-story"
           className={cn(
-            "group inline-flex items-center gap-6 py-5 px-8 font-display font-bold uppercase tracking-display text-2xl md:text-3xl text-text-primary",
+            "group inline-flex items-center gap-6 py-3 lg:py-4 px-8 font-display font-bold uppercase tracking-tight text-xl lg:text-2xl text-text-primary",
             "transition-colors duration-300 ease-smooth hover:text-accent",
           )}
         >

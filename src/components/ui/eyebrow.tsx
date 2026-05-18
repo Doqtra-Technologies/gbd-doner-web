@@ -31,7 +31,7 @@ export function Eyebrow({
   return (
     <Tag
       className={cn(
-        "font-display font-bold uppercase tracking-eyebrow text-[11px]",
+        "font-display font-bold uppercase tracking-widest text-[10px]",
         toneClasses[tone],
         className,
       )}

@@ -100,7 +100,7 @@ function VibeInsiderBlock() {
           05 — Vibe Insider
         </span>
 
-        <h2 className="font-display font-bold uppercase tracking-display leading-[0.9] text-4xl md:text-5xl lg:text-[3.5rem]">
+        <h2 className="font-display font-bold uppercase tracking-tight leading-none text-3xl lg:text-4xl">
           <span className="block">Sign up to</span>
           <span className="block">
             our newsletter

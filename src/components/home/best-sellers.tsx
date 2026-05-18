@@ -50,7 +50,7 @@ export function BestSellers({ items }: { items: MenuItem[] }) {
           <span className="block font-display font-bold uppercase tracking-eyebrow text-[11px] text-accent">
             02 — The Lineup
           </span>
-          <h2 className="mt-6 font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-4xl md:text-5xl lg:text-[3.5rem]">
+          <h2 className="mt-6 font-display font-bold uppercase tracking-tight leading-none text-text-primary text-3xl lg:text-4xl">
             <span className="block">Salad Bowls</span>
             <span className="block">
               <span className="text-text-disabled">&amp;</span> Power Plates
@@ -133,15 +133,15 @@ function LineupCell({ item }: { item: MenuItem }) {
       {/* Metadata block — p-6 inside the cell */}
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg md:text-xl text-text-primary">
+          <h3 className="font-display font-bold uppercase tracking-tight leading-tight text-lg lg:text-xl text-text-primary">
             {item.title}
           </h3>
-          <span className="font-display font-bold text-lg text-text-primary shrink-0">
+          <span className="font-display font-bold text-lg lg:text-xl text-text-primary shrink-0">
             {formatGBP(item.priceGBP)}
           </span>
         </div>
 
-        <p className="mt-2 font-body text-sm leading-relaxed text-text-secondary opacity-80 line-clamp-2 flex-1">
+        <p className="mt-1 font-body text-sm leading-relaxed text-text-secondary opacity-70 line-clamp-2 flex-1">
           {item.description}
         </p>
 
@@ -171,7 +171,7 @@ function NutritionLedger({ cells }: { cells: ReadonlyArray<readonly [string, str
             i < cells.length - 1 && "border-r border-border-hairline",
           )}
         >
-          <dt className="font-body uppercase text-[10px] text-text-primary opacity-60">
+          <dt className="font-body uppercase tracking-widest text-[10px] text-text-primary opacity-60">
             {label}
           </dt>
           <dd className="font-display font-bold text-xs text-text-primary">

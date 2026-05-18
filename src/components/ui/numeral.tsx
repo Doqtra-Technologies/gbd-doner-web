@@ -39,7 +39,7 @@ export function Numeral({
   return (
     <div
       className={cn(
-        "flex items-center gap-4 font-display font-bold uppercase tracking-eyebrow text-[11px]",
+        "flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[10px]",
         toneClasses[tone],
         className,
       )}
