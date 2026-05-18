@@ -72,7 +72,7 @@ export function BestSellers() {
 
       {/* Product grid */}
       <div className="w-full flex justify-center border-b border-border-hairline">
-        <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 p-6 sm:p-8 lg:p-12">
+        <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 p-6 sm:p-8 lg:p-12 place-items-center">
           {items.map((item, i) => (
             <motion.div
               key={item.id}

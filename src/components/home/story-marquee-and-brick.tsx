@@ -57,7 +57,7 @@ export function StoryMarqueeAndBrick() {
           className="relative lg:col-span-8 lg:border-r lg:border-border-strong aspect-video lg:aspect-auto lg:min-h-[60vh] overflow-hidden"
         >
           <Image
-            src="https://images.unsplash.com/photo-1543353071-10c8ba85a904?auto=format&fit=crop&w=1800&q=85"
+            src="/home-story/1.png"
             alt="GBD kitchen counter — friends sharing food"
             fill
             sizes="(max-width: 1024px) 100vw, 66vw"

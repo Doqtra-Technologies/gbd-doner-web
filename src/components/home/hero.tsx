@@ -51,7 +51,7 @@ export function Hero() {
           }}
           className="text-center"
         >
-          <h1 className="font-display font-bold uppercase tracking-display text-7xl lg:text-9xl text-accent" style={{ WebkitTextStroke: "1.5px #000000", paintOrder: "stroke fill" }}>
+          <h1 className="font-display font-bold uppercase tracking-display text-8xl lg:text-[150px] text-accent" style={{ WebkitTextStroke: "2px #000000", paintOrder: "stroke fill" }}>
             GBD
           </h1>
         </motion.div>
