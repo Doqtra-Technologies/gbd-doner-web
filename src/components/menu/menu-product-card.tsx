@@ -41,7 +41,7 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
           alt={item.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-          className="object-cover rounded-none transition-transform duration-700 group-hover:scale-105"
+          className="object-contain rounded-none p-2 transition-transform duration-700 group-hover:scale-[1.03]"
         />
 
         {/* NEW badge */}
@@ -100,9 +100,11 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
             </div>
           )}
 
-          <div className="ml-auto font-display font-bold text-sm text-text-primary">
-            {formatGBP(item.priceGBP)}
-          </div>
+          {item.priceGBP !== null && (
+            <div className="ml-auto font-display font-bold text-sm text-text-primary">
+              {formatGBP(item.priceGBP)}
+            </div>
+          )}
         </div>
       </div>
     </article>

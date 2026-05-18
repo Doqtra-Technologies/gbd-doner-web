@@ -45,7 +45,7 @@ export function Logo({
 
   const image = (
     <Image
-      src="/logo.png"
+      src="/logo/logo.png"
       alt="Great British Doner"
       width={spec.width}
       height={spec.height}

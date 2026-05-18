@@ -10,7 +10,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Menu",
   description:
-    "Bowls, plates, wraps, sides. Built on ethically sourced doner, slow-spit roasted.",
+    "Boxes, wraps, burgers, sides, drinks, and desserts from GBD Doner.",
 };
 
 export default async function MenuPage() {

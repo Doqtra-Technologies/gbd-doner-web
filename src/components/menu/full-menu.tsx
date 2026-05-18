@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -118,17 +119,26 @@ export function FullMenu({
   return (
     <>
       {/* Compact intro band — replaces the previous editorial hero */}
-      <header className="bg-canvas border-b border-border-hairline">
-        <Container className="py-6 sm:py-8 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+      <header className="relative min-h-[48vh] sm:min-h-[56vh] lg:min-h-[64vh] overflow-hidden border-b border-border-hairline bg-surface-inverse">
+        <Image
+          src="/menu/banner/1.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-surface-inverse/45" />
+        <Container className="relative z-10 flex min-h-[48vh] flex-col justify-end gap-4 py-8 sm:min-h-[56vh] sm:py-10 lg:min-h-[64vh] lg:py-12">
           <div>
-            <Eyebrow tone="accent" className="block mb-2">
+            <Eyebrow tone="inverse" className="block mb-3">
               02 — The Menu
             </Eyebrow>
-            <h1 className="font-display font-bold uppercase tracking-display leading-none text-2xl md:text-3xl text-text-primary">
+            <h1 className="font-display font-bold uppercase tracking-display leading-none text-4xl sm:text-5xl lg:text-6xl text-text-inverse">
               The Full Catalog.
             </h1>
           </div>
-          <p className="font-body text-sm text-text-secondary opacity-70 max-w-md">
+          <p className="font-body text-sm sm:text-base text-text-inverse opacity-85 max-w-md">
             Prices include VAT. Allergens are advisory — flag anything
             in-store and we&apos;ll talk you through it.
           </p>
@@ -144,18 +154,6 @@ export function FullMenu({
       {/* Catalog */}
       <div className="bg-canvas min-h-screen pb-24">
         <Container className="pt-8">
-          {/* Promo Banner */}
-          <div className="bg-surface-inverse rounded-none p-4 sm:px-6 sm:py-5 flex items-center justify-between mb-8 sm:mb-12 cursor-pointer group transition-shadow">
-            <span className="font-display font-bold text-[10px] sm:text-xs text-text-inverse tracking-eyebrow uppercase">
-              LOGIN TO GBD INSIDERS TO EARN POINTS AND REDEEM REWARDS.
-            </span>
-            <div className="bg-canvas rounded-none w-8 h-8 flex items-center justify-center text-text-primary transition-transform group-hover:translate-x-1 flex-shrink-0 ml-4">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </div>
-          </div>
-
           <div className="flex flex-col gap-12 sm:gap-16">
             {populated.map(({ category, items: catItems }) => (
               <CategorySection
