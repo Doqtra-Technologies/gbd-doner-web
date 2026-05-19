@@ -24,6 +24,7 @@ export default function OurStoryPage() {
   );
 }
 
+
 function StoryHero({ section }: { section: StorySection }) {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 border-b border-border-hairline">
