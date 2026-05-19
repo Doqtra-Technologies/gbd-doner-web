@@ -20,7 +20,7 @@ const directory: ReadonlyArray<DirectoryColumn> = [
 
 export function Footer() {
   return (
-    <footer className="w-full bg-[#0F1E2D] text-white border-t border-white/10 antialiased">
+    <footer className="w-full bg-surface-inverse text-text-inverse border-t border-text-inverse/10 antialiased">
       <DirectoryMatrix />
       <NewsletterRow />
       <BaselineRow />
@@ -30,7 +30,7 @@ export function Footer() {
 
 function DirectoryMatrix() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 w-full border-b border-white/10">
+    <div className="grid grid-cols-1 md:grid-cols-4 w-full border-b border-text-inverse/10">
       {directory.map((col) => (
         <DirectoryCell key={col.title} title={col.title} links={col.links} />
       ))}
@@ -40,8 +40,8 @@ function DirectoryMatrix() {
 
 function DirectoryCell({ title, links }: DirectoryColumn) {
   return (
-    <div className="p-10 lg:p-16 border-b md:border-b-0 md:border-r border-white/10 last:border-r-0">
-      <h3 className="text-[9px] uppercase tracking-[0.2em] text-white/40 mb-8">
+    <div className="p-10 lg:p-16 border-b md:border-b-0 md:border-r border-text-inverse/10 last:border-r-0">
+      <h3 className="text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-8">
         {title}
       </h3>
       <ul>
@@ -58,7 +58,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
 function FooterLink({ href, label }: { href: string; label: string }) {
   const external = /^https?:\/\//.test(href);
   const className =
-    "block text-sm font-light text-white/80 hover:text-white transition-all duration-300 mb-4 hover:translate-x-1";
+    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 transition-all duration-300 mb-4 hover:translate-x-1";
 
   if (external) {
     return (
@@ -81,12 +81,12 @@ function FooterLink({ href, label }: { href: string; label: string }) {
 
 function NewsletterRow() {
   return (
-    <div className="w-full p-10 lg:p-16 border-b border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <div className="w-full p-10 lg:p-16 border-b border-text-inverse/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
       <div>
-        <span className="block text-[9px] uppercase tracking-[0.2em] text-white/40 mb-4">
+        <span className="block text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-4">
           {newsletter.heading}
         </span>
-        <p className="max-w-md text-sm text-white/70 font-light leading-relaxed">
+        <p className="max-w-md text-sm text-text-inverse opacity-70 font-light leading-relaxed">
           {newsletter.subtext}
         </p>
       </div>
@@ -101,12 +101,12 @@ function NewsletterRow() {
           name="email"
           required
           placeholder="your.email"
-          className="w-full appearance-none bg-transparent border-0 border-b border-white/20 py-4 text-2xl lg:text-3xl font-light text-white focus:outline-none focus:border-[#C94035] focus:ring-0 transition-colors duration-500 placeholder:text-white/20"
+          className="w-full appearance-none bg-transparent border-0 border-b border-text-inverse/20 py-4 text-2xl lg:text-3xl font-light text-text-inverse focus:outline-none focus:border-accent focus:ring-0 transition-colors duration-500 placeholder:text-text-inverse/20"
         />
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute right-0 bottom-5 text-white/50 group-hover:text-[#C94035] group-hover:translate-x-2 transition-all duration-300 cursor-pointer"
+          className="absolute right-0 bottom-5 text-text-inverse opacity-50 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 cursor-pointer"
         >
           <svg
             viewBox="0 0 24 24"
@@ -129,13 +129,13 @@ function NewsletterRow() {
 
 function BaselineRow() {
   return (
-    <div className="w-full px-10 py-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#0A141E]">
-      <p className="text-[10px] uppercase tracking-widest text-white/40">
+    <div className="w-full px-10 py-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-inverse border-t border-text-inverse/10">
+      <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
         {contact.copyright}
       </p>
       <a
         href={`mailto:${contact.email}`}
-        className="text-[10px] uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-300"
+        className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40 hover:opacity-100 transition-opacity duration-300"
       >
         {contact.email}
       </a>

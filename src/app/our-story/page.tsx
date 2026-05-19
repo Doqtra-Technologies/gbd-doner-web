@@ -29,7 +29,7 @@ function StoryHero({ section }: { section: StorySection }) {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 border-b border-border-hairline">
       <div className="lg:border-r lg:border-border-hairline p-8 sm:p-12 lg:p-16 flex flex-col gap-8">
-        <h1 className="font-display font-bold uppercase tracking-tight leading-none text-3xl lg:text-4xl text-text-primary">
+        <h1 className="font-display font-bold uppercase tracking-display leading-none text-3xl lg:text-4xl text-text-primary">
           {section.title}
         </h1>
         <div className="flex flex-col gap-4">
@@ -62,7 +62,7 @@ function StoryLedgerRow({ section }: { section: StorySection }) {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-12 border-b border-border-hairline">
       <div className="lg:col-span-5 p-8 sm:p-12 lg:p-16 flex flex-col gap-8">
-        <h2 className="font-display font-bold uppercase tracking-tight leading-none text-3xl lg:text-4xl text-text-primary">
+        <h2 className="font-display font-bold uppercase tracking-display leading-none text-3xl lg:text-4xl text-text-primary">
           {section.title}
         </h2>
         <div className="flex flex-col gap-4">

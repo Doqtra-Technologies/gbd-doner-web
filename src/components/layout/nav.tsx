@@ -23,7 +23,7 @@ export function Nav() {
 
   return (
     <>
-      <header className="fixed left-0 right-0 top-0 z-[100] border-b border-border-hairline bg-canvas/95 backdrop-blur">
+      <header className="fixed left-0 right-0 top-0 z-[100]">
         <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
           <button
             type="button"

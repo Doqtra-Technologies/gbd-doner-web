@@ -66,7 +66,7 @@ function CateringHero() {
       {/* Image column — full-bleed, touches the centerline from the right */}
       <div className="relative min-h-[50vh] lg:min-h-[80vh] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1800&q=85"
+          src="/catering/1.png"
           alt="GBD catering spread of doner plates and sides"
           fill
           priority
