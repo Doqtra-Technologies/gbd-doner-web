@@ -16,13 +16,62 @@ type Status = "idle" | "submitting" | "ok" | "error";
  */
 export function CateringForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    headcount: "",
+    message: "",
+  });
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
-    await new Promise((r) => setTimeout(r, 800));
-    setStatus("ok");
-    (e.target as HTMLFormElement).reset();
+
+    try {
+      // Collect form data
+      const form = e.target as HTMLFormElement;
+      const data = new FormData(form);
+      
+      const enquiry = {
+        name: data.get("name"),
+        email: data.get("email"),
+        company: data.get("company"),
+        headcount: parseInt(data.get("headcount") as string),
+        message: data.get("message"),
+      };
+
+      // Send to API
+      const response = await fetch("/api/catering-enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(enquiry),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit enquiry");
+      }
+
+      setStatus("ok");
+      form.reset();
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        headcount: "",
+        message: "",
+      });
+
+      // Reset status after 5 seconds
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setStatus("error");
+      // Reset error after 5 seconds
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   }
 
   return (
