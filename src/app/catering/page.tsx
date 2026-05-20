@@ -25,6 +25,7 @@ export default function CateringPage() {
   return (
     <main className="w-full bg-canvas">
       <CateringHero />
+      <CateringImageSection />
       <ArchitecturalEnquiryForm />
     </main>
   );
@@ -71,6 +72,22 @@ function CateringHero() {
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
+        />
+      </div>
+    </section>
+  );
+}
+
+function CateringImageSection() {
+  return (
+    <section className="w-full border-b border-border-hairline">
+      <div className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] overflow-hidden">
+        <Image
+          src="/catering/2.png"
+          alt="GBD catering event setup with team enjoying food"
+          fill
+          sizes="100vw"
           className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
         />
       </div>
