@@ -15,15 +15,14 @@ export default function OurStoryPage() {
   const [hero, ...rows] = storyData.sections;
 
   return (
-    <article className="w-full bg-canvas">
+    <div className="flex flex-col gap-16">
       <StoryHero section={hero} />
       {rows.map((section) => (
         <StoryLedgerRow key={section.title} section={section} />
       ))}
-    </article>
+    </div>
   );
 }
-
 
 function StoryHero({ section }: { section: StorySection }) {
   return (
