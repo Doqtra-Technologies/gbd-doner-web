@@ -32,7 +32,7 @@ export function StickyCategoryNav({
   return (
     <nav
       aria-label="Menu categories"
-      className="sticky top-20 z-40 w-full bg-canvas/90 backdrop-blur-md border-b border-border-hairline"
+      className="w-full bg-canvas border-b border-border-hairline"
     >
       <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-4 px-5 sm:px-8 lg:px-12">
         <Pill

@@ -18,6 +18,8 @@ export function LocationCard({ location }: { location: Location }) {
     setHoveredId,
     activeCoordinates,
     filteredLocations,
+    directionsLocationId,
+    setDirectionsLocationId,
   } = useLocationState();
   const isSelected = selectedId === location.id;
   const isHovered = hoveredId === location.id;
@@ -120,6 +122,14 @@ export function LocationCard({ location }: { location: Location }) {
             Click + Collect
           </CardActionLink>
         )}
+        <button
+          type="button"
+          onClick={() => setDirectionsLocationId(location.id)}
+          className="group/cta inline-flex items-center gap-1 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-colors duration-300 ease-smooth hover:text-accent"
+        >
+          Get Directions
+          <span aria-hidden>→</span>
+        </button>
         <CardActionLink href={`/locations/${location.slug}`} variant="tertiary">
           Store info
         </CardActionLink>
