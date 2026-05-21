@@ -60,7 +60,10 @@ export function Nav() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+            className={cn(
+              "group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center transition-colors duration-700 ease-smooth",
+              isHomepage && !showBackground ? "text-white" : "text-text-primary"
+            )}
           >
             <span className="sr-only">Menu</span>
             <span className="relative block h-3.5 w-7">

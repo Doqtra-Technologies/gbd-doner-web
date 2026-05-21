@@ -1,22 +1,17 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { MenuCategory } from "@/domain/menu-item";
 
 /**
  * StickyCategoryNav — frictionless ordering's primary affordance.
  *
- * A horizontally-scrollable pill bar pinned beneath the global navbar
- * (`sticky top-20`). As the user scrolls through the categories below,
- * the active pill highlights and the bar stays in reach — no return to
- * the top, no menu jumping.
+ * A horizontally-scrollable pill bar that starts inline with the menu,
+ * then becomes fixed to the navbar as you scroll past it.
  *
  * Pills are pure ALL/BOWLS/PLATES… labels. "All" snaps to the top of
- * the catalog; every other pill smooth-scrolls to its category anchor
- * (`#bowls`, `#plates`, …). Active state inverts to navy fill.
- *
- * The bar has a `backdrop-blur-md` over a 90%-opacity canvas so it
- * floats over imagery without erasing the page underneath.
+ * the catalog; every other pill smooth-scrolls to its category anchor.
  */
 export interface StickyCategoryNavProps {
   categories: MenuCategory[];
@@ -29,10 +24,39 @@ export function StickyCategoryNav({
   activeSlug,
   onSelect,
 }: StickyCategoryNavProps) {
+  const navRef = useRef<HTMLDivElement>(null);
+  const [isFixed, setIsFixed] = useState(false);
+
+  useEffect(() => {
+    if (!navRef.current) return;
+
+    const handleScroll = () => {
+      if (!navRef.current) return;
+
+      // Get the position of the nav element relative to viewport
+      const rect = navRef.current.getBoundingClientRect();
+      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
+
+      // Make fixed when nav top position is at or above navbar height
+      // Detach when nav top position is below navbar height (when scrolling up)
+      setIsFixed(rect.top <= navbarHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Call once on mount to set initial state
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <nav
+      ref={navRef}
       aria-label="Menu categories"
-      className="w-full bg-canvas border-b border-border-hairline"
+      className={cn(
+        "w-full bg-canvas border-b border-border-hairline transition-all duration-300 ease-smooth",
+        isFixed && "fixed top-20 left-0 right-0 z-40"
+      )}
     >
       <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-4 px-5 sm:px-8 lg:px-12">
         <Pill
