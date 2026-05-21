@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { LocationStateProvider } from "@/components/locations/location-state";
+import { useCallback } from "react";
+import { LocationStateProvider, useLocationState } from "@/components/locations/location-state";
 import { LocationsSidebar } from "@/components/locations/locations-sidebar";
+import { DirectionsDialog } from "@/components/ui/directions-dialog";
 import type { Location } from "@/domain/location";
 
 /**
@@ -39,6 +41,29 @@ const LocationsMap = dynamic(
 export function LocationsLayout({ locations }: { locations: Location[] }) {
   return (
     <LocationStateProvider locations={locations}>
+      <LocationsLayoutInner />
+    </LocationStateProvider>
+  );
+}
+
+function LocationsLayoutInner() {
+  const { directionsLocationId, setDirectionsLocationId, allLocations } =
+    useLocationState();
+
+  const selectedLocation = allLocations.find(
+    (l) => l.id === directionsLocationId,
+  );
+
+  const handleDirectionsConfirm = useCallback(() => {
+    if (!selectedLocation) return;
+    const { coordinates, name } = selectedLocation;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}&destination_place_id=${name}`;
+    window.open(url, "_blank");
+    setDirectionsLocationId(null);
+  }, [selectedLocation, setDirectionsLocationId]);
+
+  return (
+    <>
       <main className="flex h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] w-screen flex-col md:flex-row overflow-hidden bg-canvas min-w-0 min-h-0">
         <LocationsSidebar />
 
@@ -47,6 +72,15 @@ export function LocationsLayout({ locations }: { locations: Location[] }) {
           <LocationsMap />
         </div>
       </main>
-    </LocationStateProvider>
+
+      {selectedLocation && (
+        <DirectionsDialog
+          isOpen={directionsLocationId !== null}
+          locationName={selectedLocation.name}
+          onClose={() => setDirectionsLocationId(null)}
+          onConfirm={handleDirectionsConfirm}
+        />
+      )}
+    </>
   );
 }

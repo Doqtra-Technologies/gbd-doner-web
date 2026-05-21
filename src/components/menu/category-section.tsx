@@ -37,10 +37,10 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
         data-category-slug={category.slug}
         // Scroll-margin compensates for the sticky navbar + pill bar so
         // smooth-scroll lands the section header below them, not under them.
-        className="scroll-mt-[10rem]"
+        className="scroll-mt-[10rem] flex flex-col gap-6"
       >
         {/* Header row */}
-        <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:gap-4 mb-6">
+        <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:gap-4">
           <h2 className="font-display font-bold uppercase tracking-display leading-none text-xl sm:text-2xl md:text-[28px] text-text-primary">
             {category.label}
           </h2>

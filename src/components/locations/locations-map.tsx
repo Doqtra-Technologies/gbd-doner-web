@@ -41,6 +41,7 @@ export function LocationsMap() {
     hoveredId,
     setHoveredId,
     activeCoordinates,
+    setDirectionsLocationId,
   } = useLocationState();
 
   // Initialise the map once.
@@ -127,7 +128,11 @@ export function LocationsMap() {
       if (markersRef.current.has(loc.id)) return;
       const icon = createLocationMarkerIcon(loc.name);
       const marker = L.marker([loc.coordinates.lat, loc.coordinates.lng], { icon });
-      marker.on("click", () => setSelectedId(loc.id));
+      marker.on("click", () => {
+        setSelectedId(loc.id);
+        // Show directions dialog on marker click
+        setTimeout(() => setDirectionsLocationId(loc.id), 100);
+      });
       marker.on("mouseover", () => setHoveredId(loc.id));
       marker.on("mouseout", () => setHoveredId(null));
       marker.addTo(map);

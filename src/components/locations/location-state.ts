@@ -45,6 +45,9 @@ interface LocationStateContextValue {
 
   allLocations: Location[];
   filteredLocations: Location[];
+
+  directionsLocationId: string | null;
+  setDirectionsLocationId: (id: string | null) => void;
 }
 
 const LocationStateContext = createContext<LocationStateContextValue | null>(null);
@@ -68,6 +71,7 @@ export function LocationStateProvider({
   const [filter, setFilterRaw] = useState<string>("all");
   const [selectedId, setSelectedIdRaw] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [directionsLocationId, setDirectionsLocationId] = useState<string | null>(null);
 
   const cities = useMemo(() => {
     const set = new Set<string>();
@@ -158,6 +162,8 @@ export function LocationStateProvider({
       setHoveredId,
       allLocations: locations,
       filteredLocations,
+      directionsLocationId,
+      setDirectionsLocationId,
     }),
     [
       query,
@@ -174,6 +180,7 @@ export function LocationStateProvider({
       hoveredId,
       locations,
       filteredLocations,
+      directionsLocationId,
     ],
   );
 

@@ -15,19 +15,19 @@ export default function OurStoryPage() {
   const [hero, ...rows] = storyData.sections;
 
   return (
-    <article className="w-full bg-canvas">
+    <div className="flex flex-col">
       <StoryHero section={hero} />
       {rows.map((section) => (
         <StoryLedgerRow key={section.title} section={section} />
       ))}
-    </article>
+    </div>
   );
 }
 
 function StoryHero({ section }: { section: StorySection }) {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 border-b border-border-hairline">
-      <div className="lg:border-r lg:border-border-hairline p-8 sm:p-12 lg:p-16 flex flex-col gap-8">
+      <div className="lg:border-r lg:border-border-hairline p-10 lg:p-16 flex flex-col justify-center gap-8">
         <h1 className="font-display font-bold uppercase tracking-display leading-none text-3xl lg:text-4xl text-text-primary">
           {section.title}
         </h1>
@@ -43,14 +43,14 @@ function StoryHero({ section }: { section: StorySection }) {
         </div>
       </div>
 
-      <div className="relative aspect-[4/5] lg:aspect-auto lg:min-h-[60vh] overflow-hidden">
+      <div className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden">
         <Image
           src={section.images[0]}
           alt={section.title}
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
     </section>
@@ -60,7 +60,7 @@ function StoryHero({ section }: { section: StorySection }) {
 function StoryLedgerRow({ section }: { section: StorySection }) {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-12 border-b border-border-hairline">
-      <div className="lg:col-span-5 p-8 sm:p-12 lg:p-16 flex flex-col gap-8">
+      <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-center gap-8">
         <h2 className="font-display font-bold uppercase tracking-display leading-none text-3xl lg:text-4xl text-text-primary">
           {section.title}
         </h2>
@@ -81,7 +81,7 @@ function StoryLedgerRow({ section }: { section: StorySection }) {
           <div
             key={src}
             className={cn(
-              "relative aspect-[4/5] overflow-hidden",
+              "relative w-full aspect-square md:aspect-[4/5] overflow-hidden",
               i > 0 && "md:border-l md:border-border-hairline",
             )}
           >
@@ -90,7 +90,7 @@ function StoryLedgerRow({ section }: { section: StorySection }) {
               alt={`${section.title} — frame ${i + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, 25vw"
-              className="object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
         ))}

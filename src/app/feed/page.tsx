@@ -29,7 +29,7 @@ export default function FeedPage() {
 function FeedHero({ featured }: { featured: FeedArticle }) {
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline w-full">
-      <div className="md:col-span-4 md:border-r md:border-border-hairline flex flex-col justify-between gap-12 p-8 lg:p-12 min-h-[40vh] md:min-h-[500px]">
+      <div className="md:col-span-4 md:border-r md:border-border-hairline flex flex-col justify-center gap-12 p-10 lg:p-16">
         <span className="font-body uppercase tracking-eyebrow text-xs text-text-secondary">
           The Feed
         </span>
@@ -47,7 +47,7 @@ function FeedHero({ featured }: { featured: FeedArticle }) {
         </p>
       </div>
 
-      <div className="relative md:col-span-8 min-h-[55vh] md:min-h-[500px] bg-surface-inverse overflow-hidden">
+      <div className="relative md:col-span-8 w-full aspect-square md:aspect-video lg:aspect-[21/9] bg-surface-inverse overflow-hidden">
         <Link
           href={featured.slug}
           aria-label={featured.title}
@@ -59,20 +59,20 @@ function FeedHero({ featured }: { featured: FeedArticle }) {
             fill
             priority
             sizes="(max-width: 768px) 100vw, 66vw"
-            className="object-cover opacity-70 [filter:contrast(1.04)_saturate(1.06)_brightness(0.98)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
+            className="w-full h-full object-cover opacity-70 [filter:contrast(1.04)_saturate(1.06)_brightness(0.98)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
           />
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12">
-            <span className="block font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent mb-4">
+          <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12 flex flex-col gap-4">
+            <span className="block font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
               Featured · {featured.category}
             </span>
             <h2 className="font-display font-bold uppercase tracking-display leading-tight text-text-inverse text-2xl md:text-3xl lg:text-[2.25rem] max-w-3xl">
               {featured.title}
             </h2>
-            <p className="mt-4 font-body text-sm text-text-inverse opacity-80 max-w-xl line-clamp-2">
+            <p className="font-body text-sm text-text-inverse opacity-80 max-w-xl line-clamp-2">
               {featured.excerpt}
             </p>
-            <span className="mt-6 inline-flex items-center gap-2 font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-inverse border-b border-text-inverse pb-1 transition-colors duration-300 ease-smooth group-hover:text-accent group-hover:border-accent">
+            <span className="inline-flex w-fit items-center gap-2 font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-inverse border-b border-text-inverse pb-1 transition-colors duration-300 ease-smooth group-hover:text-accent group-hover:border-accent">
               Read Article
               <span
                 aria-hidden
@@ -130,19 +130,19 @@ function ArticleCard({ article }: { article: FeedArticle }) {
         aria-label={article.title}
         className="block"
       >
-        <div className="relative w-full aspect-[4/5] md:aspect-square overflow-hidden border-b border-border-hairline">
+        <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden border-b border-border-hairline">
           <Image
             src={article.image}
             alt={article.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
+            className="w-full h-full object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
           />
         </div>
       </Link>
 
-      <div className="flex flex-col flex-grow p-6 lg:p-8">
-        <span className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent mb-4">
+      <div className="flex flex-col flex-grow justify-center gap-4 p-8 lg:p-12">
+        <span className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
           {article.category}
         </span>
 
@@ -155,11 +155,11 @@ function ArticleCard({ article }: { article: FeedArticle }) {
           </Link>
         </h3>
 
-        <p className="mt-4 font-body text-sm leading-relaxed text-text-secondary opacity-70 line-clamp-3">
+        <p className="font-body text-sm leading-relaxed text-text-secondary opacity-70 line-clamp-3">
           {article.excerpt}
         </p>
 
-        <div className="mt-auto pt-8">
+        <div className="mt-auto pt-4">
           <Link
             href={article.slug}
             className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-primary border-b border-border-strong pb-0.5 transition-colors duration-300 ease-smooth hover:text-accent hover:border-accent"

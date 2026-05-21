@@ -119,19 +119,19 @@ export function FullMenu({
   return (
     <>
       {/* Compact intro band — replaces the previous editorial hero */}
-      <header className="relative min-h-[48vh] sm:min-h-[56vh] lg:min-h-[64vh] overflow-hidden border-b border-border-hairline bg-surface-inverse">
+      <header className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse">
         <Image
           src="/menu/banner/1.png"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-surface-inverse/45" />
-        <Container className="relative z-10 flex min-h-[48vh] flex-col justify-end gap-4 py-8 sm:min-h-[56vh] sm:py-10 lg:min-h-[64vh] lg:py-12">
-          <div>
-            <Eyebrow tone="inverse" className="block mb-3">
+        <Container className="absolute inset-0 z-10 flex h-full flex-col justify-end gap-4 pb-10 lg:pb-16">
+          <div className="flex flex-col gap-3">
+            <Eyebrow tone="inverse" className="block">
               02 — The Menu
             </Eyebrow>
             <h1 className="font-display font-bold uppercase tracking-display leading-none text-4xl sm:text-5xl lg:text-6xl text-text-inverse">

@@ -35,13 +35,13 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
   return (
     <article className="relative flex h-full flex-col group cursor-pointer border-r border-b border-border-hairline p-2 sm:p-3">
       {/* Image cell */}
-      <div className="relative w-full aspect-square rounded-none overflow-hidden mb-3 bg-canvas">
+      <div className="relative w-full aspect-square md:aspect-[4/5] rounded-none overflow-hidden mb-3 bg-canvas">
         <Image
           src={item.imageUrl}
           alt={item.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-          className="object-contain rounded-none p-2 transition-transform duration-700 group-hover:scale-[1.03]"
+          className="w-full h-full object-cover rounded-none transition-transform duration-700 group-hover:scale-[1.03]"
         />
 
         {/* NEW badge */}
