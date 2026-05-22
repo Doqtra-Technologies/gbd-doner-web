@@ -26,20 +26,27 @@ export function StickyCategoryNav({
 }: StickyCategoryNavProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(false);
+  const originalOffsetRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!navRef.current) return;
 
+    // Store the original top offset position once
+    if (originalOffsetRef.current === null) {
+      originalOffsetRef.current = navRef.current.offsetTop;
+    }
+
     const handleScroll = () => {
-      if (!navRef.current) return;
+      if (!navRef.current || originalOffsetRef.current === null) return;
 
-      // Get the position of the nav element relative to viewport
-      const rect = navRef.current.getBoundingClientRect();
       const navbarHeight = 80; // Height of navbar (h-20 = 80px)
-
-      // Make fixed when nav top position is at or above navbar height
-      // Detach when nav top position is below navbar height (when scrolling up)
-      setIsFixed(rect.top <= navbarHeight);
+      const scrollPosition = window.scrollY;
+      
+      // Calculate when the filter should become fixed
+      // It becomes fixed when we scroll past its original position minus navbar height
+      const shouldBeFixed = scrollPosition > (originalOffsetRef.current - navbarHeight);
+      
+      setIsFixed(shouldBeFixed);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
