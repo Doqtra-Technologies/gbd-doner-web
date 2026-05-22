@@ -51,12 +51,10 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
           )}
         </div>
 
-        {/* Spaced Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+        {/* Architectural grid — flush 1px hairlines, no gap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border-hairline">
           {items.map((item) => (
-            <div key={item.id}>
-              <MenuProductCard item={item} />
-            </div>
+            <MenuProductCard key={item.id} item={item} />
           ))}
         </div>
       </section>

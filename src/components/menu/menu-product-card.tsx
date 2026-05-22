@@ -1,109 +1,74 @@
 "use client";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { formatGBP } from "@/lib/utils";
 import type { MenuItem } from "@/domain/menu-item";
 
 /**
- * MenuProductCard — the high-density ordering atom.
+ * MenuProductCard — Atis-style architectural card with strict flex-grow.
  *
- * Sits as a cell inside the 4-column matrix. Sharp corners. No card
- * fill. Each cell contributes its right + bottom hairlines to the
- * surrounding grid; the orchestrator cancels the edge borders.
+ *   ┌────────────────────────┐
+ *   │   aspect-square        │ ← locked 1:1, never stretches
+ *   │       image            │
+ *   ├────────────────────────┤
+ *   │ p-6 lg:p-8 flex-grow   │ ← content block fills remaining height
+ *   │ TITLE                   │
+ *   │ description (line-3)    │
+ *   │                         │ ← empty space absorbed here
+ *   │ £11.50      CAL  PROT  │ ← mt-auto pinned to bottom
+ *   └────────────────────────┘
  *
- * Composition:
- *   ┌──────────────────────┐
- *   │   aspect-square      │
- *   │       image          │
- *   │                  (+)│ ← absolute add button bottom-right
- *   ├──────────────────────┤
- *   │ p-4                   │
- *   │ TITLE                 │
- *   │ description (2-line)  │
- *   │                       │
- *   │ (V) (GF)        £11.5│ ← badges + price (auto bottom)
- *   │ Kcal 620 · P 42g ...  │ ← macros eyebrow
- *   └──────────────────────┘
- *
- * The `+` button is the conversion moment — it's a 32×32 circular
- * affordance overlaying the photograph at `bottom-3 right-3`. Hover
- * fills it with brand red. The whole card has no link-on-image — only
- * the title is clickable, so the `+` doesn't fight a wrapping anchor.
+ * The flex-grow on the content block is mandatory — when the grid row
+ * is taller than this card's natural content (because a sibling card
+ * has a longer description), flex-grow absorbs the extra height and
+ * mt-auto pushes the footer to the absolute bottom. Without flex-grow,
+ * the empty space sits between description and footer.
  */
 export function MenuProductCard({ item }: { item: MenuItem }) {
   return (
-    <article className="relative flex h-full flex-col group cursor-pointer border-r border-b border-border-hairline p-2 sm:p-3">
-      {/* Image cell */}
-      <div className="relative w-full aspect-square md:aspect-[4/5] rounded-none overflow-hidden mb-3 bg-canvas">
-        <Image
-          src={item.imageUrl}
-          alt={item.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-          className="w-full h-full object-cover rounded-none transition-transform duration-700 group-hover:scale-[1.03]"
-        />
-
-        {/* NEW badge */}
-        <div className="absolute top-3 left-3 bg-canvas border border-border-strong text-text-primary font-display font-bold text-[10px] tracking-eyebrow uppercase px-2 py-0.5 rounded-none z-10">
-          NEW!
+    <article className="flex flex-col h-full w-full bg-canvas border-b md:border-b-0 md:border-r border-border-hairline md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0 group">
+      <div className="w-full aspect-square overflow-hidden border-b border-border-hairline bg-text-primary/[0.03] p-6 lg:p-8">
+        <div className="relative w-full h-full">
+          <Image
+            src={item.imageUrl}
+            alt={item.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+            className="w-full h-full object-contain drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
+          />
         </div>
-
-        {/* Quick-add affordance */}
-        <button
-          type="button"
-          aria-label={`Add ${item.title} to order`}
-          className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-canvas border border-border-strong text-text-primary transition-colors duration-300 ease-smooth hover:bg-accent hover:border-accent hover:text-text-inverse z-10"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            width="14"
-            height="14"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-        </button>
       </div>
 
-      {/* Data block */}
-      <div className="flex flex-col flex-grow px-1">
-        <h3 className="font-display font-bold uppercase tracking-display leading-tight text-base sm:text-lg text-text-primary">
-          {item.title} <span className="font-normal opacity-80 text-sm">[NEW]</span>
+      <div className="p-6 lg:p-8 flex flex-col flex-grow">
+        <h3 className="text-base lg:text-lg font-display font-bold uppercase text-text-primary mb-2">
+          {item.title}
         </h3>
-
-        <p className="mt-1 font-body text-[13px] leading-snug text-text-primary opacity-80 line-clamp-2">
+        <p className="text-sm font-body text-text-secondary leading-relaxed line-clamp-3">
           {item.description}
         </p>
 
-        {/* Footer — pinned to bottom, inline layout */}
-        <div className="mt-auto pt-3 flex items-center flex-wrap gap-x-2 gap-y-1">
-          {/* Dietary Flags */}
-          <div className="flex gap-1">
-            {item.dietaryFlags?.map((flag) => (
-              <DietaryBadge key={flag} flag={flag} />
-            ))}
-          </div>
-
-          {/* Nutrition & Price */}
-          {item.nutrition && (
-            <div className="flex items-center flex-wrap gap-x-1.5 font-body text-[11px] text-text-primary opacity-90">
-              <span>Kcal <span className="font-bold">{item.nutrition.calories}</span></span>
-              <span>Protein <span className="font-bold">{item.nutrition.protein}g</span></span>
-              <span>Carbs <span className="font-bold">{item.nutrition.carbs}g</span></span>
-              <span>Fat <span className="font-bold">{item.nutrition.fat}g</span></span>
-            </div>
+        <div className="mt-auto pt-6 w-full flex justify-between items-end">
+          {item.priceGBP !== null ? (
+            <span className="text-lg font-bold text-text-primary">
+              {formatGBP(item.priceGBP)}
+            </span>
+          ) : (
+            <span />
           )}
 
-          {item.priceGBP !== null && (
-            <div className="ml-auto font-display font-bold text-sm text-text-primary">
-              {formatGBP(item.priceGBP)}
+          {item.nutrition ? (
+            <div className="flex items-end gap-4">
+              <MacroPair label="Cal" value={`${item.nutrition.calories}`} />
+              <MacroPair label="Protein" value={`${item.nutrition.protein}g`} />
             </div>
+          ) : (
+            <button
+              type="button"
+              aria-label={`Add ${item.title}`}
+              className="text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors"
+            >
+              Add →
+            </button>
           )}
         </div>
       </div>
@@ -111,33 +76,15 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
   );
 }
 
-function DietaryBadge({ flag }: { flag: string }) {
+function MacroPair({ label, value }: { label: string; value: string }) {
   return (
-    <span
-      title={dietaryLabel(flag)}
-      className={cn(
-        "inline-flex h-4 w-4 items-center justify-center rounded-none border border-border-strong",
-        "font-display font-bold uppercase text-[8px] tracking-eyebrow text-text-primary",
-      )}
-    >
-      {flag}
-    </span>
+    <div>
+      <span className="block text-[9px] uppercase tracking-widest text-text-secondary">
+        {label}
+      </span>
+      <span className="block text-[10px] font-bold text-text-primary">
+        {value}
+      </span>
+    </div>
   );
-}
-
-function dietaryLabel(flag: string): string {
-  switch (flag) {
-    case "V":
-      return "Vegetarian";
-    case "VG":
-      return "Vegan";
-    case "GF":
-      return "Gluten-free";
-    case "DF":
-      return "Dairy-free";
-    case "N":
-      return "Contains nuts";
-    default:
-      return flag;
-  }
 }
