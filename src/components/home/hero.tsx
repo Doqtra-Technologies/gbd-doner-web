@@ -12,6 +12,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { DUR, EASE } from "@/brand/motion";
+import { BrushHighlight } from "@/components/ui/brush-highlight";
 
 /**
  * Hero — fullscreen cinematic video stage for the homepage.
@@ -31,8 +32,6 @@ import { DUR, EASE } from "@/brand/motion";
  * diverge from the global CTAButton system, which is tuned for light
  * surfaces.
  */
-
-const RED = "#C94035";
 
 // Fine film grain, generated inline so it ships without an asset request.
 const GRAIN =
@@ -74,7 +73,7 @@ export function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: DUR.drift, ease: EASE.editorial }}
         style={{ y: videoY }}
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0 z-[1] will-change-transform"
       >
         <motion.div
           initial={{ scale: reduceMotion ? 1 : 1.06 }}
@@ -93,46 +92,40 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Overlays ────────────────────────────────────────────────── */}
-      {/* 1 · Deep navy cinematic grade. */}
-      <div aria-hidden className="absolute inset-0 bg-gbd-navy/55 mix-blend-multiply" />
-      {/* 2 · Directional darkness — anchors text on the left, releases the
-             food on the right. Lighter mid-tones on desktop. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-r from-[#0A121C]/95 via-[#0F1E2D]/60 to-transparent md:via-[#0F1E2D]/35"
-      />
-      {/* 3 · Bottom lift — keeps the low-sitting mobile content readable. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-[#0A121C]/90 via-transparent to-transparent md:from-[#0F1E2D]/40"
-      />
-      {/* 4 · Vignette — soft cinematic fall-off at the edges. */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 120% at 48% 45%, transparent 50%, rgba(10,18,28,0.55) 100%)",
-        }}
-      />
-      {/* 5 · Film grain — fine, low-opacity, overlay-blended. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.11] mix-blend-overlay"
-        style={{ backgroundImage: GRAIN, backgroundSize: "200px 200px" }}
-      />
+      {/* ── Overlays (z-2: above the video, below the content) ───────── */}
+      <div aria-hidden className="absolute inset-0 z-[2]">
+        {/* 1 · Deep navy cinematic grade. */}
+        <div className="absolute inset-0 bg-gbd-navy/55 mix-blend-multiply" />
+        {/* 2 · Directional darkness — anchors text on the left, releases the
+               food on the right. Lighter mid-tones on desktop. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A121C]/95 via-[#0F1E2D]/60 to-transparent md:via-[#0F1E2D]/35" />
+        {/* 3 · Bottom lift — keeps the low-sitting mobile content readable. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A121C]/90 via-transparent to-transparent md:from-[#0F1E2D]/40" />
+        {/* 4 · Vignette — soft cinematic fall-off at the edges. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(120% 120% at 48% 45%, transparent 50%, rgba(10,18,28,0.55) 100%)",
+          }}
+        />
+        {/* 5 · Film grain — fine, low-opacity, overlay-blended. */}
+        <div
+          className="absolute inset-0 opacity-[0.11] mix-blend-overlay"
+          style={{ backgroundImage: GRAIN, backgroundSize: "200px 200px" }}
+        />
+      </div>
 
-      {/* ── Content ─────────────────────────────────────────────────── */}
+      {/* ── Content (z-20: above overlays) ───────────────────────────── */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-10 flex min-h-[100svh] items-end md:items-center"
+        className="relative z-20 flex min-h-[100svh] items-end md:items-center"
       >
         <div
           className="w-full pb-24 pr-6 md:pb-0"
           style={{ paddingLeft: "clamp(32px, 6vw, 120px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
         >
-          <div className="max-w-[720px]">
+          <div className="max-w-[620px]">
             {/* Micro-label */}
             <motion.div
               variants={rise}
@@ -149,7 +142,7 @@ export function Hero() {
 
             {/* Headline */}
             <h1
-              className="mt-6 font-campaign uppercase text-white text-[clamp(3.25rem,11vw,9rem)]"
+              className="mt-6 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)]"
               style={{ lineHeight: 0.9, letterSpacing: "-0.04em" }}
             >
               <motion.span
@@ -162,15 +155,16 @@ export function Hero() {
                 More Meat
               </motion.span>
 
-              {/* Brush-highlighted line: paint wipes in, then the word rises. */}
-              <span className="relative block">
-                <BrushStroke reduceMotion={!!reduceMotion} />
+              {/* Brush-highlighted line: inline-block so the swipe hugs the
+                  word (not the full column), paint wipes in, then it rises. */}
+              <span className="relative inline-block">
+                <BrushHighlight delay={0.5} />
                 <motion.span
                   variants={rise}
                   custom={0.62}
                   initial="hidden"
                   animate="show"
-                  className="relative z-10 block"
+                  className="relative z-[2] block"
                 >
                   More Flavor
                 </motion.span>
@@ -245,75 +239,6 @@ export function Hero() {
         </span>
       </motion.div>
     </section>
-  );
-}
-
-/**
- * BrushStroke — an organic GBD-red paint swipe behind "MORE FLAVOR".
- *
- * The shape is a hand-drawn-style path roughened by an SVG turbulence +
- * displacement filter (imperfect, semi-organic edges) with a faint grain
- * overlay for paint texture. It is angled slightly and wipes on left→right
- * via an animated clip-path before the word settles above it.
- */
-function BrushStroke({ reduceMotion }: { reduceMotion: boolean }) {
-  return (
-    <motion.span
-      aria-hidden
-      initial={{ clipPath: reduceMotion ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)" }}
-      animate={{ clipPath: "inset(0 0% 0 0)" }}
-      transition={{ duration: reduceMotion ? 0 : 0.7, ease: EASE.editorial, delay: reduceMotion ? 0 : 0.5 }}
-      className="pointer-events-none absolute left-[-5%] right-[-5%] top-[10%] bottom-[6%] z-0"
-      style={{ rotate: -2.5 }}
-    >
-      <svg
-        viewBox="0 0 640 180"
-        preserveAspectRatio="none"
-        className="h-full w-full"
-      >
-        <defs>
-          <filter id="gbd-brush-rough" x="-12%" y="-45%" width="124%" height="190%">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.014 0.028"
-              numOctaves="2"
-              seed="11"
-              result="t"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="t"
-              scale="26"
-              xChannelSelector="R"
-              yChannelSelector="G"
-              result="d"
-            />
-            <feGaussianBlur in="d" stdDeviation="0.7" />
-          </filter>
-          <filter id="gbd-brush-grain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="4" result="n" />
-            <feColorMatrix
-              in="n"
-              type="matrix"
-              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0"
-            />
-          </filter>
-          <clipPath id="gbd-brush-clip">
-            <path d="M14,110 C72,84 152,74 252,79 C362,84 482,66 612,84 C630,86 632,150 612,151 C470,156 330,168 210,155 C120,146 60,150 22,141 C6,137 2,120 14,110 Z" />
-          </clipPath>
-        </defs>
-        <g filter="url(#gbd-brush-rough)">
-          <path
-            d="M14,110 C72,84 152,74 252,79 C362,84 482,66 612,84 C630,86 632,150 612,151 C470,156 330,168 210,155 C120,146 60,150 22,141 C6,137 2,120 14,110 Z"
-            fill={RED}
-          />
-          {/* Paint texture — dark specks clipped to the swipe silhouette. */}
-          <g clipPath="url(#gbd-brush-clip)" style={{ mixBlendMode: "multiply" }}>
-            <rect width="640" height="180" filter="url(#gbd-brush-grain)" opacity="0.3" />
-          </g>
-        </g>
-      </svg>
-    </motion.span>
   );
 }
 

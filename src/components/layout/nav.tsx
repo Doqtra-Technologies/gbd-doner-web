@@ -48,11 +48,17 @@ export function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomepage]);
 
+  // Cinematic navbar: white type sits on dark glass (scrolled) or over the
+  // dark hero (homepage top). Dark type only over a light page at the top.
+  const onDark = showBackground || isHomepage;
+
   return (
     <>
       <header className={cn(
-        "fixed left-0 right-0 top-0 z-[100] transition-colors duration-700 ease-smooth",
-        showBackground ? "bg-canvas" : "bg-transparent"
+        "fixed left-0 right-0 top-0 z-[100] border-b transition-[background-color,backdrop-filter,border-color] duration-500 ease-smooth",
+        showBackground
+          ? "bg-[rgba(15,30,45,0.72)] backdrop-blur-[18px] border-white/[0.06]"
+          : "bg-transparent border-transparent"
       )}>
         <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
           <button
@@ -62,7 +68,7 @@ export function Nav() {
             onClick={() => setOpen((v) => !v)}
             className={cn(
               "group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center transition-colors duration-700 ease-smooth",
-              isHomepage && !showBackground ? "text-white" : "text-text-primary"
+              onDark ? "text-white" : "text-text-primary"
             )}
           >
             <span className="sr-only">Menu</span>
@@ -86,7 +92,7 @@ export function Nav() {
             "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-smooth",
             showLogo ? "opacity-100" : "opacity-0 pointer-events-none"
           )}>
-            <Logo size="md" />
+            <Logo size="md" variant={onDark ? "inverse" : "default"} />
           </div>
 
           <CTAButton variant="primary" size="md" href="/locations" className="ml-auto">

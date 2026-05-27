@@ -1,7 +1,12 @@
 import Link from "next/link";
+import { CTAButton } from "@/components/ui/cta-button";
 import { globalData } from "@/data/content";
 
 const { newsletter, footerLists, contact } = globalData;
+
+// Fine film grain, generated inline so it ships without an asset request.
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 type DirectoryColumn = {
   title: string;
@@ -20,11 +25,67 @@ const directory: ReadonlyArray<DirectoryColumn> = [
 
 export function Footer() {
   return (
-    <footer className="w-full bg-surface-inverse text-text-inverse border-t border-text-inverse/10 antialiased">
-      <DirectoryMatrix />
-      <NewsletterRow />
-      <BaselineRow />
+    <footer className="relative w-full overflow-hidden bg-surface-inverse text-text-inverse antialiased">
+      {/* ── Cinematic atmosphere ─────────────────────────────────────── */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{ background: "linear-gradient(180deg, #0F1E2D 0%, #0A121C 100%)" }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{ background: "radial-gradient(65% 55% at 50% 100%, rgba(201,64,53,0.12), transparent 72%)" }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 opacity-[0.05] mix-blend-overlay"
+        style={{ backgroundImage: GRAIN, backgroundSize: "200px 200px" }}
+      />
+
+      <div className="border-t border-text-inverse/10">
+        <CinematicBand />
+        <DirectoryMatrix />
+        <NewsletterRow />
+        <BaselineRow />
+      </div>
     </footer>
+  );
+}
+
+/**
+ * CinematicBand — the final-scene brand statement. Oversized wordmark type
+ * with a red micro-label and a high-priority CTA, set on the atmospheric
+ * navy gradient so the footer opens like a campaign sign-off.
+ */
+function CinematicBand() {
+  return (
+    <div className="border-b border-text-inverse/10 px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-9">
+          <div className="flex items-center gap-3.5">
+            <span aria-hidden className="h-px w-9 bg-gbd-red" />
+            <span className="font-display text-[11px] font-bold uppercase tracking-eyebrow text-accent">
+              Find Your GBD
+            </span>
+          </div>
+          <h2
+            className="mt-6 font-campaign uppercase text-white text-[clamp(2.5rem,8vw,6.5rem)]"
+            style={{ lineHeight: 0.9, letterSpacing: "-0.03em" }}
+          >
+            <span className="block">Great British</span>
+            <span className="block">
+              Doner<span className="text-accent">.</span>
+            </span>
+          </h2>
+        </div>
+        <div className="lg:col-span-3 lg:flex lg:justify-end">
+          <CTAButton variant="primary" size="lg" href="/locations">
+            Order Now
+          </CTAButton>
+        </div>
+      </div>
+    </div>
   );
 }
 
