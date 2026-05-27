@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Open_Sans } from "next/font/google";
+import { Montserrat, Open_Sans, Anton } from "next/font/google";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/config";
@@ -16,6 +16,14 @@ const montserrat = Montserrat({
 const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-open-sans",
+  weight: ["400"],
+  display: "swap",
+});
+
+// Campaign display face — scoped to the homepage hero headline only.
+const anton = Anton({
+  subsets: ["latin"],
+  variable: "--font-anton",
   weight: ["400"],
   display: "swap",
 });
@@ -48,7 +56,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${openSans.variable} ${anton.variable}`}
+    >
       <body className="font-body antialiased">
         <Nav />
         <main className="pt-20">{children}</main>

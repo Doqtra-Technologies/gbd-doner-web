@@ -40,6 +40,8 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-montserrat)", "system-ui", "sans-serif"],
         body: ["var(--font-open-sans)", "system-ui", "sans-serif"],
+        // Hero-only campaign face. Not for general product use.
+        campaign: ["var(--font-anton)", "var(--font-montserrat)", "sans-serif"],
       },
       letterSpacing: {
         display: "0.02em",
