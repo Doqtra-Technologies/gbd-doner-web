@@ -84,9 +84,12 @@ export function LocationCard({ location }: { location: Location }) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-bold uppercase tracking-display text-sm text-text-primary truncate">
-              {location.name}
-            </h3>
+            <div className="flex min-w-0 items-center gap-1.5">
+              <h3 className="font-display font-bold uppercase tracking-display text-sm text-text-primary truncate">
+                {location.name}
+              </h3>
+              {location.isFlagship && <FlagshipChip />}
+            </div>
             <OpeningStatusChip status={status} />
           </div>
 
@@ -173,6 +176,18 @@ function CardActionLink({
       {children}
       {variant === "tertiary" && <span aria-hidden>→</span>}
     </Link>
+  );
+}
+
+function FlagshipChip() {
+  return (
+    <span
+      title="Flagship branch"
+      className="inline-flex shrink-0 items-center gap-1 border border-accent/40 bg-accent/10 px-1.5 py-0.5 font-display font-bold uppercase tracking-eyebrow text-[8px] text-accent"
+    >
+      <span aria-hidden className="inline-block h-1 w-1 rounded-full bg-accent" />
+      Flagship
+    </span>
   );
 }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LocationsLayout } from "@/components/locations/locations-layout";
 import { getLocations } from "@/data/repositories/locations-repository";
+import { getLocationsPageSettings } from "@/data/repositories/site-settings-repository";
 
 export const revalidate = 60;
 
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function LocationsPage() {
-  const locations = await getLocations();
+  const [locations, pageSettings] = await Promise.all([
+    getLocations(),
+    getLocationsPageSettings(),
+  ]);
 
-  return <LocationsLayout locations={locations} />;
+  return <LocationsLayout locations={locations} pageSettings={pageSettings} />;
 }

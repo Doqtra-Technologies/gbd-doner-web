@@ -2,37 +2,28 @@
 
 import { useState, type FormEvent } from "react";
 import { CTAButton } from "@/components/ui/cta-button";
+import type { CateringFormSettings } from "@/domain/site-settings";
 
 type Status = "idle" | "submitting" | "ok" | "error";
 
 /**
  * CateringForm — bottom-border-only fields.
  *
- * Strips all default browser chrome (rounded corners, default outlines,
- * background fills) so every input is just a label + a 1px line.
- * Focus snaps the line to GBD Red. The form sits inside the 4/8 grid
- * defined by the page; it owns its internal 2-column matrix with tight
- * column gaps and architectural row spacing.
+ * All copy (field labels, placeholders, button text, status messages) is
+ * driven by `settings` so the client can edit any of it from
+ * wp-admin -> Site Settings -> Catering Form. Structure is fixed.
  */
-export function CateringForm() {
+export function CateringForm({ settings }: { settings: CateringFormSettings }) {
   const [status, setStatus] = useState<Status>("idle");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    headcount: "",
-    message: "",
-  });
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
 
     try {
-      // Collect form data
       const form = e.target as HTMLFormElement;
       const data = new FormData(form);
-      
+
       const enquiry = {
         name: data.get("name"),
         email: data.get("email"),
@@ -41,12 +32,9 @@ export function CateringForm() {
         message: data.get("message"),
       };
 
-      // Send to API
       const response = await fetch("/api/catering-enquiry", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(enquiry),
       });
 
@@ -56,20 +44,10 @@ export function CateringForm() {
 
       setStatus("ok");
       form.reset();
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        headcount: "",
-        message: "",
-      });
-
-      // Reset status after 5 seconds
       setTimeout(() => setStatus("idle"), 5000);
     } catch (error) {
       console.error("Form submission error:", error);
       setStatus("error");
-      // Reset error after 5 seconds
       setTimeout(() => setStatus("idle"), 5000);
     }
   }
@@ -79,28 +57,36 @@ export function CateringForm() {
       onSubmit={onSubmit}
       className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16"
     >
-      <Field label="Name" name="name" required placeholder="Jane Smith" />
       <Field
-        label="Email"
+        label={settings.fieldNameLabel}
+        name="name"
+        required
+        placeholder={settings.fieldNamePlaceholder}
+      />
+      <Field
+        label={settings.fieldEmailLabel}
         name="email"
         type="email"
         required
-        placeholder="jane@company.com"
+        placeholder={settings.fieldEmailPlaceholder}
       />
-      <Field label="Company" name="company" placeholder="Company Ltd." />
       <Field
-        label="Headcount"
+        label={settings.fieldCompanyLabel}
+        name="company"
+        placeholder={settings.fieldCompanyPlaceholder}
+      />
+      <Field
+        label={settings.fieldHeadcountLabel}
         name="headcount"
         type="number"
         required
-        placeholder="e.g. 40"
+        placeholder={settings.fieldHeadcountPlaceholder}
       />
-
       <Field
-        label="Tell us about the event"
+        label={settings.fieldMessageLabel}
         name="message"
         textarea
-        placeholder="Date, venue, vibe — anything that helps us plan."
+        placeholder={settings.fieldMessagePlaceholder}
         className="sm:col-span-2"
       />
 
@@ -109,10 +95,10 @@ export function CateringForm() {
           className="font-body text-sm text-text-secondary min-h-[1.25rem]"
           aria-live="polite"
         >
-          {status === "idle" && "We'll get back to you within one working day."}
-          {status === "submitting" && "Sending your brief…"}
-          {status === "ok" && "Thanks — your brief is in. We'll reply shortly."}
-          {status === "error" && "Something went wrong — please try again."}
+          {status === "idle" && settings.statusIdle}
+          {status === "submitting" && settings.statusSending}
+          {status === "ok" && settings.statusSuccess}
+          {status === "error" && settings.statusError}
         </p>
         <CTAButton
           type="submit"
@@ -120,7 +106,7 @@ export function CateringForm() {
           size="lg"
           disabled={status === "submitting"}
         >
-          {status === "submitting" ? "Sending…" : "Send Brief"}
+          {status === "submitting" ? settings.submitLabelSending : settings.submitLabel}
         </CTAButton>
       </div>
     </form>
@@ -145,8 +131,6 @@ function Field({
   className?: string;
 }) {
   const id = `catering-${name}`;
-  // appearance-none + border-0 + border-b strips all browser defaults.
-  // Only the bottom border remains. Focus snaps it to brand red.
   const fieldClass =
     "w-full appearance-none rounded-none bg-transparent border-0 border-b border-border-hairline px-0 py-3 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none focus:ring-0 focus:border-accent transition-colors duration-300 ease-smooth";
 

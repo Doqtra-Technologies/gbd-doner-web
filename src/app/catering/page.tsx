@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CTAButton } from "@/components/ui/cta-button";
 import { CateringForm } from "@/app/catering/catering-form";
+import { getCateringSettings } from "@/data/repositories/site-settings-repository";
+import type { CateringFormSettings } from "@/domain/site-settings";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -21,12 +25,13 @@ export const metadata: Metadata = {
  * 1px hairlines do the structural work that padding usually does in
  * SaaS-template layouts.
  */
-export default function CateringPage() {
+export default async function CateringPage() {
+  const cateringSettings = await getCateringSettings();
   return (
     <main className="w-full bg-canvas">
       <CateringHero />
       <CateringImageSection />
-      <ArchitecturalEnquiryForm />
+      <ArchitecturalEnquiryForm settings={cateringSettings} />
     </main>
   );
 }
@@ -95,7 +100,7 @@ function CateringImageSection() {
   );
 }
 
-function ArchitecturalEnquiryForm() {
+function ArchitecturalEnquiryForm({ settings }: { settings: CateringFormSettings }) {
   return (
     <section
       id="enquiry"
@@ -105,27 +110,41 @@ function ArchitecturalEnquiryForm() {
       <aside className="lg:col-span-4 lg:border-r lg:border-border-hairline">
         <div className="lg:sticky lg:top-20 p-8 sm:p-12 lg:p-16 flex flex-col gap-10">
           <span className="font-body uppercase tracking-eyebrow text-xs text-accent">
-            05 — Enquiry
+            {settings.eyebrow}
           </span>
           <h2 className="font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-3xl md:text-4xl lg:text-[2.5rem] max-w-[12ch]">
-            <span className="block">Let&apos;s fuel</span>
-            <span className="block">your next</span>
-            <span className="block">
-              event<span className="text-accent">.</span>
-            </span>
+            {settings.headingLines.map((line, i) => (
+              <span key={i} className="block">
+                {renderLineWithAccentDot(line)}
+              </span>
+            ))}
           </h2>
           <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary max-w-sm">
-            Tell us a little about your event. We&apos;ll come back with
-            a tailored menu, pricing, and timings — within one working
-            day.
+            {settings.lead}
           </p>
         </div>
       </aside>
 
       {/* Form matrix — col-span-8 */}
       <div className="lg:col-span-8 p-8 sm:p-12 lg:p-16">
-        <CateringForm />
+        <CateringForm settings={settings} />
       </div>
     </section>
+  );
+}
+
+/**
+ * Splits a line at the last "." so the dot is rendered in accent red,
+ * matching the original hardcoded design ("event<span class="accent">.</span>").
+ * Lines without a "." render unchanged.
+ */
+function renderLineWithAccentDot(line: string): React.ReactNode {
+  const idx = line.lastIndexOf(".");
+  if (idx === -1) return line;
+  return (
+    <>
+      {line.slice(0, idx)}
+      <span className="text-accent">{line.slice(idx)}</span>
+    </>
   );
 }

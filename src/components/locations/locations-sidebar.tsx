@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { useLocationState } from "@/components/locations/location-state";
 import { StickyLocationHeader } from "@/components/locations/sticky-location-header";
 import { LocationCard } from "@/components/locations/location-card";
+import type { LocationsPageSettings } from "@/domain/site-settings";
+import { LOCATIONS_PAGE_DEFAULTS } from "@/data/repositories/site-settings-repository";
 
 /**
  * Left panel of the locations split-screen.
@@ -17,7 +19,11 @@ import { LocationCard } from "@/components/locations/location-card";
  * When the user selects a branch (via map or by clicking another list item),
  * that item scrolls into view inside the sidebar.
  */
-export function LocationsSidebar() {
+export function LocationsSidebar({
+  pageSettings = LOCATIONS_PAGE_DEFAULTS,
+}: {
+  pageSettings?: LocationsPageSettings;
+}) {
   const { filteredLocations, selectedId } = useLocationState();
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +39,11 @@ export function LocationsSidebar() {
 
   return (
     <aside className="contents md:flex md:h-full md:w-[360px] md:min-w-0 md:shrink-0 md:flex-col md:overflow-hidden md:border-r md:border-border-hairline md:bg-canvas lg:w-[440px] xl:w-[480px] 2xl:w-[520px]">
-      <StickyLocationHeader className="order-1 md:order-none shrink-0 min-w-0" />
+      <StickyLocationHeader
+        className="order-1 md:order-none shrink-0 min-w-0"
+        eyebrow={pageSettings.eyebrow}
+        heading={pageSettings.heading}
+      />
 
       <div
         ref={listRef}
@@ -42,7 +52,7 @@ export function LocationsSidebar() {
       >
         {filteredLocations.length === 0 ? (
           <p className="font-body text-sm text-text-disabled py-8 text-center">
-            No locations match your search.
+            {pageSettings.emptyState}
           </p>
         ) : (
           filteredLocations.map((loc) => (

@@ -6,6 +6,8 @@ import { LocationStateProvider, useLocationState } from "@/components/locations/
 import { LocationsSidebar } from "@/components/locations/locations-sidebar";
 import { DirectionsDialog } from "@/components/ui/directions-dialog";
 import type { Location } from "@/domain/location";
+import type { LocationsPageSettings } from "@/domain/site-settings";
+import { LOCATIONS_PAGE_DEFAULTS } from "@/data/repositories/site-settings-repository";
 
 /**
  * Operational locations surface.
@@ -38,15 +40,21 @@ const LocationsMap = dynamic(
   },
 );
 
-export function LocationsLayout({ locations }: { locations: Location[] }) {
+export function LocationsLayout({
+  locations,
+  pageSettings = LOCATIONS_PAGE_DEFAULTS,
+}: {
+  locations: Location[];
+  pageSettings?: LocationsPageSettings;
+}) {
   return (
     <LocationStateProvider locations={locations}>
-      <LocationsLayoutInner />
+      <LocationsLayoutInner pageSettings={pageSettings} />
     </LocationStateProvider>
   );
 }
 
-function LocationsLayoutInner() {
+function LocationsLayoutInner({ pageSettings }: { pageSettings: LocationsPageSettings }) {
   const { directionsLocationId, setDirectionsLocationId, allLocations } =
     useLocationState();
 
@@ -65,7 +73,7 @@ function LocationsLayoutInner() {
   return (
     <>
       <main className="flex h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] w-screen flex-col md:flex-row overflow-hidden bg-canvas min-w-0 min-h-0">
-        <LocationsSidebar />
+        <LocationsSidebar pageSettings={pageSettings} />
 
         {/* Map — preview on mobile, fullscreen on desktop */}
         <div className="order-2 md:order-none relative z-[10] flex-none h-[40vh] sm:h-[45vh] md:flex-1 md:h-full min-w-0 min-h-0 overflow-hidden">

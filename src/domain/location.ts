@@ -23,4 +23,5 @@ export interface Location {
   clickAndCollectUrl: string | null;
   deliveryLinks: DeliveryLink[];
   imageUrl?: string | null;
+  isFlagship?: boolean;
 }

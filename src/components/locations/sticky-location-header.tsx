@@ -6,7 +6,15 @@ import { LocationFilters } from "@/components/locations/location-filters";
 import { useLocationState } from "@/components/locations/location-state";
 import { cn } from "@/lib/utils";
 
-export function StickyLocationHeader({ className }: { className?: string }) {
+export function StickyLocationHeader({
+  className,
+  eyebrow = "Locations",
+  heading = "Find your nearest branch for pickup or delivery.",
+}: {
+  className?: string;
+  eyebrow?: string;
+  heading?: string;
+}) {
   const { filteredLocations } = useLocationState();
 
   return (
@@ -17,10 +25,10 @@ export function StickyLocationHeader({ className }: { className?: string }) {
       )}
     >
       <Eyebrow tone="accent" className="block mb-2">
-        Locations
+        {eyebrow}
       </Eyebrow>
       <p className="font-display font-bold uppercase tracking-display text-sm text-text-primary">
-        Find your nearest branch for pickup or delivery.
+        {heading}
       </p>
 
       <div className="mt-4 space-y-3">

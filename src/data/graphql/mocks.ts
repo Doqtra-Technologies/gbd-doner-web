@@ -663,6 +663,7 @@ export const MOCK_LOCATIONS: Location[] = [
     id: "loc-1",
     slug: "deansgate",
     name: "GBD Deansgate",
+    isFlagship: true,
     addressLine1: "Bridge Street",
     addressLine2: null,
     city: "Manchester",

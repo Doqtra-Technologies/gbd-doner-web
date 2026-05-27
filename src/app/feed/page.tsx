@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { getPosts } from "@/data/repositories/posts-repository";
+import { getFeedPageSettings } from "@/data/repositories/site-settings-repository";
 import { feedData } from "@/data/content";
+import type { Post } from "@/domain/post";
+import type { FeedPageSettings } from "@/domain/site-settings";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "The Feed",
@@ -17,33 +23,60 @@ type FeedArticle = {
   slug: string;
 };
 
-export default function FeedPage() {
+const FALLBACK_IMAGE = "/blog/1.png";
+
+function postToArticle(post: Post): FeedArticle {
+  return {
+    category: (post.category ?? "BLOG").toUpperCase(),
+    title: post.title,
+    excerpt: post.excerpt ?? "",
+    image: post.featuredImageUrl ?? FALLBACK_IMAGE,
+    slug: `/feed/${post.slug}`,
+  };
+}
+
+export default async function FeedPage() {
+  const [posts, pageSettings] = await Promise.all([
+    getPosts(),
+    getFeedPageSettings(),
+  ]);
+
+  const articles = posts.map(postToArticle);
+  const featured: FeedArticle = articles[0] ?? feedData.featuredArticle;
+  const grid: FeedArticle[] = articles.slice(1);
+
   return (
     <main className="w-full bg-canvas">
-      <FeedHero featured={feedData.featuredArticle} />
-      <ArticleGrid articles={feedData.gridArticles} />
+      <FeedHero featured={featured} pageSettings={pageSettings} />
+      <ArticleGrid articles={grid} emptyState={pageSettings.emptyState} />
     </main>
   );
 }
 
-function FeedHero({ featured }: { featured: FeedArticle }) {
+function FeedHero({
+  featured,
+  pageSettings,
+}: {
+  featured: FeedArticle;
+  pageSettings: FeedPageSettings;
+}) {
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline w-full">
       <div className="md:col-span-4 md:border-r md:border-border-hairline flex flex-col justify-center gap-12 p-10 lg:p-16">
         <span className="font-body uppercase tracking-eyebrow text-xs text-text-secondary">
-          The Feed
+          {pageSettings.eyebrow}
         </span>
 
         <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-4xl sm:text-5xl lg:text-[4rem] max-w-[12ch]">
-          <span className="block">Words from</span>
-          <span className="block">
-            the spit<span className="text-accent">.</span>
-          </span>
+          {pageSettings.headingLines.map((line, i) => (
+            <span key={i} className="block">
+              {renderLineWithAccentDot(line)}
+            </span>
+          ))}
         </h1>
 
         <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary opacity-70 max-w-md">
-          Nutrition deep-dives, store openings, and the people behind the
-          brand.
+          {pageSettings.lead}
         </p>
       </div>
 
@@ -88,12 +121,18 @@ function FeedHero({ featured }: { featured: FeedArticle }) {
   );
 }
 
-function ArticleGrid({ articles }: { articles: ReadonlyArray<FeedArticle> }) {
+function ArticleGrid({
+  articles,
+  emptyState,
+}: {
+  articles: ReadonlyArray<FeedArticle>;
+  emptyState: string;
+}) {
   if (articles.length === 0) {
     return (
       <section className="py-24 text-center">
         <p className="font-body text-sm text-text-secondary opacity-70">
-          More stories arriving soon.
+          {emptyState}
         </p>
       </section>
     );
@@ -119,6 +158,22 @@ function ArticleGrid({ articles }: { articles: ReadonlyArray<FeedArticle> }) {
         </div>
       ))}
     </section>
+  );
+}
+
+/**
+ * Splits a line at the last "." so the dot is rendered in accent red,
+ * matching the original hardcoded design ("the spit<span class="accent">.</span>").
+ * Lines without a "." render unchanged.
+ */
+function renderLineWithAccentDot(line: string): React.ReactNode {
+  const idx = line.lastIndexOf(".");
+  if (idx === -1) return line;
+  return (
+    <>
+      {line.slice(0, idx)}
+      <span className="text-accent">{line.slice(idx)}</span>
+    </>
   );
 }
 

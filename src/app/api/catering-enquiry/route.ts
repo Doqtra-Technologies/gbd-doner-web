@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { getCateringSettings } from "@/data/repositories/site-settings-repository";
 
 /**
  * POST /api/catering-enquiry
@@ -61,8 +62,14 @@ ${message}
 This enquiry was submitted from the GBD Doner website.
     `.trim();
 
-    // Get recipient email (default to placeholder)
-    const recipientEmail = process.env.CATERING_EMAIL_TO || "info@gbddoner.com";
+    // Recipient priority: WP "Site Settings -> Catering -> Recipient email"
+    // -> env CATERING_EMAIL_TO -> hardcoded fallback. This lets the client
+    // change where enquiries go from wp-admin without touching env vars.
+    const settings = await getCateringSettings();
+    const recipientEmail =
+      settings.recipientEmail ||
+      process.env.CATERING_EMAIL_TO ||
+      "info@gbddoner.com";
 
     // Try to send email if SMTP is configured
     if (
