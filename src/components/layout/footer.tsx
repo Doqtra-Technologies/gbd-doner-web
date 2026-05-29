@@ -80,7 +80,7 @@ function CinematicBand() {
           </h2>
         </div>
         <div className="lg:col-span-3 lg:flex lg:justify-end">
-          <CTAButton variant="primary" size="lg" href="/locations">
+          <CTAButton variant="primary" size="lg" href="/order-now">
             Order Now
           </CTAButton>
         </div>

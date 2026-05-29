@@ -201,7 +201,7 @@ export function Hero() {
               className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
             >
               {/* Primary — solid red, magnetic, soft glow */}
-              <MagneticButton href="/locations" reduceMotion={!!reduceMotion}>
+              <MagneticButton href="/order-now" reduceMotion={!!reduceMotion}>
                 Choose Your Fuel
               </MagneticButton>
 
