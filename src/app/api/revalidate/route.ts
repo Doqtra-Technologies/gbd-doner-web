@@ -6,11 +6,11 @@ export const dynamic = "force-dynamic";
 
 const POST_TYPE_PATHS: Record<string, string[]> = {
   menu_item: ["/menu"],
-  location: ["/locations"],
+  location: ["/order-now", "/locations"],
   post: ["/feed"],
   // Triggered by the Site Settings (theme-options) save in WP.
   // Touches every page that reads editable copy from siteSettings.
-  site_settings: ["/catering", "/locations", "/feed"],
+  site_settings: ["/catering", "/order-now", "/feed"],
 };
 
 type RevalidatePayload = {

@@ -55,7 +55,7 @@ export function CateringForm({ settings }: { settings: CateringFormSettings }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16"
+      className="w-full grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 lg:gap-x-8 lg:gap-y-6"
     >
       <Field
         label={settings.fieldNameLabel}
@@ -90,9 +90,9 @@ export function CateringForm({ settings }: { settings: CateringFormSettings }) {
         className="sm:col-span-2"
       />
 
-      <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-4">
+      <div className="sm:col-span-2 flex flex-col items-center gap-4 pt-3">
         <p
-          className="font-body text-sm text-text-secondary min-h-[1.25rem]"
+          className="min-h-[1.25rem] text-center font-body text-sm text-text-secondary"
           aria-live="polite"
         >
           {status === "idle" && settings.statusIdle}
@@ -132,11 +132,13 @@ function Field({
 }) {
   const id = `catering-${name}`;
   const fieldClass =
-    "w-full appearance-none rounded-none bg-transparent border-0 border-b border-border-hairline px-0 py-3 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none focus:ring-0 focus:border-accent transition-colors duration-300 ease-smooth";
+    textarea
+      ? "w-full min-h-[120px] appearance-none rounded-[14px] border border-border-hairline bg-canvas px-4 py-4 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none focus:ring-0 focus:border-accent transition-colors duration-300 ease-smooth"
+      : "w-full appearance-none rounded-[14px] border border-border-hairline bg-canvas px-4 py-3 font-body text-base text-text-primary placeholder:text-text-disabled focus:outline-none focus:ring-0 focus:border-accent transition-colors duration-300 ease-smooth";
 
   return (
     <label htmlFor={id} className={"flex flex-col gap-2 " + className}>
-      <span className="font-body uppercase tracking-eyebrow text-[11px] text-text-secondary">
+      <span className="font-body text-[11px] uppercase tracking-eyebrow text-text-secondary">
         {label}
         {required && <span className="text-accent ml-1">*</span>}
       </span>

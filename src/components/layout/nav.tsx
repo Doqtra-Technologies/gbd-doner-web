@@ -95,7 +95,7 @@ export function Nav() {
             <Logo size="md" variant={onDark ? "inverse" : "default"} />
           </div>
 
-          <CTAButton variant="primary" size="md" href="/locations" className="ml-auto">
+          <CTAButton variant="primary" size="md" href="/order-now" className="ml-auto">
             Order Now
           </CTAButton>
         </div>

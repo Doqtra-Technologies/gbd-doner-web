@@ -28,123 +28,98 @@ export const metadata: Metadata = {
 export default async function CateringPage() {
   const cateringSettings = await getCateringSettings();
   return (
-    <main className="w-full bg-canvas">
+    <main className="w-full bg-canvas text-text-primary">
       <CateringHero />
-      <CateringImageSection />
-      <ArchitecturalEnquiryForm settings={cateringSettings} />
+      <CateringRequestForm settings={cateringSettings} />
     </main>
   );
 }
 
 function CateringHero() {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 border-b border-border-hairline lg:min-h-[80vh]">
-      {/* Type column — pushes copy to the centerline from the left */}
-      <div className="lg:border-r lg:border-border-hairline flex flex-col justify-between gap-12 p-8 sm:p-12 lg:p-16 lg:pr-12 min-h-[55vh] lg:min-h-[80vh]">
-        <span className="font-body uppercase tracking-eyebrow text-xs text-text-secondary">
-          Catering · 10 – 500 Pax
-        </span>
-
-        <div>
-          <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-5xl md:text-6xl lg:text-[5.5rem] max-w-[10ch]">
-            <span className="block">Fuel</span>
-            <span className="block">
-              your team<span className="text-accent">.</span>
-            </span>
-          </h1>
-          <p className="mt-10 font-body text-base md:text-lg leading-relaxed text-text-secondary max-w-md">
-            Office lunches, conference takeovers, late-night refuels. We
-            bring the spit, the flatbreads, and the energy — you bring
-            the appetite.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
-          <CTAButton variant="primary" size="lg" href="#enquiry">
-            Request a Quote
-          </CTAButton>
-          <CTAButton variant="tertiary" href="/menu">
-            Browse the menu
-          </CTAButton>
-        </div>
-      </div>
-
-      {/* Image column — full-bleed, touches the centerline from the right */}
-      <div className="relative min-h-[50vh] lg:min-h-[80vh] overflow-hidden">
-        <Image
-          src="/catering/1.png"
-          alt="GBD catering spread of doner plates and sides"
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
-        />
-      </div>
-    </section>
-  );
-}
-
-function CateringImageSection() {
-  return (
-    <section className="w-full border-b border-border-hairline">
-      <div className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] overflow-hidden">
-        <Image
-          src="/catering/2.png"
-          alt="GBD catering event setup with team enjoying food"
-          fill
-          sizes="100vw"
-          className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
-        />
-      </div>
-    </section>
-  );
-}
-
-function ArchitecturalEnquiryForm({ settings }: { settings: CateringFormSettings }) {
-  return (
-    <section
-      id="enquiry"
-      className="grid grid-cols-1 lg:grid-cols-12 border-y border-border-hairline"
-    >
-      {/* Sticky anchor — col-span-4 */}
-      <aside className="lg:col-span-4 lg:border-r lg:border-border-hairline">
-        <div className="lg:sticky lg:top-20 p-8 sm:p-12 lg:p-16 flex flex-col gap-10">
-          <span className="font-body uppercase tracking-eyebrow text-xs text-accent">
-            {settings.eyebrow}
+    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fffdf8_0%,#fff7eb_100%)]">
+      <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10 lg:py-12">
+        <div className="flex flex-col justify-center gap-6 lg:pr-6">
+          <span className="inline-flex w-fit rounded-full bg-[#efe4ce] px-4 py-1 font-display text-[10px] font-bold uppercase tracking-[0.32em] text-text-primary">
+            Elevate your meeting
           </span>
-          <h2 className="font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-3xl md:text-4xl lg:text-[2.5rem] max-w-[12ch]">
-            {settings.headingLines.map((line, i) => (
-              <span key={i} className="block">
-                {renderLineWithAccentDot(line)}
-              </span>
-            ))}
-          </h2>
-          <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary max-w-sm">
-            {settings.lead}
-          </p>
-        </div>
-      </aside>
 
-      {/* Form matrix — col-span-8 */}
-      <div className="lg:col-span-8 p-8 sm:p-12 lg:p-16">
-        <CateringForm settings={settings} />
+          <h1 className="max-w-[10ch] font-display text-[clamp(3rem,7vw,5.5rem)] font-bold uppercase tracking-display leading-[0.88] text-text-primary">
+            Modern street food, made for everyday life
+          </h1>
+
+          <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+            Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience.
+          </p>
+
+          <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+            Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <CTAButton variant="primary" size="lg" href="/menu">
+              Explore Menu
+            </CTAButton>
+            <CTAButton variant="tertiary" href="/order-now">
+              Order Online
+            </CTAButton>
+          </div>
+        </div>
+
+        <div className="relative min-h-[26rem] overflow-hidden rounded-[22px] border border-border-hairline bg-surface-inverse shadow-[0_16px_40px_rgba(15,30,45,0.14)] lg:min-h-[34rem]">
+          <Image
+            src="/catering/1.png"
+            alt="GBD catering spread of doner plates and sides"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
+          />
+        </div>
       </div>
     </section>
   );
 }
 
-/**
- * Splits a line at the last "." so the dot is rendered in accent red,
- * matching the original hardcoded design ("event<span class="accent">.</span>").
- * Lines without a "." render unchanged.
- */
-function renderLineWithAccentDot(line: string): React.ReactNode {
-  const idx = line.lastIndexOf(".");
-  if (idx === -1) return line;
+function CateringRequestForm({ settings }: { settings: CateringFormSettings }) {
   return (
-    <>
-      {line.slice(0, idx)}
-      <span className="text-accent">{line.slice(idx)}</span>
-    </>
+    <section id="enquiry" className="border-b border-border-hairline bg-[#f4efe4] px-5 py-8 sm:px-8 lg:px-10 lg:py-14">
+      <div className="mx-auto max-w-shell border-l border-border-hairline bg-[#f7f1e7] px-0 py-8 sm:py-10 lg:px-0 lg:py-14">
+        <div className="mx-auto max-w-4xl px-4 sm:px-8 lg:px-10">
+          <div className="mb-6 overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_14px_30px_rgba(15,30,45,0.06)]">
+            <div className="relative h-24 sm:h-32 lg:h-36">
+              <Image
+                src="/catering/2.png"
+                alt="GBD catering event setup with team enjoying food"
+                fill
+                sizes="(max-width: 1024px) 100vw, 70vw"
+                className="object-cover [filter:contrast(1.03)_saturate(1.04)_brightness(1.01)]"
+              />
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_16px_40px_rgba(15,30,45,0.08)]">
+            <div className="relative px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
+              <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[22px] bg-[#f4ead7]" />
+              <div className="mx-auto max-w-3xl text-center">
+                <h2 className="font-display text-[clamp(1.9rem,4vw,3.1rem)] font-bold uppercase tracking-display leading-[0.95] text-text-primary">
+                  Let’s craft your next event
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+                  Fill out the form below and our team will get back to you shortly to plan your perfect Great British Doner experience.
+                </p>
+                <p className="mx-auto mt-3 max-w-2xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+                  Whether it’s a corporate lunch, private gathering, brand event, or team celebration — we’ll help bring bold flavour to the table.
+                </p>
+              </div>
+
+              <div className="mt-8">
+                <CateringForm settings={settings} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
