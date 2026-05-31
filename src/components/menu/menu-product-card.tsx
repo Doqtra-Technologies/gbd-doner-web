@@ -34,13 +34,13 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
             alt={item.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="w-full h-full object-contain drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
+            className="w-full h-full object-contain drop-shadow-sm transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
           />
         </div>
       </div>
 
       <div className="p-6 lg:p-8 flex flex-col flex-grow">
-        <h3 className="text-base lg:text-lg font-display font-bold uppercase text-text-primary mb-2">
+        <h3 className="text-base lg:text-lg font-display font-bold uppercase text-text-primary mb-2 transition-all duration-300 ease-out group-hover:text-accent group-hover:translate-x-1">
           {item.title}
         </h3>
         <p className="text-sm font-body text-text-secondary leading-relaxed line-clamp-3">

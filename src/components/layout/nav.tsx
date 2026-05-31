@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -21,10 +22,23 @@ export function Nav() {
     };
   }, [open]);
 
+  // Glassmorphic snap: border is transparent at the very top, fades in on scroll.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
-      {/* Premium fixed navbar — white glass, dark type for perfect contrast. */}
-      <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-border-hairline transition-all duration-300">
+      {/* Premium fixed navbar — white glass, dark type. Border fades in on scroll. */}
+      <header
+        className={cn(
+          "fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b transition-colors duration-500",
+          scrolled ? "border-border-hairline" : "border-transparent",
+        )}
+      >
         <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
           <button
             type="button"

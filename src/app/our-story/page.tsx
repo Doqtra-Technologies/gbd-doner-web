@@ -11,6 +11,10 @@ export const metadata: Metadata = {
 
 type StorySection = (typeof storyData.sections)[number];
 
+// Cinematic scale: heavy, deliberate zoom contained within the 1px grid cell.
+const CINEMATIC_SCALE =
+  "transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105";
+
 export default function OurStoryPage() {
   const [whoWeAre, experience, vision] = storyData.sections;
 
@@ -66,7 +70,7 @@ function StoryHero({ section }: { section: StorySection }) {
           {section.images.slice(0, 2).map((src, index) => (
             <div
               key={src}
-              className="relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
+              className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
             >
               <Image
                 src={src}
@@ -74,7 +78,7 @@ function StoryHero({ section }: { section: StorySection }) {
                 fill
                 priority={index === 0}
                 sizes="(max-width: 1024px) 100vw, 35vw"
-                className="rounded-none object-cover"
+                className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
               />
             </div>
           ))}
@@ -109,14 +113,14 @@ function StoryFeatureStrip({ section }: { section: StorySection }) {
             {section.images.map((src, index) => (
               <div
                 key={src}
-                className="relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
+                className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
               >
                 <Image
                   src={src}
                   alt={`${section.title} image ${index + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 22vw"
-                  className="rounded-none object-cover"
+                  className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
                 />
               </div>
             ))}
@@ -154,14 +158,14 @@ function StorySplitSection({
           {section.images.map((src, index) => (
             <div
               key={src}
-              className="relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
+              className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
             >
               <Image
                 src={src}
                 alt={`${section.title} image ${index + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 30vw"
-                className="rounded-none object-cover"
+                className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
               />
             </div>
           ))}

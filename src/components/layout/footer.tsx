@@ -119,7 +119,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
 function FooterLink({ href, label }: { href: string; label: string }) {
   const external = /^https?:\/\//.test(href);
   const className =
-    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 transition-all duration-300 mb-4 hover:translate-x-1";
+    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-4 hover:translate-x-1";
 
   if (external) {
     return (

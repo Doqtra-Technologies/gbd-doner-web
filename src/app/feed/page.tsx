@@ -92,7 +92,7 @@ function FeedHero({
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 58vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.03]"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                 />
 
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,26,31,0.08)_0%,rgba(20,26,31,0.34)_100%)]" />
@@ -117,7 +117,12 @@ function FeedHero({
                 </p>
 
                 <h2 className="max-w-xl font-display text-[clamp(1.8rem,3.6vw,3rem)] font-bold uppercase tracking-display leading-[0.9] text-text-primary">
-                  {featured.title}
+                  <Link
+                    href={featured.slug}
+                    className="inline-block transition-all duration-300 ease-out hover:translate-x-1 hover:text-accent"
+                  >
+                    {featured.title}
+                  </Link>
                 </h2>
 
                 <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
