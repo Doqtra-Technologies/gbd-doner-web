@@ -48,11 +48,11 @@ export function LocationCard({ location }: { location: Location }) {
       onMouseEnter={() => setHoveredId(location.id)}
       onMouseLeave={() => setHoveredId(null)}
       className={cn(
-        "relative shrink-0 group cursor-pointer border bg-canvas p-2.5 transition-all duration-300 ease-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border-strong",
-        isNearest && "border-accent border-2",
+        "relative shrink-0 group cursor-pointer bg-canvas p-4 transition-all duration-300 ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+        isNearest && "shadow-[0_0_12px_theme(colors.accent)] ring-1 ring-accent",
         !isNearest && (isSelected || isHovered
-          ? "border-border-strong shadow-[0_6px_16px_rgba(15,30,45,0.12)]"
-          : "border-border-hairline hover:border-border-strong hover:shadow-[0_6px_16px_rgba(15,30,45,0.12)]"),
+          ? "shadow-[0_6px_16px_rgba(15,30,45,0.12)] scale-[1.01]"
+          : "hover:shadow-[0_6px_16px_rgba(15,30,45,0.12)] hover:scale-[1.01]"),
       )}
       aria-pressed={isSelected}
       role="button"
@@ -93,10 +93,10 @@ export function LocationCard({ location }: { location: Location }) {
             <OpeningStatusChip status={status} />
           </div>
 
-          <p className="mt-0.5 font-body text-xs text-text-secondary truncate">
+          <p className="mt-1 font-body text-[10px] tracking-widest uppercase opacity-60 text-text-secondary truncate">
             {location.addressLine1}
           </p>
-          <p className="font-body text-xs text-text-secondary truncate">
+          <p className="font-body text-[10px] tracking-widest uppercase opacity-60 text-text-secondary truncate">
             {location.city} · {location.postcode}
           </p>
 
@@ -128,7 +128,7 @@ export function LocationCard({ location }: { location: Location }) {
         <button
           type="button"
           onClick={() => setDirectionsLocationId(location.id)}
-          className="group/cta inline-flex items-center gap-1 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-colors duration-300 ease-smooth hover:text-accent"
+          className="group/cta inline-flex items-center gap-1 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           Get Directions
           <span aria-hidden>→</span>
@@ -153,9 +153,9 @@ function CardActionLink({
   children: React.ReactNode;
 }) {
   const primary =
-    "inline-flex h-8 items-center justify-center rounded-full border border-border-strong bg-canvas px-3 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-all duration-300 ease-smooth hover:border-accent hover:bg-accent hover:text-text-inverse";
+    "inline-flex h-8 items-center justify-center rounded-full border border-transparent bg-accent px-3 font-display font-bold uppercase tracking-button text-[10px] text-text-inverse transition-colors duration-300 ease-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
   const tertiary =
-    "group/cta inline-flex items-center gap-1 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-colors duration-300 ease-smooth hover:text-accent";
+    "group/cta inline-flex items-center gap-1 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 
   const className = variant === "primary" ? primary : tertiary;
 

@@ -47,8 +47,8 @@ function FilterPill({
       className={cn(
         "inline-flex h-7 items-center rounded-full px-2.5 font-display font-bold uppercase tracking-button text-[10px] transition-colors duration-300 ease-smooth",
         active
-          ? "border border-border-strong bg-surface-inverse text-text-inverse"
-          : "border border-border-hairline bg-canvas text-text-primary hover:border-border-strong",
+          ? "border border-transparent bg-surface-inverse text-text-inverse"
+          : "border border-transparent bg-transparent text-text-primary hover:bg-surface-inverse/5",
       )}
     >
       {children}

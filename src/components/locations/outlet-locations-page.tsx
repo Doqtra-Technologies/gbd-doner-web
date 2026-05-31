@@ -326,8 +326,8 @@ function FilterChip({
       className={cn(
         "inline-flex h-9 items-center rounded-full border px-4 font-display text-[10px] font-bold uppercase tracking-button transition-colors duration-300",
         active
-          ? "border-border-strong bg-surface-inverse text-text-inverse"
-          : "border-border-hairline bg-canvas text-text-primary hover:border-border-strong",
+          ? "border-transparent bg-surface-inverse text-text-inverse"
+          : "border-transparent bg-transparent text-text-primary hover:bg-surface-inverse/5",
       )}
     >
       {children}
@@ -337,7 +337,7 @@ function FilterChip({
 
 function HoverAction({ href, external, children }: { href: string; external: boolean; children: ReactNode }) {
   const className =
-    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-border-strong bg-canvas px-6 font-display text-sm font-bold uppercase tracking-button text-text-primary shadow-[0_10px_24px_rgba(15,30,45,0.24)] transition-all duration-300 hover:bg-accent hover:text-text-inverse";
+    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-transparent bg-accent px-6 font-display text-sm font-bold uppercase tracking-button text-text-inverse transition-colors duration-300 hover:bg-accent/90";
 
   if (external) {
     return (

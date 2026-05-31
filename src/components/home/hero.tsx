@@ -12,8 +12,6 @@ import {
   type Variants,
 } from "framer-motion";
 import { DUR, EASE } from "@/brand/motion";
-import { BrushHighlight } from "@/components/ui/brush-highlight";
-
 /**
  * Hero — fullscreen cinematic video stage for the homepage.
  *
@@ -122,10 +120,7 @@ export function Hero() {
         style={{ y: contentY, opacity: contentOpacity }}
         className="relative z-20 flex w-full min-h-screen items-end md:items-center"
       >
-        <div
-          className="w-full pb-24 pr-6 md:pb-0"
-          style={{ paddingLeft: "clamp(32px, 6vw, 120px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
-        >
+        <div className="w-full pb-24 px-8 lg:px-24 md:pb-0">
           <div className="max-w-[620px]">
             {/* Micro-label */}
             <motion.div
@@ -136,16 +131,13 @@ export function Hero() {
               className="flex items-center gap-3.5"
             >
               <span aria-hidden className="h-px w-9 bg-gbd-red" />
-              <span className="font-display text-[11px] font-medium uppercase tracking-[0.34em] text-white/75">
+              <span className="font-display text-[10px] tracking-widest uppercase opacity-60 text-white">
                 Spit-Fired · Served Fast
               </span>
             </motion.div>
 
             {/* Headline */}
-            <h1
-              className="mt-6 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)]"
-              style={{ lineHeight: 0.9, letterSpacing: "-0.04em" }}
-            >
+            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)] text-balance tracking-tight">
               <motion.span
                 variants={rise}
                 custom={0.37}
@@ -156,29 +148,45 @@ export function Hero() {
                 More Meat
               </motion.span>
 
-              {/* Brush-highlighted line: inline-block so the swipe hugs the
-                  word (not the full column), paint wipes in, then it rises. */}
-              <span className="relative inline-block">
-                <BrushHighlight delay={0.5} />
-                <motion.span
-                  variants={rise}
-                  custom={0.62}
-                  initial="hidden"
-                  animate="show"
-                  className="relative z-[2] block"
-                >
-                  More Flavor
-                </motion.span>
-              </span>
+              <motion.span
+                variants={rise}
+                custom={0.62}
+                initial="hidden"
+                animate="show"
+                className="block"
+              >
+                More Flavor
+              </motion.span>
 
               <motion.span
                 variants={rise}
                 custom={0.78}
                 initial="hidden"
                 animate="show"
-                className="block"
+                className="relative inline-block w-max mt-2 lg:mt-4"
               >
-                More Doner
+                {/* The Text */}
+                <span className="relative z-10 text-white">More Doner</span>
+                
+                {/* The Brush Stroke Behind the Text */}
+                <motion.svg 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.05, duration: 0.6, ease: EASE.editorial }}
+                  className="absolute left-[-5%] top-[10%] w-[110%] h-[90%] text-accent fill-current -z-10" 
+                  viewBox="0 0 400 100" 
+                  preserveAspectRatio="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path 
+                    d="M10,60 C40,40 100,30 200,35 C300,40 360,50 390,45 C395,44 395,75 390,80 C360,95 250,90 150,85 C50,80 15,85 10,75 C5,65 5,65 10,60 Z" 
+                    opacity="0.9"
+                    style={{
+                      transform: "rotate(-2deg)",
+                      transformOrigin: "center"
+                    }}
+                  />
+                </motion.svg>
               </motion.span>
             </h1>
 
@@ -209,7 +217,7 @@ export function Hero() {
               {/* Secondary — glass morphism */}
               <Link
                 href="/menu"
-                className="group inline-flex h-14 w-full items-center justify-center rounded-full border border-white/25 bg-white/[0.06] px-10 font-display text-sm font-bold uppercase tracking-button text-white backdrop-blur-md transition-all duration-[420ms] ease-smooth hover:border-white/55 hover:bg-white/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1E2D] sm:w-auto"
+                className="group inline-flex h-14 w-full items-center justify-center rounded-full border border-white/20 bg-surface-inverse/50 px-10 font-display text-sm font-bold uppercase tracking-button text-white backdrop-blur-md transition-all duration-300 ease-smooth hover:bg-surface-inverse hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto"
               >
                 View Menu
               </Link>
@@ -285,13 +293,9 @@ function MagneticButton({
     >
       <Link
         href={href}
-        className="group relative inline-flex h-14 w-full items-center justify-center rounded-full bg-gbd-red px-10 font-display text-sm font-bold uppercase tracking-button text-white shadow-[0_10px_40px_-8px_rgba(201,64,53,0.65)] transition-all duration-[420ms] ease-smooth hover:brightness-110 hover:shadow-[0_16px_55px_-8px_rgba(201,64,53,0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1E2D] sm:w-auto"
+        className="group inline-flex h-14 w-full items-center justify-center rounded-full border border-transparent bg-accent px-10 font-display text-sm font-bold uppercase tracking-button text-white transition-colors duration-300 ease-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto"
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -inset-1 -z-10 rounded-full bg-gbd-red/40 blur-xl transition-opacity duration-[420ms] ease-smooth group-hover:opacity-70"
-        />
-        <span className="relative">{children}</span>
+        {children}
       </Link>
     </motion.div>
   );

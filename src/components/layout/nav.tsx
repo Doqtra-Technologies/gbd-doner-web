@@ -53,8 +53,8 @@ export function Nav() {
   const navSurfaceClass = !isScrolled
     ? "bg-transparent border-transparent"
     : isOverDarkBg
-      ? "bg-surface-inverse/90 backdrop-blur-md border-b border-white/10"
-      : "bg-white/90 backdrop-blur-md border-b border-border-hairline shadow-sm";
+      ? "bg-surface-inverse/80 backdrop-blur-md border-b border-white/5"
+      : "bg-white/80 backdrop-blur-md border-b border-border-hairline shadow-sm";
   const navInkClass = isOverDarkBg
     ? "text-white fill-white"
     : "text-surface-inverse fill-surface-inverse";
@@ -128,7 +128,7 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[10020] bg-canvas/95 backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
+          "fixed inset-0 z-[10020] bg-white backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -159,7 +159,7 @@ export function Nav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth block focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {item.label}
                 </Link>
@@ -175,7 +175,7 @@ export function Nav() {
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noreferrer"
-                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Instagram
               </a>
@@ -183,7 +183,7 @@ export function Nav() {
                 href={siteConfig.social.tiktok}
                 target="_blank"
                 rel="noreferrer"
-                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 TikTok
               </a>

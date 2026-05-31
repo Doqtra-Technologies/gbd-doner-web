@@ -76,7 +76,7 @@ export function ImageBlock({
             "rounded-none object-cover",
             !raw && CINEMATIC_FILTER,
             hoverZoom &&
-              "transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]",
+              "transition-transform duration-[1200ms] ease-smooth group-hover:scale-105",
             imageClassName,
           )}
         />
