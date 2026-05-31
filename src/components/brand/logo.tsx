@@ -18,7 +18,7 @@ type LogoVariant = "default" | "inverse";
 
 const sizeMap: Record<LogoSize, { width: number; height: number; className: string }> = {
   sm: { width: 132, height: 24, className: "h-6 w-auto" },
-  md: { width: 176, height: 32, className: "h-8 w-auto" },
+  md: { width: 220, height: 40, className: "h-7 w-auto sm:h-8 lg:h-10" },
   lg: { width: 220, height: 40, className: "h-10 w-auto" },
 };
 
@@ -52,8 +52,8 @@ export function Logo({
       priority
       className={cn(
         spec.className,
-        "select-none object-contain",
-        variant === "inverse" && inverseFilter,
+        "select-none object-contain transition-all duration-500",
+        variant === "inverse" ? inverseFilter : "filter-none",
       )}
     />
   );

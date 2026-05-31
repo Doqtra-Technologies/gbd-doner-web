@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/brand/logo";
 import { CTAButton } from "@/components/ui/cta-button";
@@ -8,8 +9,10 @@ import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isOverDarkBg, setIsOverDarkBg] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -22,30 +25,62 @@ export function Nav() {
     };
   }, [open]);
 
-  // Glassmorphic snap: border is transparent at the very top, fades in on scroll.
+  // Collision radar: observe dark-themed sections intersecting the nav zone.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 0);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    const darkSections = document.querySelectorAll('[data-theme="dark"]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isDark = entries.some((entry) => entry.isIntersecting);
+        setIsOverDarkBg(isDark);
+      },
+      {
+        rootMargin: "0px 0px -90% 0px",
+      },
+    );
+
+    darkSections.forEach((sec) => observer.observe(sec));
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, [pathname]);
+
+  const navSurfaceClass = !isScrolled
+    ? "bg-transparent border-transparent"
+    : isOverDarkBg
+      ? "bg-surface-inverse/90 backdrop-blur-md border-b border-white/10"
+      : "bg-white/90 backdrop-blur-md border-b border-border-hairline shadow-sm";
+  const navInkClass = isOverDarkBg
+    ? "text-white fill-white"
+    : "text-surface-inverse fill-surface-inverse";
+  const logoVariant = isOverDarkBg ? "inverse" : "default";
+  const orderButtonClass = isOverDarkBg
+    ? "bg-transparent border-white text-white hover:bg-white hover:text-surface-inverse hover:border-white"
+    : "bg-surface-inverse border-transparent text-white hover:bg-accent hover:border-transparent";
 
   return (
     <>
-      {/* Premium fixed navbar — white glass, dark type. Border fades in on scroll. */}
       <header
         className={cn(
-          "fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b transition-colors duration-500",
-          scrolled ? "border-border-hairline" : "border-transparent",
+          "fixed top-0 left-0 w-full z-[9999] h-16 lg:h-20 flex items-center justify-between px-6 lg:px-12 transition-all duration-500",
+          navSurfaceClass,
         )}
       >
-        <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
+        <div className="relative flex h-full w-full items-center justify-between">
           <button
             type="button"
-            aria-label="Toggle menu"
+            aria-label="Toggle Menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary transition-colors duration-300 ease-smooth"
+            className={cn(
+              "group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center transition-colors duration-500 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
+              navInkClass,
+            )}
           >
             <span className="sr-only">Menu</span>
             <span className="relative block h-3.5 w-7">
@@ -65,10 +100,18 @@ export function Nav() {
           </button>
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Logo size="md" variant="default" />
+            <Logo size="md" variant={logoVariant} />
           </div>
 
-          <CTAButton variant="primary" size="md" href="/order-now" className="ml-auto">
+          <CTAButton
+            variant="primary"
+            size="md"
+            href="/order-now"
+            className={cn(
+              "ml-auto transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
+              orderButtonClass,
+            )}
+          >
             Order Now
           </CTAButton>
         </div>
@@ -76,7 +119,7 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[110] bg-surface-inverse/40 transition-opacity duration-300 ease-smooth",
+          "fixed inset-0 z-[10010] bg-surface-inverse/40 transition-opacity duration-300 ease-smooth",
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
         onClick={() => setOpen(false)}
@@ -85,7 +128,7 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[120] bg-canvas/95 backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
+          "fixed inset-0 z-[10020] bg-canvas/95 backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -94,9 +137,9 @@ export function Nav() {
         <div className="relative flex h-20 w-full flex-none items-center px-5 sm:px-8">
           <button
             type="button"
-            aria-label="Close menu"
+            aria-label="Close Menu"
             onClick={() => setOpen(false)}
-            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary"
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
           >
             <span className="sr-only">Close</span>
             <span className="relative block h-3.5 w-7">
@@ -116,7 +159,7 @@ export function Nav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth block"
+                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary hover:text-accent transition-colors duration-300 ease-smooth block focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
                 >
                   {item.label}
                 </Link>
@@ -132,7 +175,7 @@ export function Nav() {
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noreferrer"
-                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
               >
                 Instagram
               </a>
@@ -140,7 +183,7 @@ export function Nav() {
                 href={siteConfig.social.tiktok}
                 target="_blank"
                 rel="noreferrer"
-                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary hover:text-accent transition-colors duration-300 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
               >
                 TikTok
               </a>

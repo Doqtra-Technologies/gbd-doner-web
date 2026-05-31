@@ -25,7 +25,10 @@ const directory: ReadonlyArray<DirectoryColumn> = [
 
 export function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden bg-surface-inverse text-text-inverse antialiased">
+    <footer
+      data-theme="dark"
+      className="relative w-full overflow-hidden bg-surface-inverse text-text-inverse antialiased"
+    >
       {/* ── Cinematic atmosphere ─────────────────────────────────────── */}
       <div
         aria-hidden
@@ -80,7 +83,12 @@ function CinematicBand() {
           </h2>
         </div>
         <div className="lg:col-span-3 lg:flex lg:justify-end">
-          <CTAButton variant="primary" size="lg" href="/order-now">
+          <CTAButton
+            variant="primary"
+            size="lg"
+            href="/order-now"
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          >
             Order Now
           </CTAButton>
         </div>
@@ -119,7 +127,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
 function FooterLink({ href, label }: { href: string; label: string }) {
   const external = /^https?:\/\//.test(href);
   const className =
-    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-4 hover:translate-x-1";
+    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-4 hover:translate-x-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
 
   if (external) {
     return (
@@ -162,12 +170,12 @@ function NewsletterRow() {
           name="email"
           required
           placeholder="your.email"
-          className="w-full appearance-none bg-transparent border-0 border-b border-text-inverse/20 py-4 text-2xl lg:text-3xl font-light text-text-inverse focus:outline-none focus:border-accent focus:ring-0 transition-colors duration-500 placeholder:text-text-inverse/20"
+          className="w-full appearance-none bg-transparent border-0 border-b border-text-inverse/20 py-4 text-2xl lg:text-3xl font-light text-text-inverse focus:outline-none focus:border-accent focus:ring-0 transition-colors duration-500 placeholder:text-text-inverse/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         />
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute right-0 bottom-5 text-text-inverse opacity-50 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 cursor-pointer"
+          className="absolute right-0 bottom-5 text-text-inverse opacity-50 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         >
           <svg
             viewBox="0 0 24 24"
@@ -196,7 +204,7 @@ function BaselineRow() {
       </p>
       <a
         href={`mailto:${contact.email}`}
-        className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40 hover:opacity-100 transition-opacity duration-300"
+        className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40 hover:opacity-100 transition-opacity duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
       >
         {contact.email}
       </a>

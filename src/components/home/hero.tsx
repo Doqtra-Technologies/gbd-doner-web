@@ -65,7 +65,8 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-[100svh] overflow-hidden -mt-20 bg-gbd-navy"
+      data-theme="dark"
+      className="relative w-full h-[100vh] min-h-screen flex items-center justify-center overflow-hidden bg-gbd-navy"
     >
       {/* ── Video stage ─────────────────────────────────────────────── */}
       <motion.div
@@ -119,7 +120,7 @@ export function Hero() {
       {/* ── Content (z-20: above overlays) ───────────────────────────── */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-20 flex min-h-[100svh] items-end md:items-center"
+        className="relative z-20 flex w-full min-h-screen items-end md:items-center"
       >
         <div
           className="w-full pb-24 pr-6 md:pb-0"

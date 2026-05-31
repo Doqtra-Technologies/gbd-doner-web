@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 type StorySection = (typeof storyData.sections)[number];
 
-// Cinematic scale: heavy, deliberate zoom contained within the 1px grid cell.
+// Cinematic scale: deliberate zoom with long easing for editorial motion.
 const CINEMATIC_SCALE =
-  "transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105";
+  "object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105";
 
 export default function OurStoryPage() {
   const [whoWeAre, experience, vision] = storyData.sections;
@@ -30,8 +30,8 @@ export default function OurStoryPage() {
 
 function StoryBanner() {
   return (
-    <section className="border-b border-white/20 bg-surface-inverse text-white">
-      <div className="mx-auto flex w-full max-w-shell flex-col gap-4 px-5 py-10 sm:px-8 lg:px-10 lg:py-14">
+    <section className="border-b border-white/20 bg-surface-inverse text-white" data-theme="dark">
+      <div className="mx-auto flex w-full max-w-[1920px] flex-col gap-4 px-6 py-10 lg:px-12 lg:py-14">
         <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
           Our Story
         </p>
@@ -48,37 +48,47 @@ function StoryBanner() {
 
 function StoryHero({ section }: { section: StorySection }) {
   return (
-    <section className="border-b border-border-strong bg-canvas">
-      <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 py-8 sm:px-8 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-12">
-        <div className="flex flex-col justify-center gap-6 lg:col-span-5">
-          <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">
+    <section className="border-t border-border-hairline">
+      <div className="mx-auto grid w-full max-w-[1920px] grid-cols-1 items-start gap-12 px-6 py-12 lg:grid-cols-12 lg:gap-24 lg:px-12">
+        <div className="flex flex-col gap-6 text-balance lg:col-span-5">
+          <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-surface-inverse/70">
             Our Story
           </p>
-          <h1 className="max-w-[10ch] font-display text-[clamp(3rem,7vw,5.5rem)] font-bold uppercase tracking-display leading-[0.88] text-text-primary">
+          <h1 className="max-w-[10ch] font-display text-[clamp(3rem,7vw,5.5rem)] font-bold uppercase tracking-display leading-[0.88] text-surface-inverse">
             Who we are
           </h1>
-          <div className="space-y-4">
-            {section.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {section.paragraphs.map((paragraph, index) => (
+            <p
+              key={paragraph}
+              className={cn(
+                "max-w-xl font-body",
+                index === 0
+                  ? "text-2xl font-light text-surface-inverse mb-8"
+                  : "text-base text-surface-inverse/70 mb-6",
+                index === section.paragraphs.length - 1 && "mb-0",
+              )}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
 
-        <div className="grid gap-4 lg:col-span-7 lg:grid-cols-2">
+        <div className="grid grid-cols-2 gap-8 lg:col-span-7">
           {section.images.slice(0, 2).map((src, index) => (
             <div
               key={src}
-              className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
+              className={cn(
+                "group relative aspect-[4/5] overflow-hidden",
+                index === 0 ? "mt-0" : "mt-24",
+              )}
             >
               <Image
                 src={src}
                 alt={index === 0 ? section.title : `${section.title} detail`}
                 fill
-                priority={index === 0}
+                priority
                 sizes="(max-width: 1024px) 100vw, 35vw"
-                className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
+                className={cn("rounded-none", CINEMATIC_SCALE)}
               />
             </div>
           ))}
@@ -90,41 +100,49 @@ function StoryHero({ section }: { section: StorySection }) {
 
 function StoryFeatureStrip({ section }: { section: StorySection }) {
   return (
-    <section className="border-b border-border-strong bg-canvas">
-      <div className="mx-auto w-full max-w-shell px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="flex flex-col justify-center gap-6 border border-border-strong bg-canvas p-6 sm:p-8 lg:col-span-5 lg:p-10">
-            <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
-              {section.title}
+    <section className="border-t border-border-hairline">
+      <div className="mx-auto grid w-full max-w-[1920px] grid-cols-1 items-start gap-12 px-6 py-12 lg:grid-cols-12 lg:gap-24 lg:px-12">
+        <div className="flex flex-col gap-6 text-balance lg:col-span-5">
+          <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
+            {section.title}
+          </p>
+          <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-bold uppercase tracking-display leading-[0.9] text-surface-inverse">
+            The experience
+          </h2>
+          {section.paragraphs.map((paragraph, index) => (
+            <p
+              key={paragraph}
+              className={cn(
+                "max-w-xl font-body",
+                index === 0
+                  ? "text-2xl font-light text-surface-inverse mb-8"
+                  : "text-base text-surface-inverse/70 mb-6",
+                index === section.paragraphs.length - 1 && "mb-0",
+              )}
+            >
+              {paragraph}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-bold uppercase tracking-display leading-[0.9] text-text-primary">
-              The experience
-            </h2>
-            <div className="space-y-4">
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
+          ))}
+        </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:col-span-7">
-            {section.images.map((src, index) => (
-              <div
-                key={src}
-                className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
-              >
-                <Image
-                  src={src}
-                  alt={`${section.title} image ${index + 1}`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 22vw"
-                  className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
-                />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-8 lg:col-span-7">
+          {section.images.map((src, index) => (
+            <div
+              key={src}
+              className={cn(
+                "group relative aspect-[4/5] overflow-hidden",
+                index % 2 === 0 ? "mt-0" : "mt-24",
+              )}
+            >
+              <Image
+                src={src}
+                alt={`${section.title} image ${index + 1}`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 22vw"
+                className={cn("rounded-none", CINEMATIC_SCALE)}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -139,33 +157,48 @@ function StorySplitSection({
   reverse?: boolean;
 }) {
   return (
-    <section className="border-b border-border-strong bg-canvas">
-      <div className={cn("mx-auto grid w-full max-w-shell grid-cols-1 gap-6 px-5 py-8 sm:px-8 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:py-12", reverse && "lg:[direction:rtl]")}>
-        <div className={cn("flex flex-col justify-center gap-6 border border-border-strong bg-canvas p-6 sm:p-8 lg:col-span-5 lg:p-10", reverse && "lg:[direction:ltr]")}>
-          <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">
+    <section className="border-t border-border-hairline">
+      <div
+        className={cn(
+          "mx-auto grid w-full max-w-[1920px] grid-cols-1 items-start gap-12 px-6 py-12 lg:grid-cols-12 lg:gap-24 lg:px-12",
+          reverse && "lg:[direction:rtl]",
+        )}
+      >
+        <div className={cn("flex flex-col gap-6 text-balance lg:col-span-5", reverse && "lg:[direction:ltr]")}>
+          <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-surface-inverse/70">
             {section.title}
           </p>
-          <div className="space-y-4">
-            {section.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {section.paragraphs.map((paragraph, index) => (
+            <p
+              key={paragraph}
+              className={cn(
+                "max-w-xl font-body",
+                index === 0
+                  ? "text-2xl font-light text-surface-inverse mb-8"
+                  : "text-base text-surface-inverse/70 mb-6",
+                index === section.paragraphs.length - 1 && "mb-0",
+              )}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
 
-        <div className={cn("grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7", reverse && "lg:[direction:ltr]")}>
+        <div className={cn("grid grid-cols-2 gap-8 lg:col-span-7", reverse && "lg:[direction:ltr]")}>
           {section.images.map((src, index) => (
             <div
               key={src}
-              className="group relative aspect-square overflow-hidden border border-border-strong md:aspect-[4/5]"
+              className={cn(
+                "group relative aspect-[4/5] overflow-hidden",
+                index % 2 === 0 ? "mt-0" : "mt-24",
+              )}
             >
               <Image
                 src={src}
                 alt={`${section.title} image ${index + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 30vw"
-                className={cn("rounded-none object-cover", CINEMATIC_SCALE)}
+                className={cn("rounded-none", CINEMATIC_SCALE)}
               />
             </div>
           ))}

@@ -251,7 +251,7 @@ function OutletLocationCard({ location }: { location: Location }) {
           src={location.imageUrl ?? HERO_IMAGE}
           alt={location.name}
           fill
-          sizes="(max-width: 1024px) 100vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,30,45,0.04)_10%,rgba(15,30,45,0.35)_100%)]" />

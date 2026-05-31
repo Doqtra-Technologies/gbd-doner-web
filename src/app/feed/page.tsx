@@ -50,7 +50,7 @@ export default async function FeedPage() {
     feedData.featuredArticle;
 
   return (
-    <main className="w-full bg-canvas">
+    <main className="w-full bg-canvas pt-28 lg:pt-36">
       <FeedHero featured={featured} pageSettings={pageSettings} />
     </main>
   );

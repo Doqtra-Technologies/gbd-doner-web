@@ -61,6 +61,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
                     alt={loc.name}
                     width={520}
                     height={320}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover w-full h-56 rounded-xl"
                   />
                 </motion.div>

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default async function CateringPage() {
   const cateringSettings = await getCateringSettings();
   return (
-    <main className="w-full bg-canvas text-text-primary">
+    <main className="w-full bg-canvas pt-28 text-text-primary lg:pt-36">
       <CateringHero />
       <CateringRequestForm settings={cateringSettings} />
     </main>

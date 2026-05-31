@@ -13,5 +13,9 @@ export const metadata: Metadata = {
 export default async function LocationsPage() {
   const locations = await getLocations();
 
-  return <OutletLocationsPage locations={locations} />;
+  return (
+    <main className="w-full bg-canvas pt-28 lg:pt-36">
+      <OutletLocationsPage locations={locations} />
+    </main>
+  );
 }

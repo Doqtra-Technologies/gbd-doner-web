@@ -19,5 +19,9 @@ export default async function MenuPage() {
     getMenuCategories(),
   ]);
 
-  return <FullMenu items={items} categories={categories} />;
+  return (
+    <main className="w-full bg-canvas">
+      <FullMenu items={items} categories={categories} />
+    </main>
+  );
 }

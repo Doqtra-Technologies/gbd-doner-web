@@ -119,10 +119,13 @@ export function FullMenu({
   return (
     <>
       {/* Compact intro band — replaces the previous editorial hero */}
-      <header className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse">
+      <header
+        data-theme="dark"
+        className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse"
+      >
         <Image
           src="/menu/banner/1.png"
-          alt=""
+          alt="GBD menu spread with wraps, sides, and signature plates"
           fill
           priority
           sizes="100vw"

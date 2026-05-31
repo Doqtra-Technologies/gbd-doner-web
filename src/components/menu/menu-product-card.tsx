@@ -33,7 +33,7 @@ export function MenuProductCard({ item }: { item: MenuItem }) {
             src={item.imageUrl}
             alt={item.title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-contain drop-shadow-sm transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
           />
         </div>
