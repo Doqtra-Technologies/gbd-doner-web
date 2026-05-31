@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
- * The only logo lockup. Renders /logo.png exclusively.
+ * The only logo lockup. Renders /logo/gbd-logo.png exclusively.
  *
  * Sizes are tokenised; consumers do not pick width/height. Clear-space is
  * enforced by an outer padding equal to the cap-height of the wordmark.
@@ -45,14 +45,14 @@ export function Logo({
 
   const image = (
     <Image
-      src="/logo/logo.png"
+      src="/logo/gbd-logo.png"
       alt="Great British Doner"
       width={spec.width}
       height={spec.height}
       priority
       className={cn(
         spec.className,
-        "select-none",
+        "select-none object-contain",
         variant === "inverse" && inverseFilter,
       )}
     />

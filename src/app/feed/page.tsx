@@ -41,14 +41,17 @@ export default async function FeedPage() {
     getFeedPageSettings(),
   ]);
 
+  // Client request: surface only the single featured article for now —
+  // "Why vegan doner is changing fast food in the UK".
   const articles = posts.map(postToArticle);
-  const featured: FeedArticle = articles[0] ?? feedData.featuredArticle;
-  const grid: FeedArticle[] = articles.slice(1);
+  const featured: FeedArticle =
+    articles.find((article) => article.slug.includes("vegan-doner")) ??
+    articles[0] ??
+    feedData.featuredArticle;
 
   return (
     <main className="w-full bg-canvas">
       <FeedHero featured={featured} pageSettings={pageSettings} />
-      <ArticleGrid articles={grid} emptyState={pageSettings.emptyState} />
     </main>
   );
 }
@@ -144,98 +147,8 @@ function FeedHero({
   );
 }
 
-function ArticleGrid({
-  articles,
-  emptyState,
-}: {
-  articles: ReadonlyArray<FeedArticle>;
-  emptyState: string;
-}) {
-  if (articles.length === 0) {
-    return (
-      <section className="py-24 text-center">
-        <p className="font-body text-sm text-text-secondary opacity-70">
-          {emptyState}
-        </p>
-      </section>
-    );
-  }
-
-  return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 w-full border-b border-border-hairline">
-      {articles.map((article, i) => (
-        <div
-          key={`${article.slug}-${i}`}
-          className={[
-            "border-r border-b border-border-hairline last:border-b-0",
-            "md:[&:nth-child(2n)]:border-r-0",
-            "lg:[&:nth-child(2n)]:border-r",
-            "lg:[&:nth-child(3n)]:border-r-0",
-            articles.length - i <= 3 ? "lg:border-b-0" : "",
-            articles.length - i <= 2 ? "md:border-b-0 lg:border-b-0" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
-          <ArticleCard article={article} />
-        </div>
-      ))}
-    </section>
-  );
-}
-
 function initialsForAuthor(value: string): string {
   const words = value.split(/\s+/).filter(Boolean);
   const letters = words.slice(0, 2).map((word) => word[0]?.toUpperCase() ?? "");
   return letters.join("") || "GB";
-}
-
-function ArticleCard({ article }: { article: FeedArticle }) {
-  return (
-    <article className="group flex flex-col h-full bg-canvas">
-      <Link
-        href={article.slug}
-        aria-label={article.title}
-        className="block"
-      >
-        <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden border-b border-border-hairline">
-          <Image
-            src={article.image}
-            alt={article.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="w-full h-full object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
-          />
-        </div>
-      </Link>
-
-      <div className="flex flex-col flex-grow justify-center gap-4 p-8 lg:p-12">
-        <span className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
-          {article.category}
-        </span>
-
-        <h3 className="font-display font-bold uppercase tracking-display leading-tight text-text-primary text-xl md:text-2xl line-clamp-3">
-          <Link
-            href={article.slug}
-            className="transition-colors duration-300 ease-smooth group-hover:text-accent"
-          >
-            {article.title}
-          </Link>
-        </h3>
-
-        <p className="font-body text-sm leading-relaxed text-text-secondary opacity-70 line-clamp-3">
-          {article.excerpt}
-        </p>
-
-        <div className="mt-auto pt-4">
-          <Link
-            href={article.slug}
-            className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-primary border-b border-border-strong pb-0.5 transition-colors duration-300 ease-smooth hover:text-accent hover:border-accent"
-          >
-            Read Article
-          </Link>
-        </div>
-      </div>
-    </article>
-  );
 }

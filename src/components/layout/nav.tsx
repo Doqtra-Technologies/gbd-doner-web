@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { Logo } from "@/components/brand/logo";
 import { CTAButton } from "@/components/ui/cta-button";
 import { siteConfig } from "@/lib/config";
@@ -10,10 +9,6 @@ import { cn } from "@/lib/utils";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
-  const [showLogo, setShowLogo] = useState(false);
-  const [showBackground, setShowBackground] = useState(false);
-  const pathname = usePathname();
-  const isHomepage = pathname === "/";
 
   useEffect(() => {
     if (open) {
@@ -26,50 +21,17 @@ export function Nav() {
     };
   }, [open]);
 
-  // Show logo after scrolling past the hero (approximately 100vh)
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      // Background fades in on all pages based on scroll
-      setShowBackground(scrollPosition > window.innerHeight * 0.8);
-      
-      // Logo fades in/out only on homepage based on scroll
-      if (isHomepage) {
-        setShowLogo(scrollPosition > window.innerHeight * 0.8);
-      }
-    };
-
-    // On non-homepage pages, always show logo but still apply scroll-based background fade
-    if (!isHomepage) {
-      setShowLogo(true);
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomepage]);
-
-  // Cinematic navbar: white type sits on dark glass (scrolled) or over the
-  // dark hero (homepage top). Dark type only over a light page at the top.
-  const onDark = showBackground || isHomepage;
-
   return (
     <>
-      <header className={cn(
-        "fixed left-0 right-0 top-0 z-[100] border-b transition-[background-color,backdrop-filter,border-color] duration-500 ease-smooth",
-        showBackground
-          ? "bg-[rgba(15,30,45,0.72)] backdrop-blur-[18px] border-white/[0.06]"
-          : "bg-transparent border-transparent"
-      )}>
+      {/* Premium fixed navbar — white glass, dark type for perfect contrast. */}
+      <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-border-hairline transition-all duration-300">
         <div className="relative flex h-20 w-full items-center px-5 sm:px-8">
           <button
             type="button"
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={cn(
-              "group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center transition-colors duration-700 ease-smooth",
-              onDark ? "text-white" : "text-text-primary"
-            )}
+            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary transition-colors duration-300 ease-smooth"
           >
             <span className="sr-only">Menu</span>
             <span className="relative block h-3.5 w-7">
@@ -88,11 +50,8 @@ export function Nav() {
             </span>
           </button>
 
-          <div className={cn(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-smooth",
-            showLogo ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}>
-            <Logo size="md" variant={onDark ? "inverse" : "default"} />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Logo size="md" variant="default" />
           </div>
 
           <CTAButton variant="primary" size="md" href="/order-now" className="ml-auto">
@@ -131,10 +90,7 @@ export function Nav() {
               <span className="absolute left-0 top-1/2 block h-[2px] w-7 -translate-y-1/2 -rotate-45 bg-current transition-transform duration-300 ease-smooth" />
             </span>
           </button>
-          <div className={cn(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-smooth",
-            showLogo ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <Logo size="md" />
           </div>
         </div>

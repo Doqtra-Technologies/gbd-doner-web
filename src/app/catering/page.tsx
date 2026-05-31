@@ -102,7 +102,7 @@ function CateringRequestForm({ settings }: { settings: CateringFormSettings }) {
             <div className="relative px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
               <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[22px] bg-canvas" />
               <div className="mx-auto max-w-3xl text-center">
-                <h2 className="font-display text-[clamp(1.9rem,4vw,3.1rem)] font-bold uppercase tracking-display leading-[0.95] text-text-primary">
+                <h2 className="mx-auto w-full max-w-full text-balance break-words font-display text-4xl font-bold uppercase tracking-display leading-[0.95] text-text-primary md:text-5xl lg:text-6xl">
                   Let’s craft your next event
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
