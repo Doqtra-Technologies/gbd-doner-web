@@ -91,7 +91,7 @@ function StoryHero({ section }: { section: StorySection }) {
 
 function StoryFeatureStrip({ section }: { section: StorySection }) {
   return (
-    <section className="border-b border-border-hairline bg-[#f7f1e6]">
+    <section className="border-b border-border-hairline bg-canvas">
       <div className="mx-auto w-full max-w-shell px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="flex flex-col justify-center gap-6 rounded-[24px] border border-border-hairline bg-canvas p-6 shadow-[0_14px_34px_rgba(15,30,45,0.06)] sm:p-8 lg:col-span-5 lg:p-10">

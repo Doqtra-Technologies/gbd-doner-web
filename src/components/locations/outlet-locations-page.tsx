@@ -144,7 +144,7 @@ function LiveMapCTA({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <section className="border-t border-border-hairline bg-[#f3efe9]">
+    <section className="border-t border-border-hairline bg-canvas">
       <div className="mx-auto w-full max-w-shell px-5 py-12 sm:px-8 lg:px-10 lg:py-16 grid grid-cols-1 gap-8 lg:grid-cols-2 items-center">
         <div>
           <h3 className="font-display text-3xl font-bold uppercase tracking-display">ALWAYS ON THE MOVE</h3>
@@ -161,7 +161,7 @@ function LiveMapCTA({ locations }: { locations: Location[] }) {
             <div className="mt-2 flex gap-3">
               <button
                 onClick={requestPosition}
-                className="inline-flex items-center gap-3 rounded-full bg-[#2f6f45] px-6 py-3 font-display text-sm font-bold text-white shadow"
+                className="inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3 font-display text-sm font-bold text-text-inverse shadow"
               >
                 Get my location
               </button>
@@ -180,7 +180,7 @@ function LiveMapCTA({ locations }: { locations: Location[] }) {
         </div>
 
         <div className="flex items-center justify-center">
-          <div className="w-full max-w-md overflow-hidden rounded-[28px] border border-white/70 bg-[#f8f2e8] p-4 shadow-[0_24px_60px_rgba(15,30,45,0.18)]">
+           <div className="w-full max-w-md overflow-hidden rounded-[28px] border border-white/70 bg-canvas p-4 shadow-[0_24px_60px_rgba(15,30,45,0.18)]">
             <div className="rounded-[22px] border border-white/80 bg-white p-3 shadow-[0_10px_24px_rgba(15,30,45,0.08)]">
               <div className="mb-3 flex items-center justify-between px-1">
                 <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">
@@ -191,7 +191,7 @@ function LiveMapCTA({ locations }: { locations: Location[] }) {
                 </p>
               </div>
 
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] bg-[#efe8dc]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] bg-canvas">
                 {nearest ? (
                   <iframe
                     title={`Live map for ${nearest.name}`}
@@ -207,7 +207,7 @@ function LiveMapCTA({ locations }: { locations: Location[] }) {
                         Live map preview
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                        Tap "Get my location" to show the nearest outlet.
+                        Tap &quot;Get my location&quot; to show the nearest outlet.
                       </p>
                     </div>
                   </div>
@@ -256,7 +256,7 @@ function OutletLocationCard({ location }: { location: Location }) {
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,30,45,0.04)_10%,rgba(15,30,45,0.35)_100%)]" />
 
-        <div className="absolute inset-0 flex items-center justify-center bg-[#0f1e2d]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="absolute inset-0 flex items-center justify-center bg-surface-inverse/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="flex flex-col gap-3">
             <HoverAction href={collectionHref} external={Boolean(location.clickAndCollectUrl)}>
               Collection
@@ -279,7 +279,7 @@ function OutletLocationCard({ location }: { location: Location }) {
             </h2>
           </div>
           {location.isFlagship && (
-            <span className="rounded-full border border-border-hairline bg-[#fff8ea] px-3 py-1 font-display text-[10px] font-bold uppercase tracking-button text-text-primary">
+            <span className="rounded-full border border-border-hairline bg-canvas px-3 py-1 font-display text-[10px] font-bold uppercase tracking-button text-text-primary">
               Flagship
             </span>
           )}
@@ -337,7 +337,7 @@ function FilterChip({
 
 function HoverAction({ href, external, children }: { href: string; external: boolean; children: ReactNode }) {
   const className =
-    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-[#0f1e2d] bg-[#fff8ea] px-6 font-display text-sm font-bold uppercase tracking-button text-[#0f1e2d] shadow-[0_10px_24px_rgba(15,30,45,0.24)] transition-all duration-300 hover:bg-accent hover:text-text-inverse";
+    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-border-strong bg-canvas px-6 font-display text-sm font-bold uppercase tracking-button text-text-primary shadow-[0_10px_24px_rgba(15,30,45,0.24)] transition-all duration-300 hover:bg-accent hover:text-text-inverse";
 
   if (external) {
     return (

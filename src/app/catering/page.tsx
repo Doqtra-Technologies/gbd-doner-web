@@ -40,7 +40,7 @@ function CateringHero() {
     <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fffdf8_0%,#fff7eb_100%)]">
       <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10 lg:py-12">
         <div className="flex flex-col justify-center gap-6 lg:pr-6">
-          <span className="inline-flex w-fit rounded-full bg-[#efe4ce] px-4 py-1 font-display text-[10px] font-bold uppercase tracking-[0.32em] text-text-primary">
+          <span className="inline-flex w-fit rounded-full bg-canvas px-4 py-1 font-display text-[10px] font-bold uppercase tracking-[0.32em] text-text-primary">
             Elevate your meeting
           </span>
 
@@ -83,8 +83,8 @@ function CateringHero() {
 
 function CateringRequestForm({ settings }: { settings: CateringFormSettings }) {
   return (
-    <section id="enquiry" className="border-b border-border-hairline bg-[#f4efe4] px-5 py-8 sm:px-8 lg:px-10 lg:py-14">
-      <div className="mx-auto max-w-shell border-l border-border-hairline bg-[#f7f1e7] px-0 py-8 sm:py-10 lg:px-0 lg:py-14">
+    <section id="enquiry" className="border-b border-border-hairline bg-canvas px-5 py-8 sm:px-8 lg:px-10 lg:py-14">
+      <div className="mx-auto max-w-shell border-l border-border-hairline bg-canvas px-0 py-8 sm:py-10 lg:px-0 lg:py-14">
         <div className="mx-auto max-w-4xl px-4 sm:px-8 lg:px-10">
           <div className="mb-6 overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_14px_30px_rgba(15,30,45,0.06)]">
             <div className="relative h-24 sm:h-32 lg:h-36">
@@ -100,7 +100,7 @@ function CateringRequestForm({ settings }: { settings: CateringFormSettings }) {
 
           <div className="overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_16px_40px_rgba(15,30,45,0.08)]">
             <div className="relative px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
-              <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[22px] bg-[#f4ead7]" />
+              <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[22px] bg-canvas" />
               <div className="mx-auto max-w-3xl text-center">
                 <h2 className="font-display text-[clamp(1.9rem,4vw,3.1rem)] font-bold uppercase tracking-display leading-[0.95] text-text-primary">
                   Let’s craft your next event

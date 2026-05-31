@@ -155,7 +155,13 @@ export function LocationsMap() {
         });
       }
     }
-  }, [filteredLocations, activeCoordinates, setSelectedId, setHoveredId]);
+  }, [
+    filteredLocations,
+    activeCoordinates,
+    setSelectedId,
+    setHoveredId,
+    setDirectionsLocationId,
+  ]);
 
   // Highlight selected + hovered markers.
   useEffect(() => {
@@ -278,4 +284,3 @@ function NearestBranchBanner({
     </div>
   );
 }
-

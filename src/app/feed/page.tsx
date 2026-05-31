@@ -94,12 +94,12 @@ function FeedHero({
 
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,26,31,0.08)_0%,rgba(20,26,31,0.34)_100%)]" />
 
-                <div className="absolute left-5 top-5 z-10 rounded-full bg-[#1f3a2f]/90 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-[#fff8ea] backdrop-blur-sm">
+                <div className="absolute left-5 top-5 z-10 rounded-full bg-surface-inverse/90 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-inverse backdrop-blur-sm">
                   Featured Story
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8 lg:p-10">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-[#fff8ea]/92 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-primary backdrop-blur-sm">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-canvas/90 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-primary backdrop-blur-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                     {featured.category}
                   </span>
@@ -123,7 +123,7 @@ function FeedHero({
               </div>
 
               <div className="flex items-center gap-4 border-t border-border-hairline pt-5">
-                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#fff4df] text-sm font-bold uppercase text-text-primary">
+                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-canvas text-sm font-bold uppercase text-text-primary">
                   {initialsForAuthor(pageSettings.eyebrow)}
                 </div>
 
