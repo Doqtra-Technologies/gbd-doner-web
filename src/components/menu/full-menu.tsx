@@ -124,7 +124,7 @@ export function FullMenu({
         className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse"
       >
         <Image
-          src="/menu/banner/1.png"
+          src="/menu/BANNER/ChatGPT Image 24 May 2026 23_18_04.png"
           alt="GBD menu spread with wraps, sides, and signature plates"
           fill
           priority
