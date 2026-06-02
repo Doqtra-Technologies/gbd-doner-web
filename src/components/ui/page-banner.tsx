@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 interface PageBannerProps {
   imageSrc: string;
   imageAlt: string;
-  eyebrow: string;
+  eyebrow?: string;
   headline: React.ReactNode;
-  subheading: string;
+  subheading?: string;
   cta?: React.ReactNode;
 }
 
@@ -54,15 +54,17 @@ export function PageBanner({
       <div className="relative z-10 w-full px-6 md:px-12 lg:ml-[8%] lg:max-w-[650px] lg:px-0 mt-20 lg:mt-0">
         <div className="flex flex-col">
           {/* Eyebrow: 0ms delay */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0 }}
-            className="mb-5 font-display text-[11px] font-bold uppercase tracking-[0.35em] text-[#D64536]"
-            style={{ textShadow }}
-          >
-            {eyebrow}
-          </motion.div>
+          {eyebrow && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0 }}
+              className="mb-5 font-display text-[12px] font-semibold uppercase tracking-[0.28em] text-[#D64536]"
+              style={{ textShadow }}
+            >
+              {eyebrow}
+            </motion.div>
+          )}
 
           {/* Headline: 80ms delay */}
           <motion.h1 
@@ -79,18 +81,20 @@ export function PageBanner({
           </motion.h1>
 
           {/* Description: 160ms delay */}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.16 }}
-            className="font-body leading-[1.6] max-w-[40ch] text-[16px] md:text-[18px] lg:text-[22px]"
-            style={{ 
-              color: "rgba(255,255,255,.9)",
-              textShadow 
-            }}
-          >
-            {subheading}
-          </motion.p>
+          {subheading && (
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.16 }}
+              className="font-body leading-[1.6] max-w-[40ch] text-[16px] md:text-[18px] lg:text-[22px]"
+              style={{ 
+                color: "rgba(255,255,255,.9)",
+                textShadow 
+              }}
+            >
+              {subheading}
+            </motion.p>
+          )}
 
           {/* Optional CTA: 240ms delay */}
           {cta && (
