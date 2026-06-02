@@ -13,36 +13,38 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <section className="py-10 bg-canvas border-t border-border-hairline">
-      <div className="mx-auto max-w-shell px-5">
-        <div className="mb-6 flex items-center justify-between">
+    <section className="py-20 bg-canvas border-t border-border-hairline">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-12">
+        <div className="mb-14 flex items-end justify-between">
           <div>
-            <h3 className="font-display text-2xl font-bold uppercase tracking-display">The Branches</h3>
-            <p className="mt-2 max-w-lg text-sm text-text-secondary">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-[56px] font-[800] uppercase tracking-[-0.02em] text-text-primary leading-none">
+              The Branches
+            </h2>
+            <p className="mt-4 max-w-xl text-lg md:text-xl text-text-secondary font-body">
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <button
               aria-label="previous"
-              onClick={() => scrollBy(-600)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-accent shadow"
+              onClick={() => scrollBy(-650)}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
             >
-              ‹
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <button
               aria-label="next"
-              onClick={() => scrollBy(600)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-accent shadow"
+              onClick={() => scrollBy(650)}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
             >
-              ›
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
         </div>
 
         <div
           ref={scrollerRef}
-          className="no-scrollbar -mx-3 flex gap-8 overflow-x-auto px-3 pb-10 touch-pan-x snap-x snap-mandatory"
+          className="no-scrollbar -mx-6 flex gap-10 overflow-x-auto px-6 pb-16 touch-pan-x snap-x snap-mandatory lg:-mx-12 lg:px-12"
         >
           {locations.map((loc) => (
             <OutletCard key={loc.id} location={loc} />
@@ -58,27 +60,31 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[88vw] shrink-0 select-none pb-10 pr-10 sm:w-[360px] snap-center">
-      <LocationImageDeck
-        location={location}
-        fallbackSrc="/logo/gbd-logo.png"
-        sizes="(max-width: 640px) 88vw, (max-width: 1200px) 45vw, 360px"
-      >
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-[opacity,transform] duration-300 ease-smooth translate-y-3 group-hover:translate-y-0 group-hover:opacity-100">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
-              Order Now
-            </HoverPill>
-            <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
-              Delivery
-            </HoverPill>
+    <article className="group relative w-[88vw] shrink-0 select-none snap-center sm:w-[calc(50vw-40px)] xl:w-[500px] flex flex-col transition-transform duration-700 ease-smooth hover:-translate-y-2 pr-12 pb-4">
+      <div className="w-full relative">
+        <LocationImageDeck
+          location={location}
+          fallbackSrc="/logo/gbd-logo.png"
+          sizes="(max-width: 640px) 88vw, (max-width: 1280px) 50vw, 500px"
+        >
+          <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-500 ease-smooth translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/15 rounded-[18px]">
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
+                Order Now
+              </HoverPill>
+              <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
+                Delivery
+              </HoverPill>
+            </div>
           </div>
-        </div>
+        </LocationImageDeck>
+      </div>
 
-        <h4 className="absolute bottom-5 left-5 right-5 font-display text-[clamp(1.35rem,2vw,1.7rem)] font-bold uppercase tracking-display leading-tight text-text-inverse transition-transform duration-500 ease-smooth group-hover:-translate-y-1">
+      <div className="mt-10 px-1 flex flex-col">
+        <h4 className="font-display text-[34px] md:text-[42px] font-[800] uppercase tracking-[-0.03em] leading-none text-text-primary transition-colors duration-300 group-hover:text-accent">
           {location.name}
         </h4>
-      </LocationImageDeck>
+      </div>
     </article>
   );
 }
