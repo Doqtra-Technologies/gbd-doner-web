@@ -44,6 +44,8 @@ function postToArticle(post: Post): FeedArticle {
   };
 }
 
+import { PageBanner } from "@/components/ui/page-banner";
+
 export default async function FeedPage() {
   const [posts, pageSettings] = await Promise.all([
     getPosts(),
@@ -56,55 +58,35 @@ export default async function FeedPage() {
     articles[0] ??
     { ...feedData.featuredArticle, image: localImageOrFallback(feedData.featuredArticle.image) };
 
-  return <FeedHero featured={featured} pageSettings={pageSettings} />;
+  return (
+    <main className="w-full bg-canvas">
+      <PageBanner
+        imageSrc="/banner/blog.jpeg"
+        imageAlt="The Feed"
+        eyebrow="THE FEED"
+        headline={
+          <>
+            WHY VEGAN DONER IS<br />
+            CHANGING FAST FOOD<br />
+            IN THE UK
+          </>
+        }
+        subheading="Stories, culture, innovation and the future of modern doner."
+      />
+      <FeedFeatured featured={featured} />
+    </main>
+  );
 }
 
-function FeedHero({
+function FeedFeatured({
   featured,
-  pageSettings,
 }: {
   featured: FeedArticle;
-  pageSettings: FeedPageSettings;
 }) {
   return (
-    // ROOT-CAUSE FIX (band): the gradient now leads with the WARM cream
-    // (#fff8ec) at the top — the zone beneath the transparent navbar — and
-    // lightens to #fffdf8 at the bottom, where it meets the white featured
-    // card seamlessly. Previously the near-white #fffdf8 sat under the nav
-    // and read as a white strip. The cream owns the nav-offset padding
-    // (pt-24 / lg:pt-28 = navbar height + 32px breathing) so the background
-    // runs continuously beneath the navbar — no white band, no floating hero.
-    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fff8ec_0%,#fffdf8_100%)] pt-24 pb-16 lg:pt-28 lg:pb-24">
+    <section className="border-b border-border-hairline bg-canvas py-16 lg:py-24">
       <div className="mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10">
-
-        {/* ── Section header — eyebrow + editorial megatitle ───────────── */}
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="flex items-center justify-center gap-3.5">
-            <span aria-hidden className="h-px w-8 bg-accent" />
-            <p className="font-display text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
-              {pageSettings.eyebrow}
-            </p>
-            <span aria-hidden className="h-px w-8 bg-accent" />
-          </div>
-
-          {/* Title — authored line breaks rendered as blocks for an
-              intentional, art-directed composition (not auto-wrapping).
-              Calibrated clamp keeps a long title editorial, not oversized. */}
-          <h1 className="mt-6 font-display text-[clamp(2.25rem,5vw,4rem)] font-bold uppercase tracking-display leading-[0.95] text-text-primary">
-            {pageSettings.headingLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-[60ch] font-body text-base leading-[1.75] text-text-secondary sm:text-lg">
-            {pageSettings.lead}
-          </p>
-        </div>
-
-        {/* ── Featured article card — balanced 50/50 split ─────────────── */}
-        <div className="mt-16 overflow-hidden rounded-[28px] border border-border-hairline bg-canvas shadow-[0_8px_24px_rgba(15,30,45,0.06),0_24px_60px_rgba(15,30,45,0.05)]">
+        <div className="overflow-hidden rounded-[28px] border border-border-hairline bg-canvas shadow-[0_8px_24px_rgba(15,30,45,0.06),0_24px_60px_rgba(15,30,45,0.05)]">
           <div className="grid grid-cols-1 lg:grid-cols-[48%_52%]">
 
             {/* Image pane */}

@@ -25,65 +25,26 @@ export const metadata: Metadata = {
  * 1px hairlines do the structural work that padding usually does in
  * SaaS-template layouts.
  */
+import { PageBanner } from "@/components/ui/page-banner";
+
 export default async function CateringPage() {
   const cateringSettings = await getCateringSettings();
   return (
     <main className="w-full bg-canvas text-text-primary">
-      <CateringHero />
+      <PageBanner
+        imageSrc="/banner/catering.avif"
+        imageAlt="GBD Catering"
+        eyebrow="GBD CATERING"
+        headline={
+          <>
+            MODERN STREET FOOD,<br />
+            MADE FOR EVERYDAY LIFE
+          </>
+        }
+        subheading="Fast. Fresh. Delivered."
+      />
       <CateringRequestForm settings={cateringSettings} />
     </main>
-  );
-}
-
-function CateringHero() {
-  // GAP FIX (same as /feed): warm cream #fff7eb now leads the gradient at the
-  // top — the zone beneath the transparent navbar — fading to #fffdf8 at the
-  // bottom. The cream section owns the nav-offset padding (pt-24 / lg:pt-28 =
-  // navbar height + 32px) instead of a white bg-canvas wrapper, so the
-  // background runs continuously under the navbar — no white band, no floating
-  // hero.
-  return (
-    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fff7eb_0%,#fffdf8_100%)] pt-24 pb-12 lg:pt-28 lg:pb-16">
-      <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10">
-        <div className="flex flex-col justify-center gap-6 lg:pr-6">
-          <span className="inline-flex w-fit rounded-full bg-canvas px-4 py-1 font-display text-[10px] font-bold uppercase tracking-[0.32em] text-text-primary">
-            Elevate your meeting
-          </span>
-
-          <h1 className="max-w-[10ch] font-display text-[clamp(3rem,7vw,5.5rem)] font-bold uppercase tracking-display leading-[0.88] text-text-primary">
-            Modern street food, made for everyday life
-          </h1>
-
-          <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-            Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience.
-          </p>
-
-          <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-            Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.
-          </p>
-
-          <div className="flex flex-wrap gap-3 pt-2">
-            <CTAButton variant="primary" size="lg" href="/menu">
-              Explore Menu
-            </CTAButton>
-            <CTAButton variant="tertiary" href="/order-now">
-              Order Online
-            </CTAButton>
-          </div>
-        </div>
-
-        <div className="relative min-h-[26rem] overflow-hidden rounded-[22px] border border-border-hairline bg-surface-inverse shadow-[0_16px_40px_rgba(15,30,45,0.14)] lg:min-h-[34rem]">
-          <Image
-            src="/catering/1.png"
-            alt="GBD catering spread of doner plates and sides"
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)]"
-          />
-        </div>
-      </div>
-    </section>
   );
 }
 
