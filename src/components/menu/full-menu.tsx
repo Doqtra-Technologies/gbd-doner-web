@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { StickyCategoryNav } from "@/components/menu/sticky-category-nav";
 import { CategorySection } from "@/components/menu/category-section";
 import type { MenuItem, MenuCategory } from "@/domain/menu-item";
+import { PageBanner } from "@/components/ui/page-banner";
 
 /**
  * FullMenu — the high-density ordering matrix.
@@ -118,35 +119,18 @@ export function FullMenu({
 
   return (
     <>
-      {/* Compact intro band — replaces the previous editorial hero */}
-      <header
-        data-theme="dark"
-        className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse"
-      >
-        <Image
-          src="/menu/BANNER/ChatGPT Image 24 May 2026 23_18_04.png"
-          alt="GBD menu spread with wraps, sides, and signature plates"
-          fill
-          priority
-          sizes="100vw"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-surface-inverse/45" />
-        <Container className="absolute inset-0 z-10 flex h-full flex-col justify-end gap-4 pb-10 lg:pb-16">
-          <div className="flex flex-col gap-3">
-            <Eyebrow tone="inverse" className="block">
-              02 — The Menu
-            </Eyebrow>
-            <h1 className="font-display font-bold uppercase tracking-display leading-none text-4xl sm:text-5xl lg:text-6xl text-text-inverse">
-              The Full Catalog.
-            </h1>
-          </div>
-          <p className="font-body text-sm sm:text-base text-text-inverse opacity-85 max-w-md">
-            Prices include VAT. Allergens are advisory — flag anything
-            in-store and we&apos;ll talk you through it.
-          </p>
-        </Container>
-      </header>
+      {/* Premium cinematic banner — unified system */}
+      <PageBanner
+        imageSrc="/menu/BANNER/ChatGPT Image 24 May 2026 23_18_04.png"
+        imageAlt="GBD menu spread"
+        eyebrow="THE MENU"
+        headline={
+          <>
+            THE FULL<br />CATALOG
+          </>
+        }
+        subheading="Explore our full range of wraps, boxes, burgers, sides and desserts."
+      />
 
       <StickyCategoryNav
         categories={populatedCategories}

@@ -13,36 +13,42 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <section className="py-10 bg-canvas border-t border-border-hairline">
-      <div className="mx-auto max-w-shell px-5">
-        <div className="mb-6 flex items-center justify-between">
+    <section className="bg-canvas border-t border-border-hairline pt-[96px] pb-[120px]">
+      <div 
+        className="mx-auto w-full max-w-[1920px]"
+        style={{ paddingInline: 'clamp(32px, 4vw, 96px)' }}
+      >
+        <div className="mb-16 flex items-end justify-between">
           <div>
-            <h3 className="font-display text-2xl font-bold uppercase tracking-display">The Branches</h3>
-            <p className="mt-2 max-w-lg text-sm text-text-secondary">
+            <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(2.5rem,4vw,4.5rem)] leading-[0.9] tracking-[-0.05em]">
+              The Branches
+            </h2>
+            <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary font-body">
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          {/* Controls only visible on mobile/tablet if scrolling is needed, hidden on desktop grid */}
+          <div className="hidden md:flex xl:hidden items-center gap-4">
             <button
               aria-label="previous"
-              onClick={() => scrollBy(-600)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-accent shadow"
+              onClick={() => scrollBy(-500)}
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
             >
-              ‹
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <button
               aria-label="next"
-              onClick={() => scrollBy(600)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-accent shadow"
+              onClick={() => scrollBy(500)}
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
             >
-              ›
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
         </div>
 
         <div
           ref={scrollerRef}
-          className="no-scrollbar -mx-3 flex gap-8 overflow-x-auto px-3 pb-10 touch-pan-x snap-x snap-mandatory"
+          className="flex xl:grid xl:grid-cols-3 gap-8 xl:gap-12 overflow-x-auto xl:overflow-visible touch-pan-x snap-x snap-mandatory xl:snap-none pb-8 xl:pb-0 no-scrollbar -mx-8 px-8 xl:mx-0 xl:px-0"
         >
           {locations.map((loc) => (
             <OutletCard key={loc.id} location={loc} />
@@ -58,27 +64,51 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[88vw] shrink-0 select-none pb-10 pr-10 sm:w-[360px] snap-center">
-      <LocationImageDeck
-        location={location}
-        fallbackSrc="/logo/gbd-logo.png"
-        sizes="(max-width: 640px) 88vw, (max-width: 1200px) 45vw, 360px"
+    <article className="group relative w-[85vw] sm:w-[calc(50vw-40px)] xl:w-full shrink-0 xl:shrink snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
+      <div 
+        className="w-full relative rounded-[18px] transition-shadow duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.12)",
+        }}
       >
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-[opacity,transform] duration-300 ease-smooth translate-y-3 group-hover:translate-y-0 group-hover:opacity-100">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
-              Order Now
-            </HoverPill>
-            <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
-              Delivery
-            </HoverPill>
-          </div>
-        </div>
+        <LocationImageDeck
+          location={location}
+          fallbackSrc="/logo/gbd-logo.png"
+          sizes="(max-width: 640px) 85vw, (max-width: 1280px) 50vw, 33vw"
+        >
+          {/* Subtle dark gradient overlay for text legibility */}
+          <div className="absolute inset-x-0 bottom-0 top-[40%] bg-[linear-gradient(to_top,rgba(15,30,45,0.9)_0%,rgba(15,30,45,0.4)_50%,transparent_100%)] rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
 
-        <h4 className="absolute bottom-5 left-5 right-5 font-display text-[clamp(1.35rem,2vw,1.7rem)] font-bold uppercase tracking-display leading-tight text-text-inverse transition-transform duration-500 ease-smooth group-hover:-translate-y-1">
-          {location.name}
-        </h4>
-      </LocationImageDeck>
+          {/* Location Information (Bottom-left aligned) */}
+          <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
+            <span className="font-display text-[10px] font-[800] uppercase tracking-[0.15em] text-white/90 mb-3 leading-none">
+              {location.city}
+            </span>
+            <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
+              {location.name}
+            </h4>
+          </div>
+
+          {/* Interactive Hover Pills (Centered) */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/20 rounded-[18px]">
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
+                Order Now
+              </HoverPill>
+              <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
+                Delivery
+              </HoverPill>
+            </div>
+          </div>
+        </LocationImageDeck>
+        
+        {/* Style tag to handle the hover shadow on the wrapper */}
+        <style jsx>{`
+          article:hover > div {
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 32px 80px rgba(0,0,0,0.16) !important;
+          }
+        `}</style>
+      </div>
     </article>
   );
 }

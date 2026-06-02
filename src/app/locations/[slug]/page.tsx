@@ -7,6 +7,9 @@ import {
   getLocations,
 } from "@/data/repositories/locations-repository";
 import type { OpeningHours } from "@/domain/location";
+import { ClientOpeningStatus } from "@/components/locations/client-opening-status";
+import { calculateDistance } from "@/lib/distance";
+import { cn } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -20,6 +23,14 @@ const DAY_ORDER: OpeningHours["day"][] = [
   "Fri",
   "Sat",
   "Sun",
+];
+
+const MOCK_AMENITIES = [
+  "Dine-in Available",
+  "Takeaway",
+  "Wheelchair Accessible",
+  "Free Wi-Fi",
+  "100% Halal Certified Meat",
 ];
 
 export async function generateStaticParams(): Promise<Params[]> {
@@ -54,157 +65,275 @@ export default async function LocationDetailPage({
     (a, b) => DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day),
   );
 
+  // Calculate nearby locations
+  const allLocations = await getLocations();
+  const nearbyLocations = allLocations
+    .filter((l) => l.id !== loc.id)
+    .sort((a, b) => {
+      const distA = calculateDistance(
+        loc.coordinates.lat,
+        loc.coordinates.lng,
+        a.coordinates.lat,
+        a.coordinates.lng,
+      );
+      const distB = calculateDistance(
+        loc.coordinates.lat,
+        loc.coordinates.lng,
+        b.coordinates.lat,
+        b.coordinates.lng,
+      );
+      return distA - distB;
+    })
+    .slice(0, 3);
+
+  const galleryImages = loc.images && loc.images.length > 0 ? loc.images : (loc.imageUrl ? [loc.imageUrl] : []);
+
   return (
-    <main className="w-full bg-canvas">
-      <article className="border-b border-border-hairline">
-        <header className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline">
-          <div className="md:col-span-5 flex flex-col gap-8 p-10 lg:p-16">
-            <Link
-              href="/locations"
-              className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-secondary hover:text-accent transition-colors"
-            >
-              ← All locations
-            </Link>
+    <main className="w-full bg-canvas pb-24">
+      {/* 1. Hero Section */}
+      <section className="relative w-full min-h-[60vh] lg:min-h-[70vh] flex flex-col justify-end bg-surface-inverse">
+        <div className="absolute inset-0">
+          <Image
+            src={loc.imageUrl ?? "/banner/location.jpeg"}
+            alt={loc.name}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          {/* Subtle gradient to ensure text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-surface-inverse via-surface-inverse/40 to-transparent" />
+        </div>
 
-            <div className="flex flex-col gap-3">
-              {loc.isFlagship && <FlagshipBadge />}
-              <h1 className="font-display font-bold uppercase tracking-display leading-[0.9] text-text-primary text-3xl md:text-4xl lg:text-5xl">
-                {loc.name}
-              </h1>
-              <address className="not-italic font-body text-sm text-text-secondary leading-relaxed">
-                {loc.addressLine1}
-                {loc.addressLine2 && (
-                  <>
-                    <br />
-                    {loc.addressLine2}
-                  </>
-                )}
-                <br />
-                {loc.city} · {loc.postcode}
-              </address>
-              {loc.phone && (
-                <a
-                  href={`tel:${loc.phone.replace(/\s+/g, "")}`}
-                  className="font-body text-sm text-text-primary hover:text-accent transition-colors"
-                >
-                  {loc.phone}
-                </a>
+        <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 pb-12 lg:pb-16 flex flex-col items-start gap-6">
+          <Link
+            href="/locations"
+            className="font-display font-bold uppercase tracking-eyebrow text-xs text-white/70 hover:text-white transition-colors flex items-center gap-2 mb-4"
+          >
+            <span>←</span> Back to all locations
+          </Link>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-4 mb-2">
+              <ClientOpeningStatus hours={loc.hours} />
+              {loc.isFlagship && (
+                <span className="inline-flex items-center px-2 py-1 bg-accent text-white font-display font-bold uppercase tracking-eyebrow text-[10px]">
+                  Flagship
+                </span>
               )}
             </div>
-
-            <div className="flex flex-wrap gap-3">
-              {loc.clickAndCollectUrl && (
-                <ActionPill href={loc.clickAndCollectUrl} primary>
-                  Click + Collect
-                </ActionPill>
-              )}
-              {loc.deliveryLinks?.map((d) => (
-                <ActionPill key={d.provider} href={d.url}>
-                  {labelForProvider(d.provider)}
-                </ActionPill>
-              ))}
-            </div>
+            <h1 className="font-display font-extrabold uppercase text-white tracking-tight leading-[0.9] text-5xl md:text-7xl lg:text-8xl">
+              {loc.name}
+            </h1>
+            <p className="font-body text-white/90 text-lg md:text-xl max-w-2xl mt-4">
+              {loc.addressLine1}
+              {loc.addressLine2 ? `, ${loc.addressLine2}` : ""}
+              <br />
+              {loc.city}, {loc.postcode}
+            </p>
           </div>
 
-          {loc.imageUrl && (
-            <div className="relative md:col-span-7 w-full aspect-square md:aspect-auto md:min-h-[480px] bg-surface-inverse">
-              <Image
-                src={loc.imageUrl}
-                alt={loc.name}
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 58vw"
-                className="object-cover"
-              />
-            </div>
-          )}
-        </header>
-
-        <section className="grid grid-cols-1 md:grid-cols-12">
-          <div className="md:col-span-5 p-10 lg:p-16 md:border-r border-border-hairline">
-            <h2 className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary mb-6">
-              Opening hours
-            </h2>
-            {sortedHours.length === 0 ? (
-              <p className="font-body text-sm text-text-secondary opacity-70">
-                Hours coming soon.
-              </p>
-            ) : (
-              <dl className="flex flex-col gap-2">
-                {sortedHours.map((h) => (
-                  <div
-                    key={h.day}
-                    className="flex justify-between font-body text-sm text-text-primary border-b border-border-hairline pb-2"
-                  >
-                    <dt className="font-display font-bold uppercase tracking-eyebrow text-[10px]">
-                      {h.day}
-                    </dt>
-                    <dd>
-                      {h.open} – {h.close}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+          <div className="flex flex-wrap items-center gap-4 mt-4">
+            {loc.clickAndCollectUrl && (
+              <a
+                href={loc.clickAndCollectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-accent text-white hover:bg-white hover:text-accent font-display font-bold uppercase tracking-button text-xs px-8 py-4 transition-colors"
+              >
+                Click + Collect
+              </a>
+            )}
+            {loc.deliveryLinks && loc.deliveryLinks.length > 0 && (
+              <a
+                href={loc.deliveryLinks[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-transparent border border-white text-white hover:bg-white hover:text-text-primary font-display font-bold uppercase tracking-button text-xs px-8 py-4 transition-colors"
+              >
+                Delivery
+              </a>
             )}
           </div>
+        </div>
+      </section>
 
-          {loc.bodyHtml && (
-            <div className="md:col-span-7 p-10 lg:p-16">
-              <div
-                className="font-body text-base leading-relaxed text-text-primary [&_p]:mb-5 [&_h2]:font-display [&_h2]:font-bold [&_h2]:uppercase [&_h2]:tracking-display [&_h2]:mt-8 [&_h2]:mb-4 [&_h2]:text-xl [&_a]:text-accent"
-                dangerouslySetInnerHTML={{ __html: loc.bodyHtml }}
-              />
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 mt-16 md:mt-24 flex flex-col gap-24">
+        
+        {/* 2. Store Overview */}
+        {loc.bodyHtml && (
+          <section className="max-w-[800px]">
+            <h2 className="font-display font-bold uppercase tracking-eyebrow text-accent text-xs mb-6">
+              Store Overview
+            </h2>
+            <div
+              className="font-body text-lg leading-relaxed text-text-secondary [&_p]:mb-6 [&_strong]:text-text-primary [&_strong]:font-bold"
+              dangerouslySetInnerHTML={{ __html: loc.bodyHtml }}
+            />
+          </section>
+        )}
+
+        {/* 3. Opening Hours + Map */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+          <div className="flex flex-col gap-8">
+            <div>
+              <h2 className="font-display font-bold uppercase tracking-eyebrow text-accent text-xs mb-6">
+                Opening Hours
+              </h2>
+              {sortedHours.length === 0 ? (
+                <p className="font-body text-text-secondary">Hours coming soon.</p>
+              ) : (
+                <dl className="flex flex-col border-t border-border-hairline">
+                  {sortedHours.map((h) => (
+                    <div
+                      key={h.day}
+                      className="flex justify-between py-4 border-b border-border-hairline"
+                    >
+                      <dt className="font-display font-bold uppercase tracking-eyebrow text-sm text-text-primary">
+                        {h.day}
+                      </dt>
+                      <dd className="font-body text-base text-text-secondary">
+                        {h.open} – {h.close}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
-          )}
+
+            {/* 4. Amenities */}
+            <div>
+              <h2 className="font-display font-bold uppercase tracking-eyebrow text-accent text-xs mb-6 mt-4">
+                Amenities
+              </h2>
+              <ul className="flex flex-wrap gap-3">
+                {MOCK_AMENITIES.map((amenity) => (
+                  <li
+                    key={amenity}
+                    className="font-display font-bold uppercase tracking-button text-[10px] px-4 py-2 bg-surface border border-border-strong text-text-primary rounded-full"
+                  >
+                    {amenity}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="w-full aspect-square lg:aspect-auto lg:h-full min-h-[400px] bg-surface relative overflow-hidden border border-border-hairline">
+            <iframe
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              src={`https://maps.google.com/maps?q=${loc.coordinates.lat},${loc.coordinates.lng}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
+              className="absolute inset-0 w-full h-full grayscale opacity-90 contrast-125"
+            />
+          </div>
         </section>
-      </article>
+
+        {/* 5. Delivery Platforms */}
+        {loc.deliveryLinks && loc.deliveryLinks.length > 0 && (
+          <section className="pt-12 border-t border-border-hairline">
+            <h2 className="font-display font-bold uppercase tracking-eyebrow text-accent text-xs mb-8">
+              Available on Delivery
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              {loc.deliveryLinks.map((link) => (
+                <a
+                  key={link.provider}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "flex items-center justify-center min-w-[200px] h-16 border px-8 transition-colors",
+                    link.provider === "deliveroo" ? "border-[#00CCBC] text-[#00CCBC] hover:bg-[#00CCBC] hover:text-white" : "",
+                    link.provider === "ubereats" ? "border-[#06C167] text-[#06C167] hover:bg-[#06C167] hover:text-white" : "",
+                    link.provider === "justeat" ? "border-[#FF8000] text-[#FF8000] hover:bg-[#FF8000] hover:text-white" : ""
+                  )}
+                >
+                  <span className="font-display font-bold uppercase tracking-button text-sm">
+                    {link.provider === "deliveroo" ? "Deliveroo" : link.provider === "ubereats" ? "Uber Eats" : "Just Eat"}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 6. Gallery */}
+        {galleryImages.length > 0 && (
+          <section className="pt-12 border-t border-border-hairline">
+            <h2 className="font-display font-bold uppercase tracking-eyebrow text-accent text-xs mb-8">
+              Gallery
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {galleryImages.map((img, i) => (
+                <div key={i} className="relative aspect-square bg-surface-inverse overflow-hidden">
+                  <Image
+                    src={img}
+                    alt={`${loc.name} interior ${i + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 7. Nearby Locations */}
+        {nearbyLocations.length > 0 && (
+          <section className="pt-24 pb-12">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+              <div className="flex flex-col gap-3">
+                <span className="font-display font-bold uppercase tracking-eyebrow text-accent text-[10px]">
+                  Explore More
+                </span>
+                <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl text-text-primary">
+                  Nearby Locations
+                </h2>
+              </div>
+              <Link
+                href="/locations"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-secondary hover:text-accent transition-colors pb-1 border-b border-transparent hover:border-accent"
+              >
+                View all locations →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {nearbyLocations.map((nearbyLoc) => (
+                <Link
+                  key={nearbyLoc.id}
+                  href={`/locations/${nearbyLoc.slug}`}
+                  className="group flex flex-col gap-4"
+                >
+                  <div className="relative w-full aspect-square bg-surface-inverse overflow-hidden">
+                    <Image
+                      src={nearbyLoc.imageUrl ?? "/banner/location.jpeg"}
+                      alt={nearbyLoc.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold uppercase text-xl text-text-primary group-hover:text-accent transition-colors">
+                      {nearbyLoc.name}
+                    </h3>
+                    <p className="font-body text-text-secondary text-sm">
+                      {nearbyLoc.addressLine1}, {nearbyLoc.city}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+      </div>
     </main>
   );
-}
-
-function ActionPill({
-  href,
-  children,
-  primary,
-}: {
-  href: string;
-  children: React.ReactNode;
-  primary?: boolean;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      className={
-        primary
-          ? "inline-flex h-10 items-center justify-center rounded-full bg-accent px-5 font-display font-bold uppercase tracking-button text-[10px] text-text-inverse transition-colors hover:bg-text-primary"
-          : "inline-flex h-10 items-center justify-center rounded-full border border-border-strong bg-canvas px-5 font-display font-bold uppercase tracking-button text-[10px] text-text-primary transition-colors hover:border-accent hover:text-accent"
-      }
-    >
-      {children}
-    </a>
-  );
-}
-
-function FlagshipBadge() {
-  return (
-    <span className="inline-flex w-fit items-center gap-2 border border-accent bg-accent/10 px-3 py-1 font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
-      <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-      Flagship
-    </span>
-  );
-}
-
-function labelForProvider(p: string): string {
-  switch (p) {
-    case "deliveroo":
-      return "Deliveroo";
-    case "ubereats":
-      return "Uber Eats";
-    case "justeat":
-      return "Just Eat";
-    default:
-      return p;
-  }
 }

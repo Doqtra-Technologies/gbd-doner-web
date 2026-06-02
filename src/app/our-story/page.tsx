@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/section";
 import { Heading } from "@/components/ui/heading";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
+import { PageBanner } from "@/components/ui/page-banner";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -61,36 +62,17 @@ export default function OurStoryPage() {
    ──────────────────────────────────────────────────────────────────────── */
 function StoryHero() {
   return (
-    <section
-      data-theme="dark"
-      className="relative w-full min-h-[78vh] overflow-hidden bg-surface-inverse text-white"
-    >
-      <Image
-        src="/Story/1.webp"
-        alt="Great British Doner — freshly carved shish doner"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
-      {/* Readability grade — anchors the type on the lower-left. */}
-      <div className="absolute inset-0 bg-gradient-to-t from-surface-inverse/90 via-surface-inverse/30 to-surface-inverse/10" />
-
-      <div className="absolute inset-x-0 bottom-0">
-        <Shell className="flex flex-col gap-5 pb-12 lg:pb-20">
-          <Eyebrow tone="accent">Our Story</Eyebrow>
-          <h1 className="font-campaign uppercase tracking-display leading-[0.82] text-[clamp(3rem,11vw,9rem)] text-balance">
-            <span className="block">A New</span>
-            <span className="block">Generation</span>
-            <span className="block">Of Doner</span>
-          </h1>
-          <p className="max-w-xl font-body text-base leading-relaxed text-white/75 sm:text-lg">
-            Adapting traditional shish doner culture to the speed, aesthetics,
-            and lifestyle of modern Britain.
-          </p>
-        </Shell>
-      </div>
-    </section>
+    <PageBanner
+      imageSrc="/Story/1.webp"
+      imageAlt="Great British Doner — freshly carved shish doner"
+      eyebrow="OUR STORY"
+      headline={
+        <>
+          A NEW GENERATION<br />OF DONER
+        </>
+      }
+      subheading="Adapting traditional shish doner culture to the speed, aesthetics and lifestyle of modern Britain."
+    />
   );
 }
 

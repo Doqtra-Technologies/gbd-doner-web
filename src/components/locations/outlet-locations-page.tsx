@@ -35,27 +35,6 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
     // min-h-[calc(100svh-5rem)] that was creating a dead-space void when
     // fewer than ~5 cards were visible.
     <div className="bg-canvas text-text-primary">
-      {/* ── Hero / Intro ───────────────────────────────────────────────── */}
-      <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fffdf8_0%,#fff8ea_100%)]">
-        <div className="mx-auto w-full max-w-shell px-5 py-14 sm:px-8 lg:px-10 lg:py-24">
-          {/* Eyebrow — accent rule + label, mirrors the homepage hero. */}
-          <div className="flex items-center gap-3.5">
-            <span aria-hidden className="h-px w-9 bg-accent" />
-            <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
-              Locations
-            </p>
-          </div>
-          {/* Headline — tighter max-width forces intentional line breaks;
-              text-balance prevents orphans across breakpoints. */}
-          <h1 className="mt-6 max-w-3xl font-display text-4xl font-bold uppercase tracking-display leading-[0.9] text-balance sm:text-5xl lg:text-[3.5rem]">
-            {INTRO[0]}
-          </h1>
-          <p className="mt-6 max-w-lg font-body text-sm leading-relaxed text-text-secondary sm:text-base">
-            {INTRO[1]}
-          </p>
-        </div>
-      </section>
-
       {/* ── Filter bar ─────────────────────────────────────────────────── */}
       <section className="border-b border-border-hairline bg-canvas">
         <div className="mx-auto w-full max-w-shell px-5 py-4 sm:px-8 lg:px-10">
