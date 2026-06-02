@@ -53,9 +53,9 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
       {/* PHASE 3 — Top-left diagonal accent: red → white on hover */}
       <div className="absolute top-6 left-6 text-accent group-hover:text-white transition-colors duration-[400ms] opacity-80 z-20">
         <svg
-          width="40"
+          width="46"
           height="20"
-          viewBox="0 0 40 20"
+          viewBox="0 0 46 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
