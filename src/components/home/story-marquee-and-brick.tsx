@@ -8,7 +8,7 @@ import { Numeral } from "@/components/ui/numeral";
 import { DUR, EASE } from "@/brand/motion";
 import { cn } from "@/lib/utils";
 
-const MARQUEE_PHRASE = "From farm to spit, on the record";
+const MARQUEE_PHRASE = "REAL FLAVOUR. REAL PEOPLE. YOU IN?";
 
 /**
  * StoryMarqueeAndBrick — architectural story section.
@@ -77,20 +77,22 @@ export function StoryMarqueeAndBrick() {
             transition={{ duration: DUR.reveal, ease: EASE.editorial }}
             className="font-display font-bold uppercase tracking-display leading-none text-text-primary text-3xl lg:text-4xl"
           >
-            <span className="block">A doner</span>
-            <span className="block">that earns</span>
-            <span className="block">its place</span>
-            <span className="block">
-              in the city<span className="text-accent">.</span>
-            </span>
+            <span className="block">More than</span>
+            <span className="block">just doner<span className="text-accent">.</span></span>
           </motion.h2>
 
           <div className="mt-auto flex flex-col gap-6">
-            <p className="font-body text-sm leading-relaxed text-text-secondary opacity-70 max-w-md">
-              We&apos;re not a chain. We&apos;re a kitchen, a neighbourhood,
-              and a way of eating that respects the source and the seat
-              at the table.
-            </p>
+            <div className="font-body text-sm leading-relaxed text-text-secondary opacity-70 max-w-md space-y-4">
+              <p>
+                Great British Doner isn’t just another grab-and-go spot. It’s a modern street food brand built around bold flavour, quality ingredients, and a culture that brings people together.
+              </p>
+              <p>
+                Big flavours. Fresh preparation. Fast-paced energy. A brand made for people who crave more than the ordinary.
+              </p>
+              <p>
+                From wraps to loaded boxes, every bite is built to hit properly. Join the movement. Your next craving starts here.
+              </p>
+            </div>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
               <CTAButton variant="primary" size="md" href="/our-story">
                 Our Story

@@ -1,11 +1,12 @@
 export type MenuCategorySlug =
+  | "salad"
   | "boxes"
+  | "desserts"
   | "wraps"
+  | "kids-menu"
   | "burgers"
-  | "combos"
   | "sides"
-  | "drinks"
-  | "desserts";
+  | "drinks";
 
 export interface Allergen {
   code: string;

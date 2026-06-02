@@ -21,7 +21,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
         <div className="mb-16 flex items-end justify-between">
           <div>
             <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(2.5rem,4vw,4.5rem)] leading-[0.9] tracking-[-0.05em]">
-              The Branches
+              Our Locations
             </h2>
             <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary font-body">
               Find your nearest branch for pickup or delivery.
@@ -93,7 +93,7 @@ function OutletCard({ location }: { location: Location }) {
           <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/20 rounded-[18px]">
             <div className="flex flex-col gap-4 sm:flex-row">
               <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
-                Order Now
+                Collection
               </HoverPill>
               <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
                 Delivery

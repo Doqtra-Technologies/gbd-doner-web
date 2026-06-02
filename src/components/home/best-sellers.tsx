@@ -27,10 +27,10 @@ import { DUR, EASE } from "@/brand/motion";
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-const FEATURED = { src: "/best-sellers/1.png", alt: "GBD best seller — spit-fired plate", n: "01" };
+const FEATURED = { src: "/best-sellers/1.png", alt: "GBD best seller — spit-fired wrap", n: "Chicken Doner Wrap" };
 const SECONDARY = [
-  { src: "/best-sellers/2.png", alt: "GBD best seller — loaded box", n: "02" },
-  { src: "/best-sellers/3.png", alt: "GBD best seller — signature wrap", n: "03" },
+  { src: "/best-sellers/2.png", alt: "GBD best seller — signature wrap", n: "Beef Doner Wrap" },
+  { src: "/best-sellers/3.png", alt: "GBD best seller — loaded box", n: "Vegan Doner Box" },
 ];
 
 export function BestSellers() {
@@ -92,9 +92,9 @@ export function BestSellers() {
               className="mt-5 font-campaign uppercase text-white text-[clamp(2.25rem,6vw,4.5rem)]"
               style={{ lineHeight: 0.9, letterSpacing: "-0.03em" }}
             >
-              <span className="block">Our Best</span>
+              <span className="block">Our</span>
               <span className="block">
-                Sellers<span className="text-accent">.</span>
+                Favourites<span className="text-accent">.</span>
               </span>
             </h2>
           </motion.div>
@@ -239,7 +239,7 @@ function Tile({ item, featured = false, priority = false, sizes, className }: Ti
           <span
             className={cn(
               "block font-campaign leading-none text-white/90",
-              featured ? "text-5xl sm:text-7xl" : "text-4xl sm:text-5xl",
+              featured ? "text-4xl sm:text-6xl" : "text-3xl sm:text-4xl",
             )}
             style={{ letterSpacing: "-0.02em" }}
           >
