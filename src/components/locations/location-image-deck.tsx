@@ -112,7 +112,7 @@ export function LocationImageDeck({
 
   return (
     <div
-      className="relative h-[480px] lg:h-[520px] xl:h-[560px] w-full overflow-visible"
+      className="relative aspect-[9/10] w-full overflow-visible"
       onPointerEnter={() => setIsLooping(true)}
       onPointerLeave={() => setIsLooping(false)}
       onFocus={() => setIsLooping(true)}

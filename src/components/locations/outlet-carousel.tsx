@@ -15,7 +15,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
   return (
     <section className="bg-canvas border-t border-border-hairline pt-[96px] pb-[120px]">
       <div 
-        className="mx-auto w-full max-w-[1800px]"
+        className="mx-auto w-full max-w-[1920px]"
         style={{ paddingInline: 'clamp(32px, 4vw, 96px)' }}
       >
         <div className="mb-16 flex items-end justify-between">
@@ -23,7 +23,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
             <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(2.5rem,4vw,4.5rem)] leading-[0.9] tracking-[-0.05em]">
               The Branches
             </h2>
-            <p className="mt-5 max-w-xl text-lg md:text-xl text-text-secondary font-body">
+            <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary font-body">
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
@@ -32,14 +32,14 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
             <button
               aria-label="previous"
               onClick={() => scrollBy(-500)}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <button
               aria-label="next"
               onClick={() => scrollBy(500)}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
@@ -77,11 +77,11 @@ function OutletCard({ location }: { location: Location }) {
           sizes="(max-width: 640px) 85vw, (max-width: 1280px) 50vw, 33vw"
         >
           {/* Subtle dark gradient overlay for text legibility */}
-          <div className="absolute inset-x-0 bottom-0 top-1/3 bg-gradient-to-t from-black/80 via-black/30 to-transparent rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
+          <div className="absolute inset-x-0 bottom-0 top-[40%] bg-[linear-gradient(to_top,rgba(15,30,45,0.9)_0%,rgba(15,30,45,0.4)_50%,transparent_100%)] rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
 
           {/* Location Information (Bottom-left aligned) */}
           <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
-            <span className="font-display text-sm font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
+            <span className="font-display text-[10px] font-[800] uppercase tracking-[0.15em] text-white/90 mb-3 leading-none">
               {location.city}
             </span>
             <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
