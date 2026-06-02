@@ -20,7 +20,7 @@ export default async function MenuPage() {
   ]);
 
   return (
-    <main className="w-full bg-canvas">
+    <main className="relative w-full max-w-full overflow-x-hidden bg-white">
       <FullMenu items={items} categories={categories} />
     </main>
   );

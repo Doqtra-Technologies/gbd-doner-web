@@ -65,7 +65,7 @@ export function StickyCategoryNav({
         isFixed && "fixed top-20 left-0 right-0 z-40"
       )}
     >
-      <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-4 px-5 sm:px-8 lg:px-12">
+      <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-4 px-6 lg:px-12">
         <Pill
           active={activeSlug === "all"}
           onClick={() => onSelect("all")}
