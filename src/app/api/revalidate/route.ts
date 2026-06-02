@@ -23,8 +23,8 @@ export async function POST(request: Request) {
   const expected = process.env.WORDPRESS_REVALIDATE_SECRET;
   if (!expected) {
     return NextResponse.json(
-      { ok: false, error: "Server misconfigured: WORDPRESS_REVALIDATE_SECRET missing." },
-      { status: 500 },
+      { ok: false, error: "Revalidation is not configured." },
+      { status: 401 },
     );
   }
 

@@ -19,8 +19,8 @@ export async function GET(request: Request) {
 
   if (!expected) {
     return NextResponse.json(
-      { ok: false, error: "Server misconfigured: WORDPRESS_PREVIEW_SECRET missing." },
-      { status: 500 },
+      { ok: false, error: "Preview mode is not configured." },
+      { status: 401 },
     );
   }
 

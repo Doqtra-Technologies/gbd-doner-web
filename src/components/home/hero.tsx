@@ -137,7 +137,7 @@ export function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)] text-balance tracking-tight">
+            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)] text-balance tracking-display">
               <motion.span
                 variants={rise}
                 custom={0.37}

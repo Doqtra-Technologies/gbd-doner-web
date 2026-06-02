@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
+import { LocationImageDeck } from "@/components/locations/location-image-deck";
 import type { Location } from "@/domain/location";
 import { cn } from "@/lib/utils";
 
@@ -245,19 +245,14 @@ function OutletLocationCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/locations";
 
   return (
-    <article className="group relative overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_16px_40px_rgba(15,30,45,0.08)] transition-transform duration-300 hover:-translate-y-1">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={location.imageUrl ?? HERO_IMAGE}
-          alt={location.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,30,45,0.04)_10%,rgba(15,30,45,0.35)_100%)]" />
-
-        <div className="absolute inset-0 flex items-center justify-center bg-surface-inverse/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="flex flex-col gap-3">
+    <article className="group relative pb-7 pr-8">
+      <LocationImageDeck
+        location={location}
+        fallbackSrc={HERO_IMAGE}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      >
+        <div className="absolute inset-0 flex translate-y-3 items-center justify-center opacity-0 transition-[opacity,transform] duration-300 ease-smooth group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <HoverAction href={collectionHref} external={Boolean(location.clickAndCollectUrl)}>
               Collection
             </HoverAction>
@@ -266,9 +261,9 @@ function OutletLocationCard({ location }: { location: Location }) {
             </HoverAction>
           </div>
         </div>
-      </div>
+      </LocationImageDeck>
 
-      <div className="p-5 sm:p-6">
+      <div className="-mt-1 rounded-[18px] border border-border-hairline bg-canvas p-5 shadow-[0_16px_40px_rgba(15,30,45,0.08)] sm:p-6">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
@@ -337,7 +332,7 @@ function FilterChip({
 
 function HoverAction({ href, external, children }: { href: string; external: boolean; children: ReactNode }) {
   const className =
-    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-transparent bg-accent px-6 font-display text-sm font-bold uppercase tracking-button text-text-inverse transition-colors duration-300 hover:bg-accent/90";
+    "inline-flex h-12 min-w-[160px] items-center justify-center rounded-full border border-transparent bg-accent px-6 font-display text-sm font-bold uppercase tracking-button text-text-inverse shadow-[0_10px_22px_rgba(15,30,45,0.18)] transition-[background-color,transform] duration-300 ease-smooth hover:-translate-y-0.5 hover:bg-accent/90";
 
   if (external) {
     return (
