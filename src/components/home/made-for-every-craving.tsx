@@ -58,6 +58,7 @@ export function MadeForEveryCraving() {
   return (
     <section
       ref={sectionRef}
+      id="cravings-section"
       data-theme="dark"
       aria-labelledby="craving-title"
       className="relative overflow-hidden bg-surface-inverse pt-20 pb-24 text-text-inverse"
