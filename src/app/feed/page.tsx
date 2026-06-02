@@ -66,9 +66,7 @@ export default async function FeedPage() {
         eyebrow="THE FEED"
         headline={
           <>
-            WHY VEGAN DONER IS<br />
-            CHANGING FAST FOOD<br />
-            IN THE UK
+            WHY VEGAN DONER IS<br />CHANGING FAST FOOD<br />IN THE UK
           </>
         }
         subheading="Stories, culture, innovation and the future of modern doner."

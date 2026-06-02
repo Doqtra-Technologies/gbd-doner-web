@@ -22,13 +22,10 @@ export default async function LocationsPage() {
         eyebrow="LOCATIONS"
         headline={
           <>
-            EVERY GBD LOCATION IS BUILT<br />
-            AROUND FLAVOUR,<br />
-            FAST-PACED ENERGY,<br />
-            AND COMMUNITY
+            FIND YOUR<br />NEAREST GBD<br />LOCATION
           </>
         }
-        subheading="Find your nearest branch."
+        subheading="Built around flavour, fast-paced energy and everyday convenience."
       />
       <OutletLocationsPage locations={locations} />
     </div>

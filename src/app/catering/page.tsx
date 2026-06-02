@@ -37,8 +37,7 @@ export default async function CateringPage() {
         eyebrow="GBD CATERING"
         headline={
           <>
-            MODERN STREET FOOD,<br />
-            MADE FOR EVERYDAY LIFE
+            MODERN STREET FOOD,<br />MADE FOR<br />EVERYDAY LIFE
           </>
         }
         subheading="Fast. Fresh. Delivered."

@@ -20,23 +20,17 @@ export function PageBanner({
   subheading,
   cta,
 }: PageBannerProps) {
-  // Common animation config for text elements
-  const textAnimation = {
-    initial: { opacity: 0, y: 40 },
-    animate: { opacity: 1, y: 0 },
-  };
-
-  const TEXT_DURATION = 0.9;
+  const textShadow = "0 2px 10px rgba(0,0,0,.15)";
   const EASE = [0.22, 1, 0.36, 1];
-
+  
   return (
-    <section className="relative flex min-h-[45vh] md:min-h-[50vh] lg:min-h-[60vh] w-full items-end overflow-hidden bg-[#06182F]">
+    <section className="relative flex min-h-[60vh] lg:min-h-[70vh] xl:max-h-[760px] w-full items-center overflow-hidden bg-[#06182F]">
       {/* Background Image with Zoom Out effect */}
       <motion.div
         className="absolute inset-0"
-        initial={{ scale: 1.08 }}
+        initial={{ scale: 1.04 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 1.5, ease: EASE }}
+        transition={{ duration: 1.2, ease: EASE }}
       >
         <Image
           src={imageSrc}
@@ -44,67 +38,67 @@ export function PageBanner({
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
       </motion.div>
 
-      {/* Premium Dark Overlay - Left aligned gradient */}
+      {/* Primary Linear Gradient */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "linear-gradient(90deg, rgba(6,24,47,.92) 0%, rgba(6,24,47,.80) 30%, rgba(6,24,47,.45) 60%, transparent 100%)",
+          background: "linear-gradient(90deg, rgba(6,24,47,.72) 0%, rgba(6,24,47,.48) 35%, rgba(6,24,47,.18) 70%, rgba(6,24,47,.05) 100%)",
         }}
       />
 
       {/* Content Container */}
-      <div 
-        className="relative z-10 mx-auto w-full max-w-[1600px] pb-16 pt-32"
-        style={{ paddingInline: 'clamp(32px, 5vw, 96px)' }}
-      >
-        <div className="flex max-w-3xl flex-col">
+      <div className="relative z-10 w-full px-6 md:px-12 lg:ml-[8%] lg:max-w-[650px] lg:px-0 mt-20 lg:mt-0">
+        <div className="flex flex-col">
           {/* Eyebrow: 0ms delay */}
-          <motion.div 
-            className="flex items-center gap-3.5 mb-4"
-            variants={textAnimation}
-            initial="initial"
-            animate="animate"
-            transition={{ duration: TEXT_DURATION, ease: EASE, delay: 0 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0 }}
+            className="mb-5 font-display text-[11px] font-bold uppercase tracking-[0.35em] text-[#D64536]"
+            style={{ textShadow }}
           >
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
-              {eyebrow}
-            </span>
+            {eyebrow}
           </motion.div>
 
-          {/* Headline: 200ms delay */}
+          {/* Headline: 80ms delay */}
           <motion.h1 
-            className="font-display text-[clamp(2.5rem,5vw,4.5rem)] font-bold uppercase tracking-display leading-[0.95] text-white text-balance mb-6"
-            variants={textAnimation}
-            initial="initial"
-            animate="animate"
-            transition={{ duration: TEXT_DURATION, ease: EASE, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}
+            className="font-display font-bold text-[#ffffff] tracking-[-0.03em] leading-[0.98] mb-6"
+            style={{ 
+              fontSize: "clamp(3rem, 5vw, 5rem)",
+              textShadow 
+            }}
           >
             {headline}
           </motion.h1>
 
-          {/* Description: 400ms delay */}
+          {/* Description: 160ms delay */}
           <motion.p 
-            className="font-body text-base md:text-lg leading-[1.75] text-white/90 max-w-[60ch]"
-            variants={textAnimation}
-            initial="initial"
-            animate="animate"
-            transition={{ duration: TEXT_DURATION, ease: EASE, delay: 0.4 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.16 }}
+            className="font-body leading-[1.6] max-w-[40ch] text-[16px] md:text-[18px] lg:text-[22px]"
+            style={{ 
+              color: "rgba(255,255,255,.9)",
+              textShadow 
+            }}
           >
             {subheading}
           </motion.p>
 
-          {/* Optional CTA: 600ms delay */}
+          {/* Optional CTA: 240ms delay */}
           {cta && (
             <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.24 }}
               className="mt-8"
-              variants={textAnimation}
-              initial="initial"
-              animate="animate"
-              transition={{ duration: TEXT_DURATION, ease: EASE, delay: 0.6 }}
             >
               {cta}
             </motion.div>
