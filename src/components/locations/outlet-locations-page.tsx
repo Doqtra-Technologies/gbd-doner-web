@@ -72,163 +72,133 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
         </div>
       </section>
 
-      <LiveMapCTA locations={visibleLocations} />
+      {/*
+       * TEMPORARILY DISABLED
+       * Mobile Truck / Live Map Section
+       * Retained for future reactivation
+       */}
+      {/* <LiveMapCTA locations={visibleLocations} /> */}
     </main>
   );
 }
 
-function LiveMapCTA({ locations }: { locations: Location[] }) {
-  const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [nearest, setNearest] = useState<Location | null>(null);
-
-  function toRad(value: number) {
-    return (value * Math.PI) / 180;
-  }
-
-  function haversine(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-    const R = 6371; // km
-    const dLat = toRad(b.lat - a.lat);
-    const dLon = toRad(b.lng - a.lng);
-    const lat1 = toRad(a.lat);
-    const lat2 = toRad(b.lat);
-
-    const sinDLat = Math.sin(dLat / 2);
-    const sinDLon = Math.sin(dLon / 2);
-
-    const val = sinDLat * sinDLat + sinDLon * sinDLon * Math.cos(lat1) * Math.cos(lat2);
-    const c = 2 * Math.atan2(Math.sqrt(val), Math.sqrt(1 - val));
-    return R * c;
-  }
-
-  function findNearest(pos: { lat: number; lng: number }) {
-    if (!locations || locations.length === 0) return null;
-    let best: Location | null = null;
-    let bestDist = Infinity;
-    for (const loc of locations) {
-      if (!loc.coordinates) continue;
-      const d = haversine(pos, { lat: loc.coordinates.lat, lng: loc.coordinates.lng });
-      if (d < bestDist) {
-        bestDist = d;
-        best = loc;
-      }
-    }
-    return best;
-  }
-
-  function openGoogleMaps() {
-    if (!position || !nearest) return;
-    const origin = `${position.lat},${position.lng}`;
-    const destination = `${nearest.coordinates.lat},${nearest.coordinates.lng}`;
-    const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
-    window.open(url, "_blank");
-  }
-
-  function requestPosition() {
-    if (!navigator.geolocation) {
-      setError("Geolocation not supported");
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        setPosition(coords);
-        const near = findNearest(coords);
-        setNearest(near);
-      },
-      (err) => {
-        setError(err.message || "Unable to determine location");
-      },
-      { enableHighAccuracy: true, maximumAge: 1000 * 60 * 5 }
-    );
-  }
-
-  return (
-    <section className="border-t border-border-hairline bg-canvas">
-      <div className="mx-auto w-full max-w-shell px-5 py-12 sm:px-8 lg:px-10 lg:py-16 grid grid-cols-1 gap-8 lg:grid-cols-2 items-center">
-        <div>
-          <h3 className="font-display text-3xl font-bold uppercase tracking-display">ALWAYS ON THE MOVE</h3>
-          <p className="mt-4 max-w-xl font-body text-sm leading-relaxed text-text-secondary">
-            Our fleet of mobile trucks brings organic nourishment to events and pop-ups across the city. Track our live location to catch us on the go.
-          </p>
-
-          <div className="mt-6 space-y-4">
-            <div className="rounded-lg bg-white p-4 shadow">
-              <p className="font-bold">{position ? `Current Spot: ${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}` : "Current Spot: Unknown"}</p>
-              <p className="text-sm text-text-secondary">{nearest ? `${nearest.name} — ${nearest.city}` : "Nearest outlet will be shown after allowing location."}</p>
-            </div>
-
-            <div className="mt-2 flex gap-3">
-              <button
-                onClick={requestPosition}
-                className="inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3 font-display text-sm font-bold text-text-inverse shadow"
-              >
-                Get my location
-              </button>
-
-              <button
-                onClick={openGoogleMaps}
-                disabled={!position || !nearest}
-                className="inline-flex items-center gap-3 rounded-full border border-border-strong bg-white px-6 py-3 font-display text-sm font-bold text-text-primary disabled:opacity-50"
-              >
-                Open Live Map
-              </button>
-            </div>
-
-            {error && <p className="text-sm text-red-600">{error}</p>}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-center">
-           <div className="w-full max-w-md overflow-hidden rounded-[28px] border border-white/70 bg-canvas p-4 shadow-[0_24px_60px_rgba(15,30,45,0.18)]">
-            <div className="rounded-[22px] border border-white/80 bg-white p-3 shadow-[0_10px_24px_rgba(15,30,45,0.08)]">
-              <div className="mb-3 flex items-center justify-between px-1">
-                <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">
-                  Live Map
-                </p>
-                <p className="font-body text-xs text-text-secondary">
-                  {nearest ? nearest.city : "Allow location to load the nearest outlet"}
-                </p>
-              </div>
-
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] bg-canvas">
-                {nearest ? (
-                  <iframe
-                    title={`Live map for ${nearest.name}`}
-                    src={`https://www.google.com/maps?q=${nearest.coordinates.lat},${nearest.coordinates.lng}&z=15&output=embed`}
-                    className="h-full w-full"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center px-8 text-center">
-                    <div>
-                      <p className="font-display text-lg font-bold uppercase tracking-display text-text-primary">
-                        Live map preview
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                        Tap &quot;Get my location&quot; to show the nearest outlet.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {nearest && (
-                  <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/90 px-3 py-2 shadow-[0_8px_18px_rgba(15,30,45,0.12)]">
-                    <p className="font-body text-[11px] text-text-secondary">Nearest outlet</p>
-                    <p className="font-display text-xs font-bold uppercase tracking-button text-text-primary">
-                      {nearest.name}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+/*
+ * TEMPORARILY DISABLED
+ * Mobile Truck / Live Map Section
+ * Retained for future reactivation
+ *
+ * function LiveMapCTA({ locations }: { locations: Location[] }) {
+ *   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
+ *   const [error, setError] = useState<string | null>(null);
+ *   const [nearest, setNearest] = useState<Location | null>(null);
+ *
+ *   function toRad(value: number) {
+ *     return (value * Math.PI) / 180;
+ *   }
+ *
+ *   function haversine(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
+ *     const R = 6371;
+ *     const dLat = toRad(b.lat - a.lat);
+ *     const dLon = toRad(b.lng - a.lng);
+ *     const lat1 = toRad(a.lat);
+ *     const lat2 = toRad(b.lat);
+ *     const sinDLat = Math.sin(dLat / 2);
+ *     const sinDLon = Math.sin(dLon / 2);
+ *     const val = sinDLat * sinDLat + sinDLon * sinDLon * Math.cos(lat1) * Math.cos(lat2);
+ *     const c = 2 * Math.atan2(Math.sqrt(val), Math.sqrt(1 - val));
+ *     return R * c;
+ *   }
+ *
+ *   function findNearest(pos: { lat: number; lng: number }) {
+ *     if (!locations || locations.length === 0) return null;
+ *     let best: Location | null = null;
+ *     let bestDist = Infinity;
+ *     for (const loc of locations) {
+ *       if (!loc.coordinates) continue;
+ *       const d = haversine(pos, { lat: loc.coordinates.lat, lng: loc.coordinates.lng });
+ *       if (d < bestDist) { bestDist = d; best = loc; }
+ *     }
+ *     return best;
+ *   }
+ *
+ *   function openGoogleMaps() {
+ *     if (!position || !nearest) return;
+ *     const origin = `${position.lat},${position.lng}`;
+ *     const destination = `${nearest.coordinates.lat},${nearest.coordinates.lng}`;
+ *     const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+ *     window.open(url, "_blank");
+ *   }
+ *
+ *   function requestPosition() {
+ *     if (!navigator.geolocation) { setError("Geolocation not supported"); return; }
+ *     navigator.geolocation.getCurrentPosition(
+ *       (pos) => {
+ *         const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+ *         setPosition(coords);
+ *         setNearest(findNearest(coords));
+ *       },
+ *       (err) => setError(err.message || "Unable to determine location"),
+ *       { enableHighAccuracy: true, maximumAge: 1000 * 60 * 5 }
+ *     );
+ *   }
+ *
+ *   return (
+ *     <section className="border-t border-border-hairline bg-canvas">
+ *       <div className="mx-auto w-full max-w-shell px-5 py-12 sm:px-8 lg:px-10 lg:py-16 grid grid-cols-1 gap-8 lg:grid-cols-2 items-center">
+ *         <div>
+ *           <h3 className="font-display text-3xl font-bold uppercase tracking-display">ALWAYS ON THE MOVE</h3>
+ *           <p className="mt-4 max-w-xl font-body text-sm leading-relaxed text-text-secondary">
+ *             Our fleet of mobile trucks brings organic nourishment to events and pop-ups across the city.
+ *           </p>
+ *           <div className="mt-6 space-y-4">
+ *             <div className="rounded-lg bg-white p-4 shadow">
+ *               <p className="font-bold">{position ? `Current Spot: ${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}` : "Current Spot: Unknown"}</p>
+ *               <p className="text-sm text-text-secondary">{nearest ? `${nearest.name} — ${nearest.city}` : "Nearest outlet will be shown after allowing location."}</p>
+ *             </div>
+ *             <div className="mt-2 flex gap-3">
+ *               <button onClick={requestPosition} className="inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3 font-display text-sm font-bold text-text-inverse shadow">
+ *                 Get my location
+ *               </button>
+ *               <button onClick={openGoogleMaps} disabled={!position || !nearest} className="inline-flex items-center gap-3 rounded-full border border-border-strong bg-white px-6 py-3 font-display text-sm font-bold text-text-primary disabled:opacity-50">
+ *                 Open Live Map
+ *               </button>
+ *             </div>
+ *             {error && <p className="text-sm text-red-600">{error}</p>}
+ *           </div>
+ *         </div>
+ *         <div className="flex items-center justify-center">
+ *           <div className="w-full max-w-md overflow-hidden rounded-[28px] border border-white/70 bg-canvas p-4 shadow-[0_24px_60px_rgba(15,30,45,0.18)]">
+ *             <div className="rounded-[22px] border border-white/80 bg-white p-3 shadow-[0_10px_24px_rgba(15,30,45,0.08)]">
+ *               <div className="mb-3 flex items-center justify-between px-1">
+ *                 <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">Live Map</p>
+ *                 <p className="font-body text-xs text-text-secondary">{nearest ? nearest.city : "Allow location to load the nearest outlet"}</p>
+ *               </div>
+ *               <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] bg-canvas">
+ *                 {nearest ? (
+ *                   <iframe title={`Live map for ${nearest.name}`} src={`https://www.google.com/maps?q=${nearest.coordinates.lat},${nearest.coordinates.lng}&z=15&output=embed`} className="h-full w-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+ *                 ) : (
+ *                   <div className="flex h-full w-full items-center justify-center px-8 text-center">
+ *                     <div>
+ *                       <p className="font-display text-lg font-bold uppercase tracking-display text-text-primary">Live map preview</p>
+ *                       <p className="mt-2 text-sm leading-relaxed text-text-secondary">Tap "Get my location" to show the nearest outlet.</p>
+ *                     </div>
+ *                   </div>
+ *                 )}
+ *                 {nearest && (
+ *                   <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/90 px-3 py-2 shadow-[0_8px_18px_rgba(15,30,45,0.12)]">
+ *                     <p className="font-body text-[11px] text-text-secondary">Nearest outlet</p>
+ *                     <p className="font-display text-xs font-bold uppercase tracking-button text-text-primary">{nearest.name}</p>
+ *                   </div>
+ *                 )}
+ *               </div>
+ *             </div>
+ *           </div>
+ *         </div>
+ *       </div>
+ *     </section>
+ *   );
+ * }
+ */
 
 function OutletLocationCard({ location }: { location: Location }) {
   const isManchester = location.city === "Manchester";
