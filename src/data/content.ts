@@ -77,18 +77,18 @@ export const blogData = {
   article: {
     category: "BLOG",
     title: "WHY VEGAN DONER IS CHANGING FAST FOOD IN THE UK",
-    heroImage: "/blog/1.png",
-    contentPart1: [
+    heroImage: "/blog/1.webp",
+    // All six paragraphs in narrative order — exact, unmodified text.
+    // Do not reorder, paraphrase, summarise, or alter wording.
+    paragraphs: [
       "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining.",
       "Today’s customers are looking for more than just speed and convenience. They want bold flavour, better ingredients, and food choices that fit modern lifestyles without losing the comfort and satisfaction of traditional street food.",
-      "That’s why vegan doner is growing rapidly."
-    ],
-    inlineGallery: ["/blog/2.png", "/blog/3.png", "/blog/4.png"],
-    contentPart2: [
+      "That’s why vegan doner is growing rapidly.",
       "At Great British Doner, we believe plant-based food should feel just as exciting, indulgent, and flavour-packed as the original experience. From rich seasoning and authentic texture to fresh ingredients and fast service, vegan doner brings a cleaner and more modern take to one of the UK’s favourite foods.",
       "As more people explore flexible eating habits and plant-based alternatives, vegan fast food is no longer a niche category — it’s becoming part of everyday dining culture.",
-      "Modern flavour. Plant-based energy. A new generation of doner."
-    ]
+      "Modern flavour. Plant-based energy. A new generation of doner.",
+    ],
+    inlineGallery: ["/blog/2.webp", "/blog/3.webp", "/blog/4.webp"]
   }
 };
 
@@ -98,7 +98,7 @@ export const feedData = {
     title: "WHY VEGAN DONER IS CHANGING FAST FOOD IN THE UK",
     excerpt:
       "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining. Today’s customers are looking for more than just speed and convenience. They want bold flavour, better ingredients, and food choices that fit modern lifestyles without losing the comfort and satisfaction of traditional street food.",
-    image: "/blog/1.png",
+    image: "/blog/1.webp",
     slug: "/feed/vegan-doner"
   },
   gridArticles: [

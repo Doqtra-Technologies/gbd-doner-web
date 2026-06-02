@@ -10,7 +10,7 @@ export const siteConfig = {
     { href: "/menu", label: "Menu" },
     { href: "/locations", label: "Locations" },
     { href: "/our-story", label: "Our Story" },
-    { href: "/loyalty", label: "Loyalty" },
+    // { href: "/loyalty", label: "Loyalty" },
     { href: "/catering", label: "Catering" },
     { href: "/feed", label: "The Feed" },
   ],

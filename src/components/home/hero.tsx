@@ -118,10 +118,10 @@ export function Hero() {
       {/* ── Content (z-20: above overlays) ───────────────────────────── */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-20 flex w-full min-h-screen items-center"
+        className="relative z-20 flex w-full h-full items-center"
       >
-        <div className="w-full px-8 lg:px-24">
-          <div className="max-w-[620px]">
+        <div className="w-full px-8 lg:px-24 pt-20 pb-10">
+          <div className="max-w-2xl">
             {/* Micro-label */}
             <motion.div
               variants={rise}
@@ -137,7 +137,7 @@ export function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9vw,6.5rem)] text-balance tracking-display leading-[0.85]">
+            <h1 className="mt-6 font-campaign uppercase text-white text-[clamp(2.5rem,8.5vw,6rem)] leading-[0.85] tracking-display">
               <motion.span
                 variants={rise}
                 custom={0.37}
@@ -196,7 +196,7 @@ export function Hero() {
               custom={0.98}
               initial="hidden"
               animate="show"
-              className="mt-8 md:mt-10 max-w-md font-body text-base leading-relaxed text-white/70 sm:text-lg"
+              className="mt-7 max-w-md font-body text-base leading-relaxed text-white/70 sm:text-lg"
             >
               British doner engineered for bold cravings.
             </motion.p>
@@ -207,7 +207,7 @@ export function Hero() {
               custom={1.12}
               initial="hidden"
               animate="show"
-              className="mt-8 md:mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+              className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
             >
               {/* Primary — solid red, magnetic, soft glow */}
               <MagneticButton href="/order-now" reduceMotion={!!reduceMotion}>

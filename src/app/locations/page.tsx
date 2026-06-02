@@ -14,8 +14,10 @@ export default async function LocationsPage() {
   const locations = await getLocations();
 
   return (
-    <main className="w-full bg-canvas pt-28 lg:pt-36">
+    // pt-16 / pt-20 = exact navbar height (h-16 mobile, h-20 desktop) — no gap.
+    // Using <div> avoids a second nested <main> inside layout.tsx's own <main>.
+    <div className="w-full bg-canvas pt-16 lg:pt-20">
       <OutletLocationsPage locations={locations} />
-    </main>
+    </div>
   );
 }

@@ -44,7 +44,8 @@ export default async function FeedArticlePage({
   const publishedLabel = formatDate(post.publishedAt);
 
   return (
-    <main className="w-full bg-canvas">
+    // pt-16 / pt-20 = exact navbar height so the article header clears the fixed nav.
+    <main className="w-full bg-canvas pt-16 lg:pt-20">
       <article className="border-b border-border-hairline">
         <header className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline">
           <div className="md:col-span-5 flex flex-col justify-center gap-8 p-10 lg:p-16">
@@ -85,9 +86,9 @@ export default async function FeedArticlePage({
         </header>
 
         {post.bodyHtml && (
-          <div className="px-8 lg:px-16 py-16 lg:py-24 max-w-3xl mx-auto">
+          <div className="mx-auto max-w-[65ch] px-6 py-14 sm:px-8 lg:py-24">
             <div
-              className="prose-feed font-body text-base leading-relaxed text-text-primary [&_p]:mb-5 [&_h2]:font-display [&_h2]:font-bold [&_h2]:uppercase [&_h2]:tracking-display [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-2xl [&_a]:text-accent [&_a]:underline-offset-4 hover:[&_a]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_img]:my-8"
+              className="font-body text-base leading-[1.75] text-text-secondary [&_p]:mb-6 [&_h2]:font-display [&_h2]:font-bold [&_h2]:uppercase [&_h2]:tracking-display [&_h2]:mt-14 [&_h2]:mb-5 [&_h2]:text-2xl [&_h2]:text-text-primary [&_a]:text-accent [&_a]:underline-offset-4 hover:[&_a]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-6 [&_img]:my-10"
               dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
             />
           </div>
