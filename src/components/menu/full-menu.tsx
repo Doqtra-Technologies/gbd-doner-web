@@ -119,10 +119,13 @@ export function FullMenu({
   return (
     <>
       {/* Compact intro band — replaces the previous editorial hero */}
-      <header className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse">
+      <header
+        data-theme="dark"
+        className="relative w-full aspect-square md:aspect-video lg:aspect-[21/9] overflow-hidden border-b border-border-hairline bg-surface-inverse"
+      >
         <Image
-          src="/menu/banner/1.png"
-          alt=""
+          src="/menu/BANNER/ChatGPT Image 24 May 2026 23_18_04.png"
+          alt="GBD menu spread with wraps, sides, and signature plates"
           fill
           priority
           sizes="100vw"
@@ -151,23 +154,22 @@ export function FullMenu({
         onSelect={onSelect}
       />
 
-      {/* Catalog */}
+      {/* Catalog — full-bleed: no Container/max-width so the matrix grid
+          runs edge-to-edge. Section headers re-inset themselves. */}
       <div className="bg-canvas min-h-screen pb-24">
-        <Container className="pt-8">
-          <div className="flex flex-col gap-12 sm:gap-16">
-            {populated.map(({ category, items: catItems }) => (
-              <CategorySection
-                key={category.slug}
-                ref={(el) => {
-                  if (el) sectionRefs.current.set(category.slug, el);
-                  else sectionRefs.current.delete(category.slug);
-                }}
-                category={category}
-                items={catItems}
-              />
-            ))}
-          </div>
-        </Container>
+        <div className="flex flex-col gap-12 sm:gap-16 pt-8">
+          {populated.map(({ category, items: catItems }) => (
+            <CategorySection
+              key={category.slug}
+              ref={(el) => {
+                if (el) sectionRefs.current.set(category.slug, el);
+                else sectionRefs.current.delete(category.slug);
+              }}
+              category={category}
+              items={catItems}
+            />
+          ))}
+        </div>
 
         {populated.length === 0 && (
           <p className="font-body text-sm text-text-secondary opacity-70 py-24 text-center">

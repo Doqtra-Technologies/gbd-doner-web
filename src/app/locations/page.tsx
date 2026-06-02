@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { LocationsLayout } from "@/components/locations/locations-layout";
+import { OutletLocationsPage } from "@/components/locations/outlet-locations-page";
 import { getLocations } from "@/data/repositories/locations-repository";
-import { getLocationsPageSettings } from "@/data/repositories/site-settings-repository";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Locations",
   description:
-    "Find your nearest GBD Doner branch for delivery or Click + Collect.",
+    "Browse outlet locations, filter by city, and open each store page for details.",
 };
 
 export default async function LocationsPage() {
-  const [locations, pageSettings] = await Promise.all([
-    getLocations(),
-    getLocationsPageSettings(),
-  ]);
+  const locations = await getLocations();
 
-  return <LocationsLayout locations={locations} pageSettings={pageSettings} />;
+  return (
+    <main className="w-full bg-canvas pt-28 lg:pt-36">
+      <OutletLocationsPage locations={locations} />
+    </main>
+  );
 }

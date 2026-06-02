@@ -41,14 +41,17 @@ export default async function FeedPage() {
     getFeedPageSettings(),
   ]);
 
+  // Client request: surface only the single featured article for now —
+  // "Why vegan doner is changing fast food in the UK".
   const articles = posts.map(postToArticle);
-  const featured: FeedArticle = articles[0] ?? feedData.featuredArticle;
-  const grid: FeedArticle[] = articles.slice(1);
+  const featured: FeedArticle =
+    articles.find((article) => article.slug.includes("vegan-doner")) ??
+    articles[0] ??
+    feedData.featuredArticle;
 
   return (
-    <main className="w-full bg-canvas">
+    <main className="w-full bg-canvas pt-28 lg:pt-36">
       <FeedHero featured={featured} pageSettings={pageSettings} />
-      <ArticleGrid articles={grid} emptyState={pageSettings.emptyState} />
     </main>
   );
 }
@@ -60,169 +63,97 @@ function FeedHero({
   featured: FeedArticle;
   pageSettings: FeedPageSettings;
 }) {
+  const heroTitle = pageSettings.headingLines.join(" ");
+
   return (
-    <section className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline w-full">
-      <div className="md:col-span-4 md:border-r md:border-border-hairline flex flex-col justify-center gap-12 p-10 lg:p-16">
-        <span className="font-body uppercase tracking-eyebrow text-xs text-text-secondary">
-          {pageSettings.eyebrow}
-        </span>
+    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fffdf8_0%,#fff8ec_100%)]">
+      <div className="mx-auto w-full max-w-shell px-5 pt-10 pb-12 sm:px-8 lg:px-10 lg:pt-14 lg:pb-16">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="font-body text-[10px] font-bold uppercase tracking-[0.34em] text-text-secondary">
+            {pageSettings.eyebrow}
+          </p>
 
-        <h1 className="font-display font-bold uppercase tracking-display leading-[0.85] text-text-primary text-4xl sm:text-5xl lg:text-[4rem] max-w-[12ch]">
-          {pageSettings.headingLines.map((line, i) => (
-            <span key={i} className="block">
-              {renderLineWithAccentDot(line)}
-            </span>
-          ))}
-        </h1>
+          <h1 className="mt-3 font-display text-[clamp(2.4rem,6vw,4.8rem)] font-bold uppercase tracking-display leading-[0.88] text-text-primary">
+            {heroTitle}
+          </h1>
 
-        <p className="font-body text-sm md:text-base leading-relaxed text-text-secondary opacity-70 max-w-md">
-          {pageSettings.lead}
-        </p>
-      </div>
+          <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+            {pageSettings.lead}
+          </p>
+        </div>
 
-      <div className="relative md:col-span-8 w-full aspect-square md:aspect-video lg:aspect-[21/9] bg-surface-inverse overflow-hidden">
-        <Link
-          href={featured.slug}
-          aria-label={featured.title}
-          className="group block absolute inset-0"
-        >
-          <Image
-            src={featured.image}
-            alt={featured.title}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 66vw"
-            className="w-full h-full object-cover opacity-70 [filter:contrast(1.04)_saturate(1.06)_brightness(0.98)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
-          />
+        <div className="mt-10 overflow-hidden rounded-[28px] border border-border-hairline bg-canvas shadow-[0_20px_60px_rgba(15,30,45,0.08)]">
+          <div className="grid grid-cols-1 lg:grid-cols-12">
+            <div className="relative lg:col-span-7 min-h-[26rem] bg-surface-inverse overflow-hidden">
+              <Link href={featured.slug} aria-label={featured.title} className="group absolute inset-0 block">
+                <Image
+                  src={featured.image}
+                  alt={featured.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
+                />
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12 flex flex-col gap-4">
-            <span className="block font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
-              Featured · {featured.category}
-            </span>
-            <h2 className="font-display font-bold uppercase tracking-display leading-tight text-text-inverse text-2xl md:text-3xl lg:text-[2.25rem] max-w-3xl">
-              {featured.title}
-            </h2>
-            <p className="font-body text-sm text-text-inverse opacity-80 max-w-xl line-clamp-2">
-              {featured.excerpt}
-            </p>
-            <span className="inline-flex w-fit items-center gap-2 font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-inverse border-b border-text-inverse pb-1 transition-colors duration-300 ease-smooth group-hover:text-accent group-hover:border-accent">
-              Read Article
-              <span
-                aria-hidden
-                className="transition-transform duration-300 ease-smooth group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </span>
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,26,31,0.08)_0%,rgba(20,26,31,0.34)_100%)]" />
+
+                <div className="absolute left-5 top-5 z-10 rounded-full bg-surface-inverse/90 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-inverse backdrop-blur-sm">
+                  Featured Story
+                </div>
+
+                <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8 lg:p-10">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-canvas/90 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-primary backdrop-blur-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    {featured.category}
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            <div className="flex flex-col justify-between gap-8 p-6 sm:p-8 lg:col-span-5 lg:p-10">
+              <div className="space-y-5">
+                <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
+                  Performance
+                </p>
+
+                <h2 className="max-w-xl font-display text-[clamp(1.8rem,3.6vw,3rem)] font-bold uppercase tracking-display leading-[0.9] text-text-primary">
+                  <Link
+                    href={featured.slug}
+                    className="inline-block transition-all duration-300 ease-out hover:translate-x-1 hover:text-accent"
+                  >
+                    {featured.title}
+                  </Link>
+                </h2>
+
+                <p className="max-w-xl font-body text-sm leading-relaxed text-text-secondary sm:text-base">
+                  {featured.excerpt}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4 border-t border-border-hairline pt-5">
+                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-canvas text-sm font-bold uppercase text-text-primary">
+                  {initialsForAuthor(pageSettings.eyebrow)}
+                </div>
+
+                <div className="min-w-0">
+                  <p className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-secondary">
+                    By GBD Editorial
+                  </p>
+                  <p className="mt-1 truncate font-body text-sm text-text-secondary">
+                    Wellness, habits, and everyday performance.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </Link>
+        </div>
       </div>
     </section>
   );
 }
 
-function ArticleGrid({
-  articles,
-  emptyState,
-}: {
-  articles: ReadonlyArray<FeedArticle>;
-  emptyState: string;
-}) {
-  if (articles.length === 0) {
-    return (
-      <section className="py-24 text-center">
-        <p className="font-body text-sm text-text-secondary opacity-70">
-          {emptyState}
-        </p>
-      </section>
-    );
-  }
-
-  return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 w-full border-b border-border-hairline">
-      {articles.map((article, i) => (
-        <div
-          key={`${article.slug}-${i}`}
-          className={[
-            "border-r border-b border-border-hairline last:border-b-0",
-            "md:[&:nth-child(2n)]:border-r-0",
-            "lg:[&:nth-child(2n)]:border-r",
-            "lg:[&:nth-child(3n)]:border-r-0",
-            articles.length - i <= 3 ? "lg:border-b-0" : "",
-            articles.length - i <= 2 ? "md:border-b-0 lg:border-b-0" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
-          <ArticleCard article={article} />
-        </div>
-      ))}
-    </section>
-  );
-}
-
-/**
- * Splits a line at the last "." so the dot is rendered in accent red,
- * matching the original hardcoded design ("the spit<span class="accent">.</span>").
- * Lines without a "." render unchanged.
- */
-function renderLineWithAccentDot(line: string): React.ReactNode {
-  const idx = line.lastIndexOf(".");
-  if (idx === -1) return line;
-  return (
-    <>
-      {line.slice(0, idx)}
-      <span className="text-accent">{line.slice(idx)}</span>
-    </>
-  );
-}
-
-function ArticleCard({ article }: { article: FeedArticle }) {
-  return (
-    <article className="group flex flex-col h-full bg-canvas">
-      <Link
-        href={article.slug}
-        aria-label={article.title}
-        className="block"
-      >
-        <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden border-b border-border-hairline">
-          <Image
-            src={article.image}
-            alt={article.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="w-full h-full object-cover [filter:contrast(1.04)_saturate(1.06)_brightness(0.99)] transition-transform duration-[1100ms] ease-smooth group-hover:scale-[1.02]"
-          />
-        </div>
-      </Link>
-
-      <div className="flex flex-col flex-grow justify-center gap-4 p-8 lg:p-12">
-        <span className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-accent">
-          {article.category}
-        </span>
-
-        <h3 className="font-display font-bold uppercase tracking-display leading-tight text-text-primary text-xl md:text-2xl line-clamp-3">
-          <Link
-            href={article.slug}
-            className="transition-colors duration-300 ease-smooth group-hover:text-accent"
-          >
-            {article.title}
-          </Link>
-        </h3>
-
-        <p className="font-body text-sm leading-relaxed text-text-secondary opacity-70 line-clamp-3">
-          {article.excerpt}
-        </p>
-
-        <div className="mt-auto pt-4">
-          <Link
-            href={article.slug}
-            className="font-display font-bold uppercase tracking-eyebrow text-[10px] text-text-primary border-b border-border-strong pb-0.5 transition-colors duration-300 ease-smooth hover:text-accent hover:border-accent"
-          >
-            Read Article
-          </Link>
-        </div>
-      </div>
-    </article>
-  );
+function initialsForAuthor(value: string): string {
+  const words = value.split(/\s+/).filter(Boolean);
+  const letters = words.slice(0, 2).map((word) => word[0]?.toUpperCase() ?? "");
+  return letters.join("") || "GB";
 }

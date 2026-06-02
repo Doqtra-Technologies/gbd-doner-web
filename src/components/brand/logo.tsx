@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
- * The only logo lockup. Renders /logo.png exclusively.
+ * The only logo lockup. Renders /logo/gbd-logo.png exclusively.
  *
  * Sizes are tokenised; consumers do not pick width/height. Clear-space is
  * enforced by an outer padding equal to the cap-height of the wordmark.
@@ -18,7 +18,7 @@ type LogoVariant = "default" | "inverse";
 
 const sizeMap: Record<LogoSize, { width: number; height: number; className: string }> = {
   sm: { width: 132, height: 24, className: "h-6 w-auto" },
-  md: { width: 176, height: 32, className: "h-8 w-auto" },
+  md: { width: 220, height: 40, className: "h-7 w-auto sm:h-8 lg:h-10" },
   lg: { width: 220, height: 40, className: "h-10 w-auto" },
 };
 
@@ -45,15 +45,15 @@ export function Logo({
 
   const image = (
     <Image
-      src="/logo/logo.png"
+      src="/logo/gbd-logo.png"
       alt="Great British Doner"
       width={spec.width}
       height={spec.height}
       priority
       className={cn(
         spec.className,
-        "select-none",
-        variant === "inverse" && inverseFilter,
+        "select-none object-contain transition-all duration-500",
+        variant === "inverse" ? inverseFilter : "filter-none",
       )}
     />
   );

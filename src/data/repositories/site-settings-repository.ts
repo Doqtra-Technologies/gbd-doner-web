@@ -14,28 +14,29 @@ import type {
 // ----------------------------------------------------------------------------
 
 export const CATERING_DEFAULTS: CateringFormSettings = {
-  eyebrow: "05 — Enquiry",
-  headingLines: ["Let's fuel", "your next", "event."],
+  eyebrow: "Catering",
+  headingLines: ["Modern street food,", "made for everyday life"],
   lead:
-    "Tell us a little about your event. We'll come back with a tailored menu, pricing, and timings — within one working day.",
+    "Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience. Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.",
 
-  fieldNameLabel: "Name",
-  fieldNamePlaceholder: "Jane Smith",
-  fieldEmailLabel: "Email",
+  fieldNameLabel: "Full Name",
+  fieldNamePlaceholder: "Enter your full name",
+  fieldEmailLabel: "Email Address",
   fieldEmailPlaceholder: "jane@company.com",
-  fieldCompanyLabel: "Company",
-  fieldCompanyPlaceholder: "Company Ltd.",
-  fieldHeadcountLabel: "Headcount",
-  fieldHeadcountPlaceholder: "e.g. 40",
-  fieldMessageLabel: "Tell us about the event",
-  fieldMessagePlaceholder: "Date, venue, vibe — anything that helps us plan.",
+  fieldCompanyLabel: "Company / Organisation",
+  fieldCompanyPlaceholder: "Optional",
+  fieldHeadcountLabel: "Estimated Guest Count",
+  fieldHeadcountPlaceholder: "Select guest size",
+  fieldMessageLabel: "Event Details & Requirements",
+  fieldMessagePlaceholder:
+    "Tell us more about your event, dietary preferences, vegan requirements, location, or anything else we should know.",
 
-  submitLabel: "Send Brief",
+  submitLabel: "Submit Enquiry",
   submitLabelSending: "Sending…",
 
-  statusIdle: "We'll get back to you within one working day.",
+  statusIdle: "We’ll get back to you shortly.",
   statusSending: "Sending your brief…",
-  statusSuccess: "Thanks — your brief is in. We'll reply shortly.",
+  statusSuccess: "Thanks — your enquiry is in. We’ll reply shortly.",
   statusError: "Something went wrong — please try again.",
 
   recipientEmail: null,
@@ -49,9 +50,9 @@ export const LOCATIONS_PAGE_DEFAULTS: LocationsPageSettings = {
 
 export const FEED_PAGE_DEFAULTS: FeedPageSettings = {
   eyebrow: "The Feed",
-  headingLines: ["Words from", "the spit."],
+  headingLines: ["Why vegan doner is changing", "fast food in the UK."],
   lead:
-    "Nutrition deep-dives, store openings, and the people behind the brand.",
+    "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining.",
   emptyState: "More stories arriving soon.",
 };
 

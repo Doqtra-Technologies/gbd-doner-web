@@ -1,7 +1,9 @@
 import { Hero } from "@/components/home/hero";
 import { BestSellers } from "@/components/home/best-sellers";
+import { MadeForEveryCraving } from "@/components/home/made-for-every-craving";
 import { StoryMarqueeAndBrick } from "@/components/home/story-marquee-and-brick";
 import { LocationLedger } from "@/components/locations/location-ledger";
+import { OutletCarousel } from "@/components/locations/outlet-carousel";
 import { getLocations } from "@/data/repositories/locations-repository";
 
 export const revalidate = 60;
@@ -11,8 +13,9 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
+      <MadeForEveryCraving />
       <BestSellers />
-      <LocationLedger locations={locations} />
+      <OutletCarousel locations={locations} />
       <StoryMarqueeAndBrick />
       {/* Newsletter lives inside <Footer /> (TerminalFooter). */}
     </>

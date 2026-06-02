@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { MenuProductCard } from "@/components/menu/menu-product-card";
+import { MenuCard, MenuWrapper } from "@/components/menu/menu-card";
 import { cn } from "@/lib/utils";
 import type { MenuCategory, MenuItem } from "@/domain/menu-item";
 
@@ -39,8 +39,8 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
         // smooth-scroll lands the section header below them, not under them.
         className="scroll-mt-[10rem] flex flex-col gap-6"
       >
-        {/* Header row */}
-        <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:gap-4">
+        {/* Header row — re-inset (the grid below runs full-bleed) */}
+        <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:gap-4 px-6 lg:px-12">
           <h2 className="font-display font-bold uppercase tracking-display leading-none text-xl sm:text-2xl md:text-[28px] text-text-primary">
             {category.label}
           </h2>
@@ -51,12 +51,12 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
           )}
         </div>
 
-        {/* Architectural grid — flush 1px hairlines, no gap */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border-hairline">
+        {/* Kinetic macro grid — dense 4-column hover-reveal cards */}
+        <MenuWrapper>
           {items.map((item) => (
-            <MenuProductCard key={item.id} item={item} />
+            <MenuCard key={item.id} item={item} />
           ))}
-        </div>
+        </MenuWrapper>
       </section>
     );
   },

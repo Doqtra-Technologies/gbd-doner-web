@@ -29,7 +29,7 @@ type Variant = "primary" | "tertiary";
 type Size = "md" | "lg";
 
 const primaryBase =
-  "group/cta-primary relative inline-flex items-center justify-center select-none rounded-full border border-border-strong bg-canvas font-display font-bold uppercase tracking-button text-text-primary transition-all duration-[420ms] ease-smooth hover:border-accent hover:bg-accent hover:text-text-inverse active:translate-y-px disabled:opacity-50 disabled:hover:bg-canvas disabled:hover:text-text-primary disabled:hover:border-border-strong disabled:active:translate-y-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-4 focus-visible:ring-accent";
+  "group/cta-primary relative inline-flex items-center justify-center select-none rounded-full border border-transparent bg-accent font-display font-bold uppercase tracking-button text-text-inverse transition-colors duration-300 ease-smooth hover:bg-accent/90 active:translate-y-px disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
 const primarySizes: Record<Size, string> = {
   md: "h-11 px-7 text-[11px]",
@@ -37,7 +37,7 @@ const primarySizes: Record<Size, string> = {
 };
 
 const tertiaryBase =
-  "group/cta inline-flex items-center gap-2 font-display font-bold uppercase tracking-button text-xs text-text-primary transition-colors duration-300 ease-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
+  "group/cta inline-flex items-center gap-2 font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
 interface BaseProps {
   variant?: Variant;
