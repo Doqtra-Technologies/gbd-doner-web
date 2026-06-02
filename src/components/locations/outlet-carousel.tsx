@@ -42,7 +42,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 
         <div
           ref={scrollerRef}
-          className="no-scrollbar -mx-3 flex gap-6 overflow-x-auto px-3 pb-6 touch-pan-x"
+          className="no-scrollbar -mx-3 flex gap-8 overflow-x-auto px-3 pb-10 touch-pan-x snap-x snap-mandatory"
         >
           {locations.map((loc) => (
             <OutletCard key={loc.id} location={loc} />
@@ -58,11 +58,11 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[320px] shrink-0 select-none pb-8 pr-9">
+    <article className="group relative w-[88vw] shrink-0 select-none pb-10 pr-10 sm:w-[360px] snap-center">
       <LocationImageDeck
         location={location}
         fallbackSrc="/logo/gbd-logo.png"
-        sizes="(max-width: 768px) 88vw, (max-width: 1200px) 45vw, 320px"
+        sizes="(max-width: 640px) 88vw, (max-width: 1200px) 45vw, 360px"
       >
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-[opacity,transform] duration-300 ease-smooth translate-y-3 group-hover:translate-y-0 group-hover:opacity-100">
           <div className="flex flex-col gap-3 sm:flex-row">

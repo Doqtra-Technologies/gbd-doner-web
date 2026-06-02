@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
-import { LoyaltyPage } from "@/components/loyalty/loyalty-page";
-
-export const metadata: Metadata = {
-  title: "Loyalty",
-  description: "Real flavour, real people, and a loyalty-led GBD landing page.",
-};
+// Loyalty page temporarily disabled — remove this file to re-enable the route.
+import { notFound } from "next/navigation";
 
 export default function LoyaltyRoute() {
-  return <LoyaltyPage />;
+  notFound();
 }
