@@ -8,7 +8,6 @@ import {
 } from "@/data/repositories/locations-repository";
 import type { OpeningHours } from "@/domain/location";
 import { ClientOpeningStatus } from "@/components/locations/client-opening-status";
-import { OutletFlipCard } from "@/components/locations/outlet-flip-card";
 import { calculateDistance } from "@/lib/distance";
 import { cn } from "@/lib/utils";
 
@@ -306,9 +305,29 @@ export default async function LocationDetailPage({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {nearbyLocations.map((nearbyLoc) => (
-                <div key={nearbyLoc.id} className="w-full flex justify-center sm:block">
-                  <OutletFlipCard location={nearbyLoc} />
-                </div>
+                <Link
+                  key={nearbyLoc.id}
+                  href={`/locations/${nearbyLoc.slug}`}
+                  className="group flex flex-col gap-4"
+                >
+                  <div className="relative w-full aspect-square bg-surface-inverse overflow-hidden">
+                    <Image
+                      src={nearbyLoc.imageUrl ?? "/banner/location.jpeg"}
+                      alt={nearbyLoc.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold uppercase text-xl text-text-primary group-hover:text-accent transition-colors">
+                      {nearbyLoc.name}
+                    </h3>
+                    <p className="font-body text-text-secondary text-sm">
+                      {nearbyLoc.addressLine1}, {nearbyLoc.city}
+                    </p>
+                  </div>
+                </Link>
               ))}
             </div>
           </section>
