@@ -17,7 +17,7 @@
       },
       {
         "selector": "Literal[value=/\\bpy-20\\b|\\bpy-28\\b|\\bpy-40\\b|\\bpy-44\\b|\\bpy-48\\b/]",
-        "message": "Forbidden: arbitrary section padding. Wrap in <Section size=\"standard\"|\"hero\"> (py-24 or py-32)."
+        "message": "Forbidden: arbitrary section padding. Wrap in <Section size=\"compact\"|\"standard\"|\"hero\">."
       }
     ],
     "no-restricted-imports": [
@@ -36,7 +36,8 @@
     {
       "files": [
         "src/brand/**/*.{ts,tsx}",
-        "src/components/brand/**/*.{ts,tsx}"
+        "src/components/brand/**/*.{ts,tsx}",
+        "src/components/layout/section.tsx"
       ],
       "rules": {
         "no-restricted-syntax": "off"
