@@ -62,14 +62,8 @@ export default async function FeedPage() {
     <main className="w-full bg-canvas">
       <PageBanner
         imageSrc="/banner/blog.jpeg"
-        imageAlt="The Feed"
-        eyebrow="THE FEED"
-        headline={
-          <>
-            WHY VEGAN DONER IS<br />CHANGING FAST FOOD<br />IN THE UK
-          </>
-        }
-        subheading="Stories, culture, innovation and the future of modern doner."
+        imageAlt="Feed"
+        headline="FEED"
       />
       <FeedFeatured featured={featured} />
     </main>

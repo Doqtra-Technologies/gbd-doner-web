@@ -126,10 +126,10 @@ export function FullMenu({
         eyebrow="THE MENU"
         headline={
           <>
-            THE FULL<br />CATALOG
+            BIG FLAVOUR<br />PURE ENERGY
           </>
         }
-        subheading="Explore our full range of wraps, boxes, burgers, sides and desserts."
+        subheading="Freshly made street food designed for modern city cravings."
       />
 
       <StickyCategoryNav

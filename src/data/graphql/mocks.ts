@@ -4,9 +4,19 @@ import type { Post } from "@/domain/post";
 
 export const MOCK_MENU_CATEGORIES: MenuCategory[] = [
   {
+    slug: "salad",
+    label: "Salad",
+    description: "Fresh, vibrant salads topped with our signature doner meats or falafel.",
+  },
+  {
     slug: "boxes",
     label: "Boxes",
     description: "Loaded doner boxes with salads, sauces, and your choice of side.",
+  },
+  {
+    slug: "desserts",
+    label: "Desserts",
+    description: "Sweet finishers — short list, all British.",
   },
   {
     slug: "wraps",
@@ -14,14 +24,14 @@ export const MOCK_MENU_CATEGORIES: MenuCategory[] = [
     description: "Soft tortilla wraps packed with doner, salads, and signature sauces.",
   },
   {
+    slug: "kids-menu",
+    label: "Kids Menu",
+    description: "Smaller portions, big flavours. Perfect for the little ones.",
+  },
+  {
     slug: "burgers",
     label: "Burgers",
     description: "Stacked burgers built with GBD fillings and sauces.",
-  },
-  {
-    slug: "combos",
-    label: "Combos",
-    description: "Feast bundles for solo orders, duos, and families.",
   },
   {
     slug: "sides",
@@ -32,11 +42,6 @@ export const MOCK_MENU_CATEGORIES: MenuCategory[] = [
     slug: "drinks",
     label: "Drinks",
     description: "Cold cans, bottles, and classic ayran.",
-  },
-  {
-    slug: "desserts",
-    label: "Desserts",
-    description: "Sweet finishers — short list, all British.",
   },
 ];
 
@@ -309,45 +314,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     nutrition: null,
     dietaryFlags: ["V"],
   },
-  {
-    id: "combo-duo-saver",
-    slug: "duo-saver",
-    title: "Duo Saver",
-    description:
-      "2 wraps or boxes, 2 sides, 2 drinks and a cheesecake.",
-    priceGBP: null,
-    imageUrl: "/menu/COMBOS/DUO SAVER.png",
-    category: "combos",
-    isBestSeller: false,
-    allergens: [],
-    nutrition: null,
-  },
-  {
-    id: "combo-solo-feast",
-    slug: "solo-feast",
-    title: "Solo Feast",
-    description:
-      "1 wrap or box, 1 side, 1 drink and a cheesecake.",
-    priceGBP: null,
-    imageUrl: "/menu/COMBOS/SOLO FEAST.png",
-    category: "combos",
-    isBestSeller: false,
-    allergens: [],
-    nutrition: null,
-  },
-  {
-    id: "combo-family-feast-box",
-    slug: "family-feast-box",
-    title: "Family Feast Box",
-    description:
-      "4 wraps or boxes of your choice, 4 sides, 4 drinks and 2 cheesecakes - perfect for sharing.",
-    priceGBP: null,
-    imageUrl: "/menu/COMBOS/FAMILY FEAST BOX.png",
-    category: "combos",
-    isBestSeller: false,
-    allergens: [],
-    nutrition: null,
-  },
+
   {
     id: "dessert-vegan-baklava",
     slug: "vegan-baklava",
@@ -661,22 +628,22 @@ export const MOCK_LOCATIONS: Location[] = [
   {
     id: "loc-1",
     slug: "deansgate",
-    name: "GBD Deansgate",
+    name: "Manchester - Deansgate",
     isFlagship: true,
-    addressLine1: "Bridge Street",
+    addressLine1: "90 Deansgate",
     addressLine2: null,
     city: "Manchester",
-    postcode: "M3 2BW",
+    postcode: "M3 2QG",
     phone: "0161 000 1001",
     coordinates: { lat: 53.4794, lng: -2.2442 },
     hours: [
       { day: "Mon", open: "11:00", close: "23:00" },
       { day: "Tue", open: "11:00", close: "23:00" },
       { day: "Wed", open: "11:00", close: "23:00" },
-      { day: "Thu", open: "11:00", close: "00:00" },
-      { day: "Fri", open: "11:00", close: "01:00" },
-      { day: "Sat", open: "11:00", close: "01:00" },
-      { day: "Sun", open: "12:00", close: "22:00" },
+      { day: "Thu", open: "11:00", close: "23:00" },
+      { day: "Fri", open: "11:00", close: "03:00" },
+      { day: "Sat", open: "11:00", close: "03:00" },
+      { day: "Sun", open: "11:00", close: "23:00" },
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/deansgate",
     deliveryLinks: [
@@ -689,7 +656,7 @@ export const MOCK_LOCATIONS: Location[] = [
   {
     id: "loc-2",
     slug: "liverpool",
-    name: "GBD Liverpool",
+    name: "Liverpool - Bold Street",
     addressLine1: "Bold Street",
     addressLine2: null,
     city: "Liverpool",
@@ -716,7 +683,7 @@ export const MOCK_LOCATIONS: Location[] = [
   {
     id: "loc-3",
     slug: "piccadilly",
-    name: "GBD Piccadilly",
+    name: "Manchester - Piccadilly",
     addressLine1: "Piccadilly Plaza",
     addressLine2: null,
     city: "Manchester",
