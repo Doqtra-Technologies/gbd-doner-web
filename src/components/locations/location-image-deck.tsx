@@ -112,7 +112,7 @@ export function LocationImageDeck({
 
   return (
     <div
-      className="relative aspect-[4/5] overflow-visible"
+      className="relative aspect-[5/4] overflow-visible"
       onPointerEnter={() => setIsLooping(true)}
       onPointerLeave={() => setIsLooping(false)}
       onFocus={() => setIsLooping(true)}
@@ -145,17 +145,15 @@ export function LocationImageDeck({
               fill
               sizes={sizes}
               className={cn(
-                "object-cover transition-[transform,filter] duration-700 ease-smooth",
-                // Subtle brightness lift on the front image while hovering — enhances
-                // the sense of focus on the active photograph.
-                isFront && "group-hover:scale-105 group-hover:[filter:brightness(1.04)]",
+                "object-cover transition-[transform,filter] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                // Subtle brightness lift and 1.03 scale on the front image while hovering.
+                isFront && "group-hover:scale-[1.03] group-hover:[filter:brightness(1.04)]",
               )}
             />
 
             {/* Gradient + interactive children only on the front card. */}
             {isFront && (
               <>
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,30,45,0.02)_0%,rgba(15,30,45,0.38)_100%)] transition-colors duration-500 ease-smooth group-hover:bg-surface-inverse/35" />
                 {children}
               </>
             )}
