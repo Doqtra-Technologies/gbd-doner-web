@@ -685,6 +685,7 @@ export const MOCK_LOCATIONS: Location[] = [
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-deansgate" },
     ],
     imageUrl: "/locations/Deansgate.png",
+    images: ["/locations/Deansgate.png", "/locations/Deansgate-2.png"],
   },
   {
     id: "loc-2",
@@ -711,6 +712,7 @@ export const MOCK_LOCATIONS: Location[] = [
       { provider: "justeat", url: "https://just-eat.co.uk/restaurants-gbd-liverpool" },
     ],
     imageUrl: "/locations/Liverpool.png",
+    images: ["/locations/Liverpool.png", "/locations/Liverpool-2.png"],
   },
   {
     id: "loc-3",
@@ -735,7 +737,8 @@ export const MOCK_LOCATIONS: Location[] = [
     deliveryLinks: [
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-piccadilly" },
     ],
-    imageUrl: "/locations/Piccadilly.webp",
+    imageUrl: "/locations/Piccadilly.png",
+    images: ["/locations/Piccadilly.png", "/locations/Piccadilly-2.png"],
   },
 ];
 

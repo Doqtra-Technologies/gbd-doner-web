@@ -23,5 +23,7 @@ export interface Location {
   clickAndCollectUrl: string | null;
   deliveryLinks: DeliveryLink[];
   imageUrl?: string | null;
+  /** Gallery for the hover flipbook on outlet cards; falls back to imageUrl. */
+  images?: string[];
   isFlagship?: boolean;
 }
