@@ -24,7 +24,7 @@ export function PageBanner({
   const EASE = [0.22, 1, 0.36, 1];
   
   return (
-    <section className="relative flex min-h-[60vh] lg:min-h-[70vh] xl:max-h-[760px] w-full items-center overflow-hidden bg-[#06182F]">
+    <section className="relative flex min-h-[60vh] lg:min-h-[70vh] xl:max-h-[760px] w-full items-center overflow-hidden bg-surface-inverse">
       {/* Background Image with Zoom Out effect */}
       <motion.div
         className="absolute inset-0"
@@ -59,7 +59,7 @@ export function PageBanner({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: EASE, delay: 0 }}
-              className="mb-5 font-display text-[12px] font-semibold uppercase tracking-[0.28em] text-[#D64536]"
+              className="mb-5 font-display text-[12px] font-semibold uppercase tracking-eyebrow text-accent"
               style={{ textShadow }}
             >
               {eyebrow}
@@ -71,7 +71,7 @@ export function PageBanner({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}
-            className="font-display font-bold text-[#ffffff] tracking-[-0.03em] leading-[0.98] mb-6"
+            className="font-display font-bold text-text-inverse tracking-[-0.03em] leading-[0.98] mb-6"
             style={{ 
               fontSize: "clamp(3rem, 5vw, 5rem)",
               textShadow 

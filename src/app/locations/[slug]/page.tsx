@@ -122,7 +122,7 @@ export default async function LocationDetailPage({
                 </span>
               )}
             </div>
-            <h1 className="font-display font-extrabold uppercase text-white tracking-tight leading-[0.9] text-5xl md:text-7xl lg:text-8xl">
+            <h1 className="font-display font-extrabold uppercase text-white tracking-display leading-[0.9] text-5xl md:text-7xl lg:text-8xl">
               {loc.name}
             </h1>
             <p className="font-body text-white/90 text-lg md:text-xl max-w-2xl mt-4">
@@ -247,9 +247,9 @@ export default async function LocationDetailPage({
                   rel="noopener noreferrer"
                   className={cn(
                     "flex items-center justify-center min-w-[200px] h-16 border px-8 transition-colors",
-                    link.provider === "deliveroo" ? "border-[#00CCBC] text-[#00CCBC] hover:bg-[#00CCBC] hover:text-white" : "",
-                    link.provider === "ubereats" ? "border-[#06C167] text-[#06C167] hover:bg-[#06C167] hover:text-white" : "",
-                    link.provider === "justeat" ? "border-[#FF8000] text-[#FF8000] hover:bg-[#FF8000] hover:text-white" : ""
+                    link.provider === "deliveroo" ? "border-border-strong text-text-primary hover:bg-accent hover:border-accent hover:text-white" : "",
+                    link.provider === "ubereats" ? "border-border-strong text-text-primary hover:bg-accent hover:border-accent hover:text-white" : "",
+                    link.provider === "justeat" ? "border-border-strong text-text-primary hover:bg-accent hover:border-accent hover:text-white" : ""
                   )}
                 >
                   <span className="font-display font-bold uppercase tracking-button text-sm">
@@ -291,7 +291,7 @@ export default async function LocationDetailPage({
                 <span className="font-display font-bold uppercase tracking-eyebrow text-accent text-[10px]">
                   Explore More
                 </span>
-                <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl text-text-primary">
+                <h2 className="font-display font-bold uppercase tracking-display text-3xl md:text-5xl text-text-primary">
                   Nearby Locations
                 </h2>
               </div>
