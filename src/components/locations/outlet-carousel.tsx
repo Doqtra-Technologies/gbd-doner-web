@@ -14,13 +14,13 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 
   return (
     <section className="py-20 bg-canvas border-t border-border-hairline">
-      <div className="mx-auto max-w-[1700px] px-8 lg:px-16">
+      <div className="mx-auto max-w-[1700px] px-10 lg:px-24">
         <div className="mb-16 flex items-end justify-between">
           <div>
-            <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(3rem,5vw,5.5rem)] leading-[0.9] tracking-[-0.05em]">
+            <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(2.5rem,4vw,4.5rem)] leading-[0.9] tracking-[-0.05em]">
               The Branches
             </h2>
-            <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary font-body">
+            <p className="mt-5 max-w-xl text-lg md:text-xl text-text-secondary font-body">
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
@@ -44,7 +44,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 
         <div
           ref={scrollerRef}
-          className="no-scrollbar -mx-8 flex gap-10 overflow-x-auto px-8 pb-16 touch-pan-x snap-x snap-mandatory lg:-mx-16 lg:px-16"
+          className="no-scrollbar -mx-10 flex gap-12 overflow-x-auto px-10 pb-16 touch-pan-x snap-x snap-mandatory lg:-mx-24 lg:px-24"
         >
           {locations.map((loc) => (
             <OutletCard key={loc.id} location={loc} />
@@ -60,22 +60,22 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[88vw] shrink-0 select-none snap-center sm:w-[calc(50vw-40px)] xl:w-[600px] flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 pr-12 pb-6">
+    <article className="group relative w-[88vw] shrink-0 select-none snap-center sm:w-[calc(50vw-40px)] xl:w-[700px] flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[10px] pr-12 pb-6">
       <div className="w-full relative">
         <LocationImageDeck
           location={location}
           fallbackSrc="/logo/gbd-logo.png"
-          sizes="(max-width: 640px) 88vw, (max-width: 1280px) 50vw, 600px"
+          sizes="(max-width: 640px) 88vw, (max-width: 1280px) 50vw, 700px"
         >
           {/* Subtle dark gradient overlay for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent rounded-[18px] pointer-events-none transition-opacity duration-[450ms]" />
+          <div className="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent rounded-[18px] pointer-events-none transition-opacity duration-[450ms]" />
 
           {/* Location Information (Bottom-left aligned) */}
-          <div className="absolute bottom-6 left-6 right-6 z-10 flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
-            <span className="font-display text-xs md:text-sm font-bold uppercase tracking-[0.1em] text-white/80 mb-1">
+          <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
+            <span className="font-display text-xs md:text-sm font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
               {location.city}
             </span>
-            <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white">
+            <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
               {location.name}
             </h4>
           </div>
