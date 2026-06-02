@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { MenuProductCard } from "@/components/menu/menu-product-card";
+import { MenuCard, MenuWrapper } from "@/components/menu/menu-card";
 import { cn } from "@/lib/utils";
 import type { MenuCategory, MenuItem } from "@/domain/menu-item";
 
@@ -51,12 +51,12 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
           )}
         </div>
 
-        {/* Architectural grid — flush 1px hairlines, no gap */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border-hairline">
+        {/* Kinetic macro grid — dense 4-column hover-reveal cards */}
+        <MenuWrapper>
           {items.map((item) => (
-            <MenuProductCard key={item.id} item={item} />
+            <MenuCard key={item.id} item={item} />
           ))}
-        </div>
+        </MenuWrapper>
       </section>
     );
   },
