@@ -80,7 +80,7 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
 
       {/* PHASE 5 — Bottom-anchored typography + accordion */}
       <div className="flex flex-col items-center text-center w-full mt-auto">
-        <h3 className="text-[13px] md:text-[14px] font-extrabold font-display uppercase text-surface-inverse group-hover:text-white transition-colors duration-[400ms] line-clamp-2">
+        <h3 className="text-base md:text-lg font-black font-display uppercase text-surface-inverse group-hover:text-white transition-colors duration-[400ms] line-clamp-2 leading-tight">
           {item.title}
         </h3>
 
@@ -88,7 +88,7 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
         <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-[400ms] w-full">
           {/* Inner mask — overflow-hidden is required for the collapse */}
           <div className="overflow-hidden flex flex-col items-center w-full">
-            <p className="pt-2 text-[11px] font-body text-white/90 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] line-clamp-2">
+            <p className="pt-3 text-xs md:text-[13px] font-medium font-body text-white/95 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] line-clamp-3">
               {item.description}
             </p>
 
@@ -97,14 +97,14 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
               <button
                 type="button"
                 onClick={() => onOrder?.(item)}
-                className="flex-1 bg-white text-accent text-[10px] font-bold tracking-widest uppercase py-2.5 px-2 hover:bg-surface-inverse hover:text-white transition-colors"
+                className="flex-1 bg-white text-accent text-[11px] md:text-xs font-extrabold tracking-[0.15em] uppercase py-3 px-2 hover:bg-surface-inverse hover:text-white transition-colors"
               >
                 Order Now
               </button>
               <button
                 type="button"
                 onClick={() => onMoreInfo?.(item)}
-                className="flex-1 bg-transparent border border-white text-white text-[10px] font-bold tracking-widest uppercase py-2.5 px-2 hover:bg-white hover:text-accent transition-colors"
+                className="flex-1 bg-transparent border-2 border-white text-white text-[11px] md:text-xs font-extrabold tracking-[0.15em] uppercase py-2.5 px-2 hover:bg-white hover:text-accent transition-colors"
               >
                 More Info
               </button>
