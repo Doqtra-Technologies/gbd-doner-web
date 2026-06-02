@@ -13,8 +13,11 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <section className="py-20 bg-canvas border-t border-border-hairline">
-      <div className="mx-auto max-w-[1700px] px-10 lg:px-24">
+    <section className="bg-canvas border-t border-border-hairline pt-[96px] pb-[120px]">
+      <div 
+        className="mx-auto w-full max-w-[1800px]"
+        style={{ paddingInline: 'clamp(32px, 4vw, 96px)' }}
+      >
         <div className="mb-16 flex items-end justify-between">
           <div>
             <h2 className="font-display font-[800] uppercase text-text-primary text-[clamp(2.5rem,4vw,4.5rem)] leading-[0.9] tracking-[-0.05em]">
@@ -24,17 +27,18 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
-          <div className="hidden md:flex items-center gap-4">
+          {/* Controls only visible on mobile/tablet if scrolling is needed, hidden on desktop grid */}
+          <div className="hidden md:flex xl:hidden items-center gap-4">
             <button
               aria-label="previous"
-              onClick={() => scrollBy(-650)}
+              onClick={() => scrollBy(-500)}
               className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <button
               aria-label="next"
-              onClick={() => scrollBy(650)}
+              onClick={() => scrollBy(500)}
               className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_4px_12px_rgba(15,30,45,0.05)] transition-transform hover:scale-105"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
@@ -44,7 +48,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 
         <div
           ref={scrollerRef}
-          className="no-scrollbar -mx-10 flex gap-12 overflow-x-auto px-10 pb-16 touch-pan-x snap-x snap-mandatory lg:-mx-24 lg:px-24"
+          className="flex xl:grid xl:grid-cols-3 gap-8 xl:gap-12 overflow-x-auto xl:overflow-visible touch-pan-x snap-x snap-mandatory xl:snap-none pb-8 xl:pb-0 no-scrollbar -mx-8 px-8 xl:mx-0 xl:px-0"
         >
           {locations.map((loc) => (
             <OutletCard key={loc.id} location={loc} />
@@ -60,19 +64,24 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[88vw] shrink-0 select-none snap-center sm:w-[calc(50vw-40px)] xl:w-[700px] flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[10px] pr-12 pb-6">
-      <div className="w-full relative">
+    <article className="group relative w-[85vw] sm:w-[calc(50vw-40px)] xl:w-full shrink-0 xl:shrink snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
+      <div 
+        className="w-full relative rounded-[18px] transition-shadow duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.12)",
+        }}
+      >
         <LocationImageDeck
           location={location}
           fallbackSrc="/logo/gbd-logo.png"
-          sizes="(max-width: 640px) 88vw, (max-width: 1280px) 50vw, 700px"
+          sizes="(max-width: 640px) 85vw, (max-width: 1280px) 50vw, 33vw"
         >
           {/* Subtle dark gradient overlay for text legibility */}
-          <div className="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent rounded-[18px] pointer-events-none transition-opacity duration-[450ms]" />
+          <div className="absolute inset-x-0 bottom-0 top-1/3 bg-gradient-to-t from-black/80 via-black/30 to-transparent rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
 
           {/* Location Information (Bottom-left aligned) */}
-          <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
-            <span className="font-display text-xs md:text-sm font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
+          <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
+            <span className="font-display text-sm font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
               {location.city}
             </span>
             <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
@@ -81,7 +90,7 @@ function OutletCard({ location }: { location: Location }) {
           </div>
 
           {/* Interactive Hover Pills (Centered) */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/20 rounded-[18px]">
+          <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/20 rounded-[18px]">
             <div className="flex flex-col gap-4 sm:flex-row">
               <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
                 Order Now
@@ -92,6 +101,13 @@ function OutletCard({ location }: { location: Location }) {
             </div>
           </div>
         </LocationImageDeck>
+        
+        {/* Style tag to handle the hover shadow on the wrapper */}
+        <style jsx>{`
+          article:hover > div {
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 32px 80px rgba(0,0,0,0.16) !important;
+          }
+        `}</style>
       </div>
     </article>
   );

@@ -112,7 +112,7 @@ export function LocationImageDeck({
 
   return (
     <div
-      className="relative aspect-[6/5] overflow-visible"
+      className="relative h-[480px] lg:h-[520px] xl:h-[560px] w-full overflow-visible"
       onPointerEnter={() => setIsLooping(true)}
       onPointerLeave={() => setIsLooping(false)}
       onFocus={() => setIsLooping(true)}
@@ -145,9 +145,9 @@ export function LocationImageDeck({
               fill
               sizes={sizes}
               className={cn(
-                "object-cover transition-[transform,filter] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-                // Subtle brightness lift and 1.02 scale on the front image while hovering.
-                isFront && "group-hover:scale-[1.02] group-hover:[filter:brightness(1.04)]",
+                "object-cover transition-[transform,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                // Subtle brightness lift and 1.05 scale on the front image while hovering.
+                isFront && "group-hover:scale-[1.05] group-hover:[filter:brightness(1.04)]",
               )}
             />
 
