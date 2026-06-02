@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default async function CateringPage() {
   const cateringSettings = await getCateringSettings();
   return (
-    <main className="w-full bg-canvas pt-28 text-text-primary lg:pt-36">
+    <main className="w-full bg-canvas text-text-primary">
       <CateringHero />
       <CateringRequestForm settings={cateringSettings} />
     </main>
@@ -36,9 +36,15 @@ export default async function CateringPage() {
 }
 
 function CateringHero() {
+  // GAP FIX (same as /feed): warm cream #fff7eb now leads the gradient at the
+  // top — the zone beneath the transparent navbar — fading to #fffdf8 at the
+  // bottom. The cream section owns the nav-offset padding (pt-24 / lg:pt-28 =
+  // navbar height + 32px) instead of a white bg-canvas wrapper, so the
+  // background runs continuously under the navbar — no white band, no floating
+  // hero.
   return (
-    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fffdf8_0%,#fff7eb_100%)]">
-      <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10 lg:py-12">
+    <section className="border-b border-border-hairline bg-[linear-gradient(180deg,#fff7eb_0%,#fffdf8_100%)] pt-24 pb-12 lg:pt-28 lg:pb-16">
+      <div className="mx-auto grid w-full max-w-shell grid-cols-1 gap-8 px-5 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10">
         <div className="flex flex-col justify-center gap-6 lg:pr-6">
           <span className="inline-flex w-fit rounded-full bg-canvas px-4 py-1 font-display text-[10px] font-bold uppercase tracking-[0.32em] text-text-primary">
             Elevate your meeting
