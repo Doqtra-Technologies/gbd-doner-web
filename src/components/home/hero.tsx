@@ -118,9 +118,9 @@ export function Hero() {
       {/* ── Content (z-20: above overlays) ───────────────────────────── */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-20 flex w-full min-h-screen items-center"
+        className="relative z-20 flex w-full min-h-screen items-end md:items-center"
       >
-        <div className="w-full px-8 lg:px-24">
+        <div className="w-full pb-24 px-8 lg:px-24 md:pb-0">
           <div className="max-w-[620px]">
             {/* Micro-label */}
             <motion.div
@@ -137,7 +137,7 @@ export function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9vw,6.5rem)] text-balance tracking-display leading-[0.85]">
+            <h1 className="mt-8 font-campaign uppercase text-white text-[clamp(2.8rem,9.5vw,7.75rem)] text-balance tracking-display">
               <motion.span
                 variants={rise}
                 custom={0.37}
@@ -196,7 +196,7 @@ export function Hero() {
               custom={0.98}
               initial="hidden"
               animate="show"
-              className="mt-8 md:mt-10 max-w-md font-body text-base leading-relaxed text-white/70 sm:text-lg"
+              className="mt-7 max-w-md font-body text-base leading-relaxed text-white/70 sm:text-lg"
             >
               British doner engineered for bold cravings.
             </motion.p>
@@ -207,7 +207,7 @@ export function Hero() {
               custom={1.12}
               initial="hidden"
               animate="show"
-              className="mt-8 md:mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+              className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
             >
               {/* Primary — solid red, magnetic, soft glow */}
               <MagneticButton href="/order-now" reduceMotion={!!reduceMotion}>
@@ -227,21 +227,14 @@ export function Hero() {
       </motion.div>
 
       {/* Scroll cue — minimal, desktop only */}
-      <motion.a
-        href="#cravings-section"
-        onClick={(e) => {
-          e.preventDefault();
-          document
-            .getElementById("cravings-section")
-            ?.scrollIntoView({ behavior: "smooth" });
-        }}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: reduceMotion ? 0.6 : 1 }}
         transition={{ delay: 1.4, duration: DUR.standard, ease: EASE.editorial }}
         style={{ opacity: contentOpacity }}
-        className="group absolute bottom-8 right-8 z-10 hidden cursor-pointer items-center gap-3 transition-colors hover:text-accent md:flex"
+        className="pointer-events-none absolute bottom-8 right-8 z-10 hidden items-center gap-3 md:flex"
       >
-        <span className="font-display text-[10px] font-medium uppercase tracking-eyebrow text-white/55 transition-colors group-hover:text-accent">
+        <span className="font-display text-[10px] font-medium uppercase tracking-[0.3em] text-white/55">
           Scroll
         </span>
         <span aria-hidden className="relative block h-10 w-px overflow-hidden bg-white/20">
@@ -253,7 +246,7 @@ export function Hero() {
             />
           )}
         </span>
-      </motion.a>
+      </motion.div>
     </section>
   );
 }
