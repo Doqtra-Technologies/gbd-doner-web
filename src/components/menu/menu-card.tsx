@@ -49,7 +49,7 @@ export interface MenuCardProps {
 /** PHASE 2–6 — Tall red-hover card with accordion reveal. */
 export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
   return (
-    <article className="relative flex flex-col justify-between w-full aspect-[3/4] xl:aspect-[4/5] border-r border-b border-border-hairline bg-white hover:bg-accent transition-colors duration-[400ms] p-6 group cursor-pointer overflow-hidden z-0 hover:z-10">
+    <article className="relative flex flex-col justify-between w-full aspect-[3/4] xl:aspect-[4/5] border-r border-b border-border-hairline bg-white hover:bg-accent transition-colors duration-[350ms] ease-out p-6 group cursor-pointer overflow-hidden z-0 hover:z-10">
       {/* PHASE 3 — Top-left diagonal accent: red → white on hover */}
       <div className="absolute top-6 left-6 text-accent group-hover:text-white transition-colors duration-[400ms] opacity-80 z-20">
         <svg
@@ -74,7 +74,7 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
           width={400}
           height={400}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="w-full h-full object-contain drop-shadow-md group-hover:drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)] group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-[400ms] ease-out"
+          className="w-full h-full object-contain drop-shadow-md group-hover:drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)] group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-[600ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
         />
       </div>
 
@@ -85,15 +85,15 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
         </h3>
 
         {/* Accordion mask — grid-rows-[0fr] → [1fr] drives the slide */}
-        <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-[400ms] w-full">
+        <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-[500ms] ease-[cubic-bezier(0.25,1,0.5,1)] w-full">
           {/* Inner mask — overflow-hidden is required for the collapse */}
           <div className="overflow-hidden flex flex-col items-center w-full">
-            <p className="pt-3 text-xs md:text-[13px] font-medium font-body text-white/95 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] line-clamp-3">
+            <p className="pt-3 text-xs md:text-[13px] font-medium font-body text-white/95 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] delay-100 ease-out line-clamp-3">
               {item.description}
             </p>
 
             {/* PHASE 6 — CTAs styled for the red hover background */}
-            <div className="flex flex-row items-center justify-center gap-2 w-full mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] pb-1">
+            <div className="flex flex-row items-center justify-center gap-2 w-full mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] delay-[150ms] ease-out pb-1">
               <button
                 type="button"
                 onClick={() => onOrder?.(item)}
