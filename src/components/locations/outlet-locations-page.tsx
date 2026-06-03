@@ -18,16 +18,27 @@ const INTRO = [
 
 export function OutletLocationsPage({ locations }: { locations: Location[] }) {
   const [activeFilter, setActiveFilter] = useState<(typeof PANEL_FILTERS)[number]>("All Locations");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const visibleLocations = useMemo(() => {
-    const ordered = [...locations].sort((left, right) => {
+    let ordered = [...locations].sort((left, right) => {
       const cityOrder = cityRank(left.city) - cityRank(right.city);
       if (cityOrder !== 0) return cityOrder;
       return left.name.localeCompare(right.name);
     });
-    if (activeFilter === "All Locations") return ordered;
-    return ordered.filter((location) => location.city === activeFilter);
-  }, [locations, activeFilter]);
+    if (activeFilter !== "All Locations") {
+      ordered = ordered.filter((location) => location.city === activeFilter);
+    }
+    if (searchQuery.trim() !== "") {
+      const q = searchQuery.toLowerCase();
+      ordered = ordered.filter((loc) => 
+        loc.name.toLowerCase().includes(q) || 
+        loc.city.toLowerCase().includes(q) || 
+        (loc.addressLine1 && loc.addressLine1.toLowerCase().includes(q))
+      );
+    }
+    return ordered;
+  }, [locations, activeFilter, searchQuery]);
 
   return (
     // NOTE: page.tsx already renders an outer <main> — using a <div> here
@@ -38,19 +49,45 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
       {/* ── Filter bar ─────────────────────────────────────────────────── */}
       <section className="border-b border-border-hairline bg-canvas">
         <div className="mx-auto w-full max-w-shell px-5 py-4 sm:px-8 lg:px-10">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="mr-3 font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-disabled">
-              Browse by City
-            </span>
-            {PANEL_FILTERS.map((filter) => (
-              <FilterChip
-                key={filter}
-                active={activeFilter === filter}
-                onClick={() => setActiveFilter(filter)}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-3 font-display text-[10px] font-bold uppercase tracking-[0.34em] text-text-disabled">
+                Browse by City
+              </span>
+              {PANEL_FILTERS.map((filter) => (
+                <FilterChip
+                  key={filter}
+                  active={activeFilter === filter}
+                  onClick={() => setActiveFilter(filter)}
+                >
+                  {filter}
+                </FilterChip>
+              ))}
+            </div>
+            
+            <div className="relative w-full md:w-64 shrink-0">
+              <input
+                type="text"
+                placeholder="Search locations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-full border border-border-strong bg-white px-4 py-2 pl-10 text-sm font-body outline-none transition-colors focus:border-accent"
+              />
+              <svg
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                {filter}
-              </FilterChip>
-            ))}
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
           </div>
         </div>
       </section>
@@ -278,6 +315,25 @@ function OutletLocationCard({ location }: { location: Location }) {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={deliveryHref}
+            target={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl) ? "_blank" : undefined}
+            rel="noreferrer noopener"
+            className="flex-1 inline-flex h-11 items-center justify-center rounded-full bg-accent px-4 font-display text-xs font-bold uppercase tracking-button text-text-inverse transition-colors hover:bg-accent/90"
+          >
+            Order Delivery
+          </a>
+          <a
+            href={collectionHref}
+            target={Boolean(location.clickAndCollectUrl) ? "_blank" : undefined}
+            rel="noreferrer noopener"
+            className="flex-1 inline-flex h-11 items-center justify-center rounded-full border-2 border-accent bg-transparent px-4 font-display text-xs font-bold uppercase tracking-button text-accent transition-colors hover:bg-accent hover:text-text-inverse"
+          >
+            Collection
+          </a>
         </div>
       </div>
     </article>
