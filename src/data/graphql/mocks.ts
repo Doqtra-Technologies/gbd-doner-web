@@ -278,7 +278,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Generous slices of slow-cooked beef doner, carved fresh and grilled, piled high in a toasted brioche bun. Load with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Smothered with 2 signature sauces (any 2 from 8!). Savoury, juicy, and packed with authentic doner flavour.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /BEEF BURGER-ORG-ED.png",
+    imageUrl: "/menu/Burgers/BEEF BURGER-ORG-ED.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [{ code: "GLUTEN", label: "Gluten" }],
@@ -291,7 +291,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Succulent flame-grilled chicken doner slices, layered in a soft-toasted brioche bun. Customise with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Drizzled with 2 sauces of choice (8 options!). Tender, smoky, and generously filled.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /CHICKEN BURGER 2-ORG-ED-SMALL.png",
+    imageUrl: "/menu/Burgers/CHICKEN BURGER 2-ORG-ED-SMALL.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [{ code: "GLUTEN", label: "Gluten" }],
@@ -304,7 +304,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Golden fried halloumi patty (crispy outside, soft inside) stacked in a toasted brioche bun. Add any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Finished with 2 sauces of choice.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /vegan burger.png",
+    imageUrl: "/menu/Burgers/vegan burger.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [
