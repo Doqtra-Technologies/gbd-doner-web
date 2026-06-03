@@ -9,14 +9,17 @@ export const siteConfig = {
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
     { href: "/locations", label: "Locations" },
+    { href: "/always-on-the-move", label: "Always On The Move" },
     { href: "/our-story", label: "Our Story" },
     // { href: "/loyalty", label: "Loyalty" },
     { href: "/catering", label: "Catering" },
     { href: "/feed", label: "The Feed" },
+    { href: "/allergens/Allergens.pdf", label: "Allergens", download: true },
   ],
   social: {
-    instagram: "https://instagram.com/gbdoner",
-    tiktok: "https://tiktok.com/@gbdoner",
+    instagram: "https://www.instagram.com/greatbritishdoner/",
+    facebook: "https://www.facebook.com/p/Great-British-Doner-61580394281827/",
+    tiktok: "https://www.tiktok.com/@greatbritishdoner",
   },
 } as const;
 

@@ -278,7 +278,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Generous slices of slow-cooked beef doner, carved fresh and grilled, piled high in a toasted brioche bun. Load with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Smothered with 2 signature sauces (any 2 from 8!). Savoury, juicy, and packed with authentic doner flavour.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /BEEF BURGER-ORG-ED.png",
+    imageUrl: "/menu/Burgers/BEEF BURGER-ORG-ED.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [{ code: "GLUTEN", label: "Gluten" }],
@@ -291,7 +291,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Succulent flame-grilled chicken doner slices, layered in a soft-toasted brioche bun. Customise with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Drizzled with 2 sauces of choice (8 options!). Tender, smoky, and generously filled.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /CHICKEN BURGER 2-ORG-ED-SMALL.png",
+    imageUrl: "/menu/Burgers/CHICKEN BURGER 2-ORG-ED-SMALL.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [{ code: "GLUTEN", label: "Gluten" }],
@@ -304,7 +304,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Golden fried halloumi patty (crispy outside, soft inside) stacked in a toasted brioche bun. Add any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Finished with 2 sauces of choice.",
     priceGBP: null,
-    imageUrl: "/menu/Burgers /vegan burger.png",
+    imageUrl: "/menu/Burgers/vegan burger.png",
     category: "burgers",
     isBestSeller: false,
     allergens: [
@@ -647,7 +647,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/deansgate",
     deliveryLinks: [
-      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/manchester/deansgate/gbd" },
+      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/manchester/manchester-central/gbd-doner-61-deansgate?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY" },
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-deansgate" },
     ],
     imageUrl: "/locations/Deansgate.png",
@@ -674,7 +674,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/liverpool",
     deliveryLinks: [
-      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/liverpool/gbd" },
+      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/liverpool/liverpool-city-centre/gbd-doner-great-british-doner-bold-street?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY" },
       { provider: "justeat", url: "https://just-eat.co.uk/restaurants-gbd-liverpool" },
     ],
     imageUrl: "/locations/Liverpool.png",
@@ -701,7 +701,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/piccadilly",
     deliveryLinks: [
-      { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-piccadilly" },
+      { provider: "ubereats", url: "https://www.ubereats.com/gb/store/great-british-doner-piccadilly/wSCzRi55RA6bdqLsTbRBIw?srsltid=AfmBOopf5rcyWxrCKtWBevptYGW36DUqMWO2k9y_Lf5l6s8NetoyhH-3" },
     ],
     imageUrl: "/locations/Piccadilly.png",
     images: ["/locations/Piccadilly.png", "/locations/Piccadilly-2.png"],

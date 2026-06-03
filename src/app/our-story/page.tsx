@@ -6,6 +6,7 @@ import { Heading } from "@/components/ui/heading";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { PageBanner } from "@/components/ui/page-banner";
+import { JoinClubForm } from "@/components/our-story/join-club-form";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -94,14 +95,28 @@ function PhilosophySpread() {
               Real Standards.
             </Heading>
             <p className="max-w-xl font-body text-lg leading-relaxed text-text-primary">
-              We don’t see ourselves as just another kebab brand. GBD is a
-              new-generation food brand — shaped through its restaurants, product
-              development, technology, and design language.
+              At GBD, every detail matters.
+              <br />
+              <br />
+              We use authentic shish doner.
+              <br />
+              We invest heavily in product development.
+              <br />
+              We place technology at the centre of our operations.
+              <br />
+              And we see design not just as aesthetics, but as part of the customer experience itself.
             </p>
             <p className="max-w-xl font-body text-base leading-relaxed text-text-secondary">
-              Our starting point was simple: take a product people already love
-              and transform it into a higher-quality, more consistent, and more
-              contemporary experience.
+              Our approach is built around consistency, quality, and modern hospitality.
+              <br />
+              We stay connected to our roots, but we don’t believe tradition should stand still.
+              <br />
+              To us, tradition should evolve while being preserved.
+              <br />
+              By developing one of Britain’s first vegan shish doner concepts, we’ve also helped introduce doner culture to new generations and changing consumer habits.
+              <br />
+              Today, our stores maintain an average Google rating of 4.9 out of 5 — something we see as a reflection of the standards and experience we aim to deliver every single day.
+              <br />
             </p>
             <span className="mt-2 inline-flex w-max items-center gap-2.5 border border-border-hairline px-4 py-2 font-display text-[10px] font-bold uppercase tracking-eyebrow text-text-primary">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -314,12 +329,7 @@ function CommunitySection() {
                 Rewards, product drops, and first access to new openings.
               </p>
             </div>
-            <Link
-              href="/loyalty"
-              className="inline-flex h-12 w-full items-center justify-center bg-surface-inverse px-6 font-display text-xs font-bold uppercase tracking-button text-white transition-colors duration-300 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              Sign Up
-            </Link>
+            <JoinClubForm />
           </div>
         </div>
       </Shell>
