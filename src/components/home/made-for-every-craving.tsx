@@ -283,7 +283,7 @@ export function MadeForEveryCraving() {
                     Fuel in Every Sip
                   </h3>
                   <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-white/70 sm:text-base">
-                    Crafted to cool the heat.
+                    Freshly poured perfection.
                   </p>
                 </div>
               </div>

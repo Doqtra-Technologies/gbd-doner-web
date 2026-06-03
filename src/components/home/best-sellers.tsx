@@ -27,10 +27,10 @@ import { DUR, EASE } from "@/brand/motion";
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-const FEATURED = { src: "/best-sellers/1.png", alt: "GBD best seller — spit-fired wrap", n: "Chicken Doner Wrap" };
+const FEATURED = { src: "/best-sellers/3.png", alt: "GBD best seller — spit-fired wrap", n: "Vegan Doner Wrap" };
 const SECONDARY = [
   { src: "/best-sellers/2.png", alt: "GBD best seller — signature wrap", n: "Beef Doner Wrap" },
-  { src: "/best-sellers/3.png", alt: "GBD best seller — loaded box", n: "Vegan Doner Box" },
+  { src: "/best-sellers/1.png", alt: "GBD best seller — loaded box", n: "Chicken Doner Box" },
 ];
 
 export function BestSellers() {
@@ -248,7 +248,7 @@ function Tile({ item, featured = false, priority = false, sizes, className }: Ti
           <span className="mt-3 flex items-center gap-2.5">
             <span aria-hidden className="h-px w-6 bg-gbd-red" />
             <Eyebrow tone="inverse" className="text-white/70">
-              View Dish
+              View Item
             </Eyebrow>
             <span
               aria-hidden

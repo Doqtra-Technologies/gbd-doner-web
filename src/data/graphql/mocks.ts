@@ -647,7 +647,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/deansgate",
     deliveryLinks: [
-      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/manchester/deansgate/gbd" },
+      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/manchester/manchester-central/gbd-doner-61-deansgate?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY" },
       { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-deansgate" },
     ],
     imageUrl: "/locations/Deansgate.png",
@@ -674,7 +674,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/liverpool",
     deliveryLinks: [
-      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/liverpool/gbd" },
+      { provider: "deliveroo", url: "https://deliveroo.co.uk/menu/liverpool/liverpool-city-centre/gbd-doner-great-british-doner-bold-street?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY" },
       { provider: "justeat", url: "https://just-eat.co.uk/restaurants-gbd-liverpool" },
     ],
     imageUrl: "/locations/Liverpool.png",
@@ -701,7 +701,7 @@ export const MOCK_LOCATIONS: Location[] = [
     ],
     clickAndCollectUrl: "https://order.gbdoner.com/piccadilly",
     deliveryLinks: [
-      { provider: "ubereats", url: "https://ubereats.com/gb/store/gbd-piccadilly" },
+      { provider: "ubereats", url: "https://www.ubereats.com/gb/store/great-british-doner-piccadilly/wSCzRi55RA6bdqLsTbRBIw?srsltid=AfmBOopf5rcyWxrCKtWBevptYGW36DUqMWO2k9y_Lf5l6s8NetoyhH-3" },
     ],
     imageUrl: "/locations/Piccadilly.png",
     images: ["/locations/Piccadilly.png", "/locations/Piccadilly-2.png"],

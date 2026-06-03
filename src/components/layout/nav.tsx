@@ -187,6 +187,14 @@ export function Nav() {
               >
                 TikTok
               </a>
+              <a
+                href={siteConfig.social.facebook}
+                target="_blank"
+                rel="noreferrer"
+                className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                Facebook
+              </a>
             </div>
           </div>
         </nav>
