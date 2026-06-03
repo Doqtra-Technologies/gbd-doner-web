@@ -154,17 +154,31 @@ export function Nav() {
 
         <nav className="mx-auto flex flex-1 w-full max-w-shell flex-col justify-between px-5 py-12 sm:px-8 overflow-y-auto">
           <ul className="space-y-6">
-            {siteConfig.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {siteConfig.nav.map((item) => {
+              const isDownload = "download" in item && (item as any).download;
+              return (
+                <li key={item.href}>
+                  {isDownload ? (
+                    <a
+                      href={item.href}
+                      download
+                      onClick={() => setOpen(false)}
+                      className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           <div className="pt-10 border-t border-border-hairline flex items-center justify-between mt-8 flex-none">
             <span className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">

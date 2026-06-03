@@ -92,7 +92,7 @@ export function AlwaysOnTheMovePage({ locations }: { locations: Location[] }) {
       <section className="relative overflow-hidden border-b border-border-hairline pt-28 md:pt-32 lg:min-h-[calc(100vh-5rem)] lg:pt-20">
         <div className="absolute inset-x-0 top-0 h-20 bg-white" aria-hidden />
 
-        <div className="mx-auto grid min-h-[calc(100vh-7rem)] w-full max-w-[1440px] grid-cols-1 items-center gap-12 px-6 pb-16 pt-10 md:px-10 lg:grid-cols-12 lg:gap-16 lg:px-12 lg:py-20">
+        <div className="mx-auto grid min-h-[calc(100vh-7rem)] w-full max-w-[1440px] grid-cols-1 items-center gap-12 px-6 pb-16 pt-10 md:px-10 lg:grid-cols-12 lg:gap-16 lg:px-12 lg:pt-20 lg:pb-20">
           <div className="flex flex-col lg:col-span-6">
             <span className="font-display text-[11px] font-bold uppercase tracking-eyebrow text-accent">
               City Ready
@@ -240,7 +240,7 @@ function CityMotionVisual({
       <div className="absolute inset-0 flex items-center justify-center p-8">
         <div className="relative h-[330px] w-[180px] rounded-[34px] border-[7px] border-white bg-canvas shadow-[0_24px_50px_rgba(15,30,45,0.28)] md:h-[420px] md:w-[230px]">
           <div className="absolute left-1/2 top-2 h-4 w-20 -translate-x-1/2 rounded-full bg-surface-inverse/20" />
-          <div className="absolute inset-x-4 bottom-4 top-8 overflow-hidden rounded-[24px] bg-[#f7f1e8]">
+          <div className="absolute inset-x-4 bottom-4 top-8 overflow-hidden rounded-[24px]" style={{ backgroundColor: "#f7f1e8" }}>
             <div className="absolute inset-0 opacity-80 [background-image:linear-gradient(28deg,transparent_0_44%,rgba(15,30,45,0.14)_45%,rgba(15,30,45,0.14)_47%,transparent_48%),linear-gradient(118deg,transparent_0_48%,rgba(15,30,45,0.12)_49%,rgba(15,30,45,0.12)_51%,transparent_52%),linear-gradient(0deg,rgba(15,30,45,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,30,45,0.08)_1px,transparent_1px)] [background-size:160px_120px,140px_160px,34px_34px,34px_34px]" />
             <div className="absolute left-1/2 top-[42%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white shadow-[0_14px_32px_rgba(201,64,53,0.35)]">
               <PinIcon className="h-8 w-8" />

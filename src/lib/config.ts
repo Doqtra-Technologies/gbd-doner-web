@@ -14,6 +14,7 @@ export const siteConfig = {
     // { href: "/loyalty", label: "Loyalty" },
     { href: "/catering", label: "Catering" },
     { href: "/feed", label: "The Feed" },
+    { href: "/allergens/Allergens.pdf", label: "Allergens", download: true },
   ],
   social: {
     instagram: "https://www.instagram.com/greatbritishdoner/",
