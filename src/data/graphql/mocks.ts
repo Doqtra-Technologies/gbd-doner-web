@@ -199,7 +199,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     slug: "halloumi-wrap",
     title: "Halloumi Wrap",
     description:
-      "Fried halloumi (crispy outside, soft inside!) in a toasted tortilla. Choose any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. 2 signature sauces (pick from 8!). Vegetarian crunch heaven.",
+      "Fried halloumi (crispy outside, soft inside!) In toasted tortilla. Choose any/all 5 salads: lettuce red cabbage, white cabbage, onion, pickled cucumber. 2 signature sauces (pick from 8!). Vegetarian crunch heaven.",
     priceGBP: null,
     imageUrl: "/menu/Wraps/HALLOUMI WRAP-ORG-ED-1200.png",
     category: "wraps",
@@ -216,7 +216,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     slug: "falafel-wrap",
     title: "Falafel Wrap",
     description:
-      "Crispy falafel in warm tortilla. Add any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. 2 sauces (any 2 of 8!). Flavour-packed and 100% veggie.",
+      "Crispy falafel in warm tortilla. Add any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. 2 sauces (any 2 of 8!). Flavour-packed & 100% veggie.",
     priceGBP: null,
     imageUrl: "/menu/Wraps/FALAFEL WRAP-ORG-ED-1200.png",
     category: "wraps",
@@ -230,7 +230,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     slug: "vegan-doner-wrap",
     title: "Vegan Doner Wrap",
     description:
-      "100% plant-based doner in toasted tortilla. Customise with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Guilt-free and satisfying.",
+      "100% plant-based doner in toasted tortilla. Customise with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber. Guilt-free & satisfying.",
     priceGBP: null,
     imageUrl: "/menu/Wraps/FALAFEL WRAP-ORG-ED-1200.png",
     category: "wraps",
