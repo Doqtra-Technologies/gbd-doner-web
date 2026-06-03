@@ -66,10 +66,10 @@ function gbd_seed_menu_items() {
         ['slug'=>'zoogest-kids-nuggets','title'=>'Zoogest Kids Nuggets','desc'=>'Kids-size chicken nuggets portion','image'=>'/menu/Sides/chicken nuggets.jpg.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>[]],
 
         // ---------- DRINKS ----------
-        ['slug'=>'ayran','title'=>'Ayran','desc'=>'Classic chilled yoghurt drink.','image'=>'/menu/Drinks/8.png','category'=>'drinks','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk']],'dietary'=>['V']],
+        ['slug'=>'ayran','title'=>'Ayran','desc'=>'Classic chilled yoghurt drink.','image'=>'/menu/Drinks/ayran.png','category'=>'drinks','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk']],'dietary'=>['V']],
         ['slug'=>'coke-zero','title'=>'Coke Zero','desc'=>'Chilled Coke Zero.','image'=>'/menu/Drinks/COKE ZERO.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
         ['slug'=>'diet-coke','title'=>'Diet Coke','desc'=>'Chilled Diet Coke.','image'=>'/menu/Drinks/DIET COKE.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
-        ['slug'=>'fanta','title'=>'Fanta','desc'=>'Chilled Fanta.','image'=>'/menu/Drinks/9.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
+        ['slug'=>'fanta','title'=>'Fanta','desc'=>'Chilled Fanta.','image'=>'/menu/Drinks/fanta.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
         ['slug'=>'fruit-shoot','title'=>'Fruit Shoot','desc'=>'Kids fruit drink.','image'=>'/menu/Drinks/FRUIT SHOOT.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
         ['slug'=>'sprite','title'=>'Sprite','desc'=>'Chilled Sprite.','image'=>'/menu/Drinks/SPRITE.png','category'=>'drinks','best'=>false,'allergens'=>[],'dietary'=>[]],
     ];
