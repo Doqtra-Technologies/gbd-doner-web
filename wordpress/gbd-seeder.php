@@ -76,28 +76,37 @@ function gbd_seed_menu_items() {
 }
 
 function gbd_seed_locations() {
-    $hours_standard = [
-        ['day'=>'Mon','open'=>'11:00','close'=>'23:00'],
-        ['day'=>'Tue','open'=>'11:00','close'=>'23:00'],
-        ['day'=>'Wed','open'=>'11:00','close'=>'23:00'],
-        ['day'=>'Thu','open'=>'11:00','close'=>'00:00'],
-        ['day'=>'Fri','open'=>'11:00','close'=>'01:00'],
-        ['day'=>'Sat','open'=>'11:00','close'=>'01:00'],
-        ['day'=>'Sun','open'=>'12:00','close'=>'22:00'],
+    $hours_deansgate = [
+        ['day'=>'Mon','open'=>'11:30','close'=>'23:00'],
+        ['day'=>'Tue','open'=>'11:30','close'=>'23:00'],
+        ['day'=>'Wed','open'=>'11:30','close'=>'23:00'],
+        ['day'=>'Thu','open'=>'11:30','close'=>'23:00'],
+        ['day'=>'Fri','open'=>'11:30','close'=>'04:00'],
+        ['day'=>'Sat','open'=>'11:30','close'=>'04:00'],
+        ['day'=>'Sun','open'=>'11:30','close'=>'23:00'],
     ];
     $hours_picc = [
-        ['day'=>'Mon','open'=>'11:00','close'=>'22:00'],
-        ['day'=>'Tue','open'=>'11:00','close'=>'22:00'],
-        ['day'=>'Wed','open'=>'11:00','close'=>'22:00'],
-        ['day'=>'Thu','open'=>'11:00','close'=>'23:00'],
-        ['day'=>'Fri','open'=>'11:00','close'=>'00:00'],
-        ['day'=>'Sat','open'=>'11:00','close'=>'00:00'],
-        ['day'=>'Sun','open'=>'12:00','close'=>'21:00'],
+        ['day'=>'Mon','open'=>'11:00','close'=>'00:00'],
+        ['day'=>'Tue','open'=>'11:00','close'=>'00:00'],
+        ['day'=>'Wed','open'=>'11:00','close'=>'00:00'],
+        ['day'=>'Thu','open'=>'11:00','close'=>'00:00'],
+        ['day'=>'Fri','open'=>'11:00','close'=>'02:00'],
+        ['day'=>'Sat','open'=>'11:00','close'=>'02:00'],
+        ['day'=>'Sun','open'=>'11:00','close'=>'00:00'],
+    ];
+    $hours_liverpool = [
+        ['day'=>'Mon','open'=>'12:00','close'=>'00:00'],
+        ['day'=>'Tue','open'=>'12:00','close'=>'00:00'],
+        ['day'=>'Wed','open'=>'12:00','close'=>'00:00'],
+        ['day'=>'Thu','open'=>'12:00','close'=>'00:00'],
+        ['day'=>'Fri','open'=>'12:00','close'=>'04:00'],
+        ['day'=>'Sat','open'=>'12:00','close'=>'04:00'],
+        ['day'=>'Sun','open'=>'12:00','close'=>'00:00'],
     ];
     return [
-        ['slug'=>'deansgate','title'=>'GBD Deansgate','addr1'=>'Bridge Street','city'=>'Manchester','postcode'=>'M3 2BW','phone'=>'0161 000 1001','flagship'=>true,'lat'=>53.4794,'lng'=>-2.2442,'click'=>'https://order.gbdoner.com/deansgate','image'=>'/locations/Deansgate.png','hours'=>$hours_standard,'delivery'=>[['provider'=>'deliveroo','url'=>'https://deliveroo.co.uk/menu/manchester/manchester-central/gbd-doner-61-deansgate?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY'],['provider'=>'ubereats','url'=>'https://ubereats.com/gb/store/gbd-deansgate']]],
-        ['slug'=>'liverpool','title'=>'GBD Liverpool','addr1'=>'Bold Street','city'=>'Liverpool','postcode'=>'L1 4EA','phone'=>'0151 000 1002','flagship'=>false,'lat'=>53.4084,'lng'=>-2.9916,'click'=>'https://order.gbdoner.com/liverpool','image'=>'/locations/Liverpool.png','hours'=>$hours_standard,'delivery'=>[['provider'=>'deliveroo','url'=>'https://deliveroo.co.uk/menu/liverpool/liverpool-city-centre/gbd-doner-great-british-doner-bold-street?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY'],['provider'=>'justeat','url'=>'https://just-eat.co.uk/restaurants-gbd-liverpool']]],
-        ['slug'=>'piccadilly','title'=>'GBD Piccadilly','addr1'=>'Piccadilly Plaza','city'=>'Manchester','postcode'=>'M1 1AD','phone'=>'0161 000 1003','flagship'=>false,'lat'=>53.4812,'lng'=>-2.2376,'click'=>'https://order.gbdoner.com/piccadilly','image'=>'/locations/Piccadilly.webp','hours'=>$hours_picc,'delivery'=>[['provider'=>'ubereats','url'=>'https://www.ubereats.com/gb/store/great-british-doner-piccadilly/wSCzRi55RA6bdqLsTbRBIw?srsltid=AfmBOopf5rcyWxrCKtWBevptYGW36DUqMWO2k9y_Lf5l6s8NetoyhH-3']]],
+        ['slug'=>'deansgate','title'=>'GBD Deansgate','addr1'=>'61 Deansgate','city'=>'Manchester','postcode'=>'M3 2BW','phone'=>'0161 566 2481','flagship'=>true,'lat'=>53.4794,'lng'=>-2.2442,'click'=>'https://order.gbdoner.com/deansgate','image'=>'/locations/Deansgate.png','hours'=>$hours_deansgate,'delivery'=>[['provider'=>'deliveroo','url'=>'https://deliveroo.co.uk/menu/manchester/manchester-central/gbd-doner-61-deansgate?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY'],['provider'=>'ubereats','url'=>'https://ubereats.com/gb/store/gbd-deansgate']]],
+        ['slug'=>'liverpool','title'=>'GBD Liverpool','addr1'=>'28 Bold St','city'=>'Liverpool','postcode'=>'L1 4DS','phone'=>'01512720357','flagship'=>false,'lat'=>53.4084,'lng'=>-2.9916,'click'=>'https://order.gbdoner.com/liverpool','image'=>'/locations/Liverpool.png','hours'=>$hours_liverpool,'delivery'=>[['provider'=>'deliveroo','url'=>'https://deliveroo.co.uk/menu/liverpool/liverpool-city-centre/gbd-doner-great-british-doner-bold-street?utm_medium=affiliate&utm_source=google_maps_link&fulfillment_type=DELIVERY'],['provider'=>'justeat','url'=>'https://just-eat.co.uk/restaurants-gbd-liverpool']]],
+        ['slug'=>'piccadilly','title'=>'GBD Piccadilly','addr1'=>'87 Piccadilly','city'=>'Manchester','postcode'=>'M1 2DA','phone'=>'01613992713','flagship'=>false,'lat'=>53.4812,'lng'=>-2.2376,'click'=>'https://order.gbdoner.com/piccadilly','image'=>'/locations/Piccadilly.webp','hours'=>$hours_picc,'delivery'=>[['provider'=>'ubereats','url'=>'https://www.ubereats.com/gb/store/great-british-doner-piccadilly/wSCzRi55RA6bdqLsTbRBIw?srsltid=AfmBOopf5rcyWxrCKtWBevptYGW36DUqMWO2k9y_Lf5l6s8NetoyhH-3']]],
     ];
 }
 
