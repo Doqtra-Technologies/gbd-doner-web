@@ -6,6 +6,7 @@ import { Heading } from "@/components/ui/heading";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { PageBanner } from "@/components/ui/page-banner";
+import { JoinClubForm } from "@/components/our-story/join-club-form";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -328,12 +329,7 @@ function CommunitySection() {
                 Rewards, product drops, and first access to new openings.
               </p>
             </div>
-            <Link
-              href="/loyalty"
-              className="inline-flex h-12 w-full items-center justify-center bg-surface-inverse px-6 font-display text-xs font-bold uppercase tracking-button text-white transition-colors duration-300 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              Sign Up
-            </Link>
+            <JoinClubForm />
           </div>
         </div>
       </Shell>
