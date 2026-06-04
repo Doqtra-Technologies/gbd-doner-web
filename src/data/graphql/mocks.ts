@@ -715,7 +715,7 @@ export const MOCK_POSTS: Post[] = [
     title: "WHY VEGAN DONER IS CHANGING FAST FOOD IN THE UK",
     excerpt:
       "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining. Today’s customers are looking for more than just speed and convenience. They want bold flavour, better ingredients, and food choices that fit modern lifestyles without losing the comfort and satisfaction of traditional street food. At Great British Doner, we believe plant-based food should feel just as exciting, indulgent, and flavour-packed as the original experience. From rich seasoning and authentic texture to fresh ingredients and fast service, vegan doner brings a cleaner and more modern take to one of the UK’s favourite foods. As more people explore flexible eating habits and plant-based alternatives, vegan fast food is no longer a niche category — it’s becoming part of everyday dining culture. Modern flavour. Plant-based energy. A new generation of doner.",
-    featuredImageUrl: "/blog/1.webp",
+    featuredImageUrl: "/blog/1.png",
     publishedAt: "2026-04-22",
     author: "Maya Okafor",
     category: "Blog",

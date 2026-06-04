@@ -77,7 +77,7 @@ export const blogData = {
   article: {
     category: "BLOG",
     title: "WHY VEGAN DONER IS CHANGING FAST FOOD IN THE UK",
-    heroImage: "/blog/1.webp",
+    heroImage: "/blog/1.png",
     // All six paragraphs in narrative order — exact, unmodified text.
     // Do not reorder, paraphrase, summarise, or alter wording.
     paragraphs: [
@@ -88,7 +88,7 @@ export const blogData = {
       "As more people explore flexible eating habits and plant-based alternatives, vegan fast food is no longer a niche category — it’s becoming part of everyday dining culture.",
       "Modern flavour. Plant-based energy. A new generation of doner.",
     ],
-    inlineGallery: ["/blog/2.webp", "/blog/3.webp", "/blog/4.webp"]
+    inlineGallery: ["/blog/2.png", "/blog/3.png", "/blog/4.png"]
   }
 };
 
@@ -98,7 +98,7 @@ export const feedData = {
     title: "WHY VEGAN DONER IS CHANGING FAST FOOD IN THE UK",
     excerpt:
       "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining. Today’s customers are looking for more than just speed and convenience. They want bold flavour, better ingredients, and food choices that fit modern lifestyles without losing the comfort and satisfaction of traditional street food.",
-    image: "/blog/1.webp",
+    image: "/blog/1.png",
     slug: "/feed/vegan-doner"
   },
   gridArticles: [

@@ -26,7 +26,7 @@ type FeedArticle = {
 // Every image rendered on this page must come from /public/blog only.
 // External URLs (CMS, CDN, Unsplash) are rejected and replaced with the
 // local fallback so no external image request ever leaves the page.
-const FALLBACK_IMAGE = "/blog/1.webp";
+const FALLBACK_IMAGE = "/blog/1.png";
 
 function localImageOrFallback(url: string | null | undefined): string {
   if (!url) return FALLBACK_IMAGE;
@@ -61,9 +61,10 @@ export default async function FeedPage() {
   return (
     <main className="w-full bg-canvas">
       <PageBanner
-        imageSrc="/banner/blog.jpeg"
+        imageSrc="/blog/3.png"
         imageAlt="Feed"
         headline="FEED"
+        imagePosition="object-bottom"
       />
       <FeedFeatured featured={featured} />
     </main>

@@ -64,7 +64,7 @@ export default function OurStoryPage() {
 function StoryHero() {
   return (
     <PageBanner
-      imageSrc="/Story/1.webp"
+      imageSrc="/Story/1.jpeg"
       imageAlt="Great British Doner — freshly carved shish doner"
       eyebrow="OUR STORY"
       headline={
@@ -129,7 +129,7 @@ function PhilosophySpread() {
             <div className="grid grid-cols-2 gap-5 sm:gap-8">
               <div className="group relative aspect-[4/5] overflow-hidden">
                 <Image
-                  src="/Story/2.webp"
+                  src="/Story/2.png"
                   alt="GBD restaurant interior and counter"
                   fill
                   sizes="(max-width: 1024px) 50vw, 28vw"
@@ -138,7 +138,7 @@ function PhilosophySpread() {
               </div>
               <div className="group relative mt-8 aspect-[4/5] overflow-hidden lg:mt-16">
                 <Image
-                  src="/Story/3.webp"
+                  src="/Story/3.png"
                   alt="A freshly prepared GBD wrap"
                   fill
                   sizes="(max-width: 1024px) 50vw, 28vw"
@@ -192,7 +192,7 @@ function BlueprintSection() {
           <div className="flex flex-col gap-7 lg:col-span-7">
             <div className="group relative aspect-[16/10] overflow-hidden">
               <Image
-                src="/Story/4.webp"
+                src="/Story/4.png"
                 alt="Authentic shish doner on the spit"
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
@@ -246,7 +246,7 @@ function BlueprintSection() {
           </div>
           <div className="group relative min-h-[280px] overflow-hidden lg:min-h-0">
             <Image
-              src="/Story/5.webp"
+              src="/Story/5.png"
               alt="The GBD experience — design-led modern hospitality"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -265,17 +265,17 @@ function BlueprintSection() {
    ──────────────────────────────────────────────────────────────────────── */
 const RECOGNITION = [
   {
-    image: "/Story/6.webp",
+    image: "/Story/6.png",
     label: "Award-Winning",
     copy: "Recognised at the British Kebab Awards and awarded by PETA.",
   },
   {
-    image: "/Story/7.webp",
+    image: "/Story/7.png",
     label: "In The Press",
     copy: "Featured by The Sun and on the BBC discussing doner culture.",
   },
   {
-    image: "/Story/2.webp",
+    image: "/Story/8.png",
     label: "A Growing Community",
     copy: "Viral content and a community across Manchester and Liverpool.",
   },

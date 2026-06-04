@@ -55,7 +55,7 @@ function CateringRequestForm({ settings }: { settings: CateringFormSettings }) {
           <div className="mb-6 overflow-hidden rounded-[18px] border border-border-hairline bg-canvas shadow-[0_14px_30px_rgba(15,30,45,0.06)]">
             <div className="relative h-24 sm:h-32 lg:h-36">
               <Image
-                src="/catering/2.png"
+                src="/catering/1.png"
                 alt="GBD catering event setup with team enjoying food"
                 fill
                 sizes="(max-width: 1024px) 100vw, 70vw"

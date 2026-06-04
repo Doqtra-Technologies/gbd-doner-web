@@ -10,6 +10,7 @@ interface PageBannerProps {
   headline: React.ReactNode;
   subheading?: string;
   cta?: React.ReactNode;
+  imagePosition?: string;
 }
 
 export function PageBanner({
@@ -19,6 +20,7 @@ export function PageBanner({
   headline,
   subheading,
   cta,
+  imagePosition = "object-center",
 }: PageBannerProps) {
   const textShadow = "0 2px 10px rgba(0,0,0,.15)";
   const EASE = [0.22, 1, 0.36, 1];
@@ -38,7 +40,7 @@ export function PageBanner({
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className={`object-cover ${imagePosition}`}
         />
       </motion.div>
 
