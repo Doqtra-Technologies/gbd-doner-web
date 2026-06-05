@@ -45,11 +45,11 @@ function gbd_seed_menu_items() {
         ['slug'=>'family-feast-box','title'=>'Family Feast Box','desc'=>'4 wraps or boxes of your choice, 4 sides, 4 drinks and 2 cheesecakes. Perfect for sharing.','image'=>'/menu/COMBOS/FAMILY FEAST BOX.png','category'=>'combos','best'=>false,'allergens'=>[],'dietary'=>[]],
 
         // ---------- DESSERTS ----------
-        ['slug'=>'vegan-baklava','title'=>'Vegan Baklava','desc'=>'Dairy-free baklava with pistachios and plant-based syrup.','image'=>'/menu/Desserts/Vegan Baklava-web.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'NUTS','label'=>'Nuts']],'dietary'=>['VG','N']],
+
         ['slug'=>'homemade-cheesecake','title'=>'Homemade Cheesecake','desc'=>'Creamy cheesecake on a buttery biscuit base.','image'=>'/menu/Desserts/CHEESECAKE-ORG.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
         ['slug'=>'tiramisu','title'=>'Tiramisu','desc'=>'Coffee-soaked ladyfingers with mascarpone and cocoa.','image'=>'/menu/Desserts/CHEESECAKE CHOCOLATE.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
         ['slug'=>'banana-pudding','title'=>'Banana Pudding','desc'=>'Creamy banana pudding layered for a sweet finish.','image'=>'/menu/Desserts/Banana Pudding-web.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk']],'dietary'=>['V']],
-        ['slug'=>'pistachio-baklava','title'=>'Pistachio Baklava','desc'=>'Traditional Turkish baklava with pistachios.','image'=>'/menu/Desserts/Vegan Baklava-web.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'NUTS','label'=>'Nuts'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V','N']],
+        ['slug'=>'baklava','title'=>'Baklava','desc'=>'Traditional Turkish baklava with pistachios.','image'=>'/menu/Desserts/Vegan Baklava-web.png','category'=>'desserts','best'=>false,'allergens'=>[['code'=>'NUTS','label'=>'Nuts'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V','N']],
 
         // ---------- SIDES ----------
         ['slug'=>'fries-regular','title'=>'Fries','desc'=>'Regular','image'=>'/menu/Sides/Chıps box.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['VG']],
@@ -57,11 +57,12 @@ function gbd_seed_menu_items() {
         ['slug'=>'chicken-nuggets-6-pieces','title'=>'Chicken Nuggets','desc'=>'6 Pieces. Crispy chicken nuggets served with dipping sauce.','image'=>'/menu/Sides/chicken nuggets.jpg.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>[]],
         ['slug'=>'halloumi-4-pieces','title'=>'Halloumi','desc'=>'4 Pieces','image'=>'/menu/Sides/halloumi sticks.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk']],'dietary'=>['V']],
         ['slug'=>'mozzarella-sticks-4-pieces','title'=>'Mozzarella Sticks','desc'=>'4 Pieces','image'=>'/menu/Sides/cheese sticks.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
-        ['slug'=>'hummus-and-naan','title'=>'Hummus and Naan','desc'=>'Creamy hummus served with warm naan bread.','image'=>'/menu/Sides/hummus and tortilla.webp','category'=>'sides','best'=>false,'allergens'=>[['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
+        ['slug'=>'hummus','title'=>'Hummus','desc'=>'Creamy hummus.','image'=>'/menu/Sides/hummus and tortilla.webp','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['V']],
         ['slug'=>'falafel-side','title'=>'Falafel','desc'=>'Crispy falafel served as a side.','image'=>'/menu/Sides/falafel.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['V','VG']],
         ['slug'=>'cheese-bites','title'=>'Cheese Bites','desc'=>'Crispy chilli cheese bites.','image'=>'/menu/Sides/chilli cheese bites.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'MILK','label'=>'Milk'],['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
         ['slug'=>'rice-portion','title'=>'Rice Portion','desc'=>'Seasoned rice served as a side.','image'=>'/menu/Sides/RICE.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['VG','GF']],
-        ['slug'=>'tortilla','title'=>'Tortilla','desc'=>'Soft tortilla bread served on the side.','image'=>'/menu/Sides/chips small.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>['V']],
+        ['slug'=>'chips-box','title'=>'Chips Box','desc'=>'Golden chips served in a box.','image'=>'/menu/Sides/Chıps box.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['VG']],
+        ['slug'=>'garlic-chips','title'=>'Garlic Chips','desc'=>'Fries with a kick of garlic sauce.','image'=>'/menu/Sides/garlic chips.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['V']],
         ['slug'=>'side-salad','title'=>'Side Salad','desc'=>'Fresh mixed salad with crunchy vegetables.','image'=>'/menu/Sides/side salad.png','category'=>'sides','best'=>false,'allergens'=>[],'dietary'=>['VG','GF']],
         ['slug'=>'zoogest-kids-nuggets','title'=>'Zoogest Kids Nuggets','desc'=>'Kids-size chicken nuggets portion','image'=>'/menu/Sides/chicken nuggets.jpg.png','category'=>'sides','best'=>false,'allergens'=>[['code'=>'GLUTEN','label'=>'Gluten']],'dietary'=>[]],
 
