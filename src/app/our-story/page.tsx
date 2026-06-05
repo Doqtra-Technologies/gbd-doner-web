@@ -64,7 +64,7 @@ export default function OurStoryPage() {
 function StoryHero() {
   return (
     <PageBanner
-      imageSrc="/Story/1.jpeg"
+      imageSrc="/Story/our story banner.png"
       imageAlt="Great British Doner — freshly carved shish doner"
       eyebrow="OUR STORY"
       headline={

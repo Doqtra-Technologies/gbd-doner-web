@@ -55,7 +55,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Slow cooked 100% beef doner slices, rich and tender. Loaded with any/all 5 salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber + 2 sauces of choice (8 options!). Served with golden chips, fluffy rice, or soft tortilla. Hearty, satisfying, packed with flavour.",
     priceGBP: null,
-    imageUrl: "/menu/Boxes/BEEF HALLOUMI SALAD BOX-ORG-NEW.png",
+    imageUrl: "/menu/Boxes/BEEF SALAD BOX 2-ORG-ED.jpg",
     category: "boxes",
     isBestSeller: true,
     allergens: [],
@@ -68,7 +68,7 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     description:
       "Succulent flame-grilled chicken doner, tender and seasoned. Served with any/all 5 fresh salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber + 2 signature sauces (pick any 2 from 8!). Your choice of side: golden chips, fluffy rice, or warm tortilla. Generous portions, authentic flavours.",
     priceGBP: null,
-    imageUrl: "/menu/Boxes/chicken CHIPS BOX2-ORG-NEW.png",
+    imageUrl: "/menu/Boxes/Chicken box.jpg",
     category: "boxes",
     isBestSeller: true,
     allergens: [],
@@ -153,6 +153,32 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     category: "boxes",
     isBestSeller: false,
     allergens: [{ code: "MILK", label: "Milk" }],
+    nutrition: null,
+  },
+  {
+    id: "box-chicken-chips",
+    slug: "chicken-chips-box",
+    title: "Chicken Chips Box",
+    description:
+      "Succulent flame-grilled chicken doner served over a bed of golden, crispy chips. Loaded with any/all 5 fresh salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber + 2 signature sauces of choice. Generous portions, authentic flavours.",
+    priceGBP: null,
+    imageUrl: "/menu/Boxes/CHICKEN CHIPS BOX-ORG-NEW.jpg",
+    category: "boxes",
+    isBestSeller: false,
+    allergens: [],
+    nutrition: null,
+  },
+  {
+    id: "box-beef-chips",
+    slug: "beef-chips-box",
+    title: "Beef Chips Box",
+    description:
+      "Slow cooked 100% beef doner slices, rich and tender, served over a bed of golden, crispy chips. Loaded with any/all 5 fresh salads: lettuce, red cabbage, white cabbage, onion, pickled cucumber + 2 signature sauces of choice. Hearty, satisfying, packed with flavour.",
+    priceGBP: null,
+    imageUrl: "/menu/Boxes/BEEF CHIPS BOX2-ORG.jpg",
+    category: "boxes",
+    isBestSeller: false,
+    allergens: [],
     nutrition: null,
   },
   {
