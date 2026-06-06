@@ -77,25 +77,25 @@ function OutletCard({ location }: { location: Location }) {
           sizes="(max-width: 640px) 85vw, (max-width: 1280px) 50vw, 33vw"
         >
           {/* Subtle dark gradient overlay for text legibility */}
-          <div className="absolute inset-x-0 bottom-0 top-[40%] bg-[linear-gradient(to_top,rgba(15,30,45,0.9)_0%,rgba(15,30,45,0.4)_50%,transparent_100%)] rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
+          <div className="absolute inset-x-0 bottom-0 top-[20%] md:top-[40%] bg-[linear-gradient(to_top,rgba(15,30,45,0.9)_0%,rgba(15,30,45,0.5)_60%,transparent_100%)] rounded-[18px] pointer-events-none transition-opacity duration-[600ms]" />
 
           {/* Location Information (Bottom-left aligned) */}
-          <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
-            <span className="font-display text-[10px] font-[800] uppercase tracking-[0.15em] text-white/90 mb-3 leading-none">
+          <div className="absolute bottom-24 md:bottom-8 left-6 md:left-8 right-6 md:right-8 z-10 flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2">
+            <span className="font-display text-[10px] font-[800] uppercase tracking-[0.15em] text-white/90 mb-2 md:mb-3 leading-none">
               {location.city}
             </span>
-            <h4 className="font-display text-[clamp(2rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
+            <h4 className="font-display text-[clamp(1.75rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
               {location.name}
             </h4>
           </div>
 
-          {/* Interactive Hover Pills (Centered) */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z-40 bg-black/20 rounded-[18px]">
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <HoverPill href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
+          {/* Interactive Hover Pills (Always visible on mobile, Hover on desktop) */}
+          <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col items-center justify-end md:inset-0 md:justify-center md:opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:translate-y-4 md:group-hover:translate-y-0 md:group-hover:opacity-100 z-40 md:bg-black/20 rounded-[18px]">
+            <div className="flex flex-row w-full gap-3 md:w-auto md:flex-col lg:flex-row">
+              <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
                 Collection
               </HoverPill>
-              <HoverPill href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
+              <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
                 Delivery
               </HoverPill>
             </div>
@@ -117,13 +117,14 @@ function HoverPill({
   href,
   external,
   children,
+  className: customClass,
 }: {
   href: string;
   external: boolean;
   children: React.ReactNode;
+  className?: string;
 }) {
-  const className =
-    "inline-flex min-w-[138px] items-center justify-center rounded-full bg-accent px-5 py-3 text-center font-display text-sm font-bold uppercase tracking-button text-text-inverse shadow-[0_10px_22px_rgba(15,30,45,0.18)] transition-[background-color,transform] duration-300 ease-smooth hover:-translate-y-0.5 hover:bg-accent/90";
+  const className = `inline-flex items-center justify-center rounded-full bg-accent py-3 text-center font-display text-sm font-bold uppercase tracking-button text-text-inverse shadow-[0_10px_22px_rgba(15,30,45,0.18)] transition-[background-color,transform] duration-300 ease-smooth hover:-translate-y-0.5 hover:bg-accent/90 ${customClass || "min-w-[138px] px-5"}`;
 
   if (external) {
     return (

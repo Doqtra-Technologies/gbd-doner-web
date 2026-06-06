@@ -72,11 +72,11 @@ function LocationsLayoutInner({ pageSettings }: { pageSettings: LocationsPageSet
 
   return (
     <>
-      <main className="mt-16 lg:mt-20 flex h-[calc(100vh-4rem)] min-h-[calc(100svh-4rem)] lg:h-[calc(100vh-5rem)] lg:min-h-[calc(100svh-5rem)] w-screen flex-col md:flex-row overflow-hidden bg-canvas min-w-0 min-h-0">
+      <main className="mt-16 lg:mt-20 flex min-h-[calc(100svh-4rem)] lg:min-h-[calc(100svh-5rem)] w-screen flex-col md:flex-row md:h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] md:overflow-hidden bg-canvas min-w-0 min-h-0">
         <LocationsSidebar pageSettings={pageSettings} />
 
         {/* Map — preview on mobile, fullscreen on desktop */}
-        <div className="order-2 md:order-none relative z-[10] flex-none h-[40vh] sm:h-[45vh] md:flex-1 md:h-full min-w-0 min-h-0 overflow-hidden">
+        <div className="order-2 md:order-none relative z-[10] flex-none h-[35vh] sm:h-[40vh] md:flex-1 md:h-full min-w-0 min-h-0 md:overflow-hidden">
           <LocationsMap />
         </div>
       </main>

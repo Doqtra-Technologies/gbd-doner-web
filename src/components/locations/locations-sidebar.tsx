@@ -47,7 +47,7 @@ export function LocationsSidebar({
 
       <div
         ref={listRef}
-        className="order-3 md:order-none flex flex-col flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden px-5 py-4 sm:px-6 md:px-6 gap-2"
+        className="order-3 md:order-none flex flex-col flex-1 min-w-0 min-h-0 md:overflow-y-auto overflow-x-hidden px-5 py-4 sm:px-6 md:px-6 gap-2 pb-12 md:pb-4"
         role="list"
       >
         {filteredLocations.length === 0 ? (

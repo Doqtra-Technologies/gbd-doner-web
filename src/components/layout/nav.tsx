@@ -103,17 +103,19 @@ export function Nav() {
             <Logo size="md" variant={logoVariant} />
           </div>
 
-          <CTAButton
-            variant="primary"
-            size="md"
-            href="/order-now"
-            className={cn(
-              "ml-auto transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
-              orderButtonClass,
-            )}
-          >
-            Order Now
-          </CTAButton>
+          <div className="hidden lg:flex ml-auto">
+            <CTAButton
+              variant="primary"
+              size="md"
+              href="/order-now"
+              className={cn(
+                "transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
+                orderButtonClass,
+              )}
+            >
+              Order Now
+            </CTAButton>
+          </div>
         </div>
       </header>
 
@@ -215,19 +217,24 @@ export function Nav() {
       </div>
 
       {/* Mobile Floating Action Button (FAB) */}
-      <div 
-        className={cn(
-          "fixed bottom-6 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-500 md:hidden",
-          isScrolled && !open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
-        )}
-      >
-        <Link
-          href="/order-now"
-          className="flex h-14 items-center justify-center rounded-full bg-surface-inverse/85 px-10 font-display text-sm font-bold uppercase tracking-button text-white shadow-[0_16px_40px_-12px_rgba(10,18,28,0.8)] backdrop-blur-xl transition-[transform,background-color] active:scale-95 hover:bg-surface-inverse"
+      {pathname !== "/order-now" && (
+        <div 
+          className={cn(
+            "fixed bottom-8 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-[600ms] ease-smooth md:hidden",
+            !open ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95 pointer-events-none"
+          )}
         >
-          Order Now
-        </Link>
-      </div>
+          <Link
+            href="/order-now"
+            className="flex h-[56px] items-center justify-center rounded-full bg-accent px-8 font-display text-sm font-[800] uppercase tracking-button text-white shadow-[0_12px_32px_-8px_rgba(201,64,53,0.5)] backdrop-blur-xl transition-all duration-300 ease-smooth active:scale-95 hover:bg-accent/90 hover:shadow-[0_16px_40px_-8px_rgba(201,64,53,0.6)]"
+          >
+            <svg className="w-5 h-5 mr-3 -ml-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span className="mt-[2px]">Order Now</span>
+          </Link>
+        </div>
+      )}
     </>
   );
 }
