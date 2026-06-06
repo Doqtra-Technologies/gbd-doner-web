@@ -270,7 +270,7 @@ const RECOGNITION = [
     copy: "Recognised at the British Kebab Awards and awarded by PETA.",
   },
   {
-    image: "/Story/7.png",
+    image: "/Story/1.jpeg",
     label: "In The Press",
     copy: "Featured by The Sun and on the BBC discussing doner culture.",
   },
@@ -287,10 +287,9 @@ function CommunitySection() {
       <Shell>
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
           <Eyebrow tone="accent">The Community Effect</Eyebrow>
-          <Heading level={2}>More Than A Restaurant</Heading>
+          <Heading level={2}>Beyond Doner</Heading>
           <p className="font-body text-base leading-relaxed text-text-secondary">
-            A modern food ecosystem expanding across restaurants, retail, and
-            foodservice — built for long-term growth and cultural relevance.
+            Building the future of modern street food culture.
           </p>
         </div>
 

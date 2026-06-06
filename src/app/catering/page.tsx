@@ -32,7 +32,7 @@ export default async function CateringPage() {
   return (
     <main className="w-full bg-canvas text-text-primary">
       <PageBanner
-        imageSrc="/banner/catering.avif"
+        imageSrc="/catering/3.png"
         imageAlt="GBD Catering"
         eyebrow="GBD CATERING"
         headline={
