@@ -16,7 +16,7 @@ export const globalData = {
       title: "EXPLORE", 
       links: [
         { label: "Menu", href: "/menu" }, 
-        { label: "Allergen Guide", href: "/allergen-guide" }, 
+        { label: "Allergens", href: "/allergens/Allergens.pdf", download: true }, 
         { label: "Catering", href: "/catering" }
       ] 
     },

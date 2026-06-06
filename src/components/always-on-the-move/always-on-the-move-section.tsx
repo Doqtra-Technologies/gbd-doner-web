@@ -13,7 +13,7 @@ type LocatedBranch = {
   distance: number | null;
 };
 
-export function AlwaysOnTheMovePage({ locations }: { locations: Location[] }) {
+export function AlwaysOnTheMoveSection({ locations }: { locations: Location[] }) {
   const fallbackBranch = useMemo<LocatedBranch | null>(() => {
     const flagship = locations.find((location) => location.isFlagship);
     const location = flagship ?? locations[0];
@@ -42,7 +42,7 @@ export function AlwaysOnTheMovePage({ locations }: { locations: Location[] }) {
     setGeoError(null);
 
     if (typeof navigator === "undefined" || !navigator.geolocation) {
-      setGeoError("Geolocation is not supported. Use the locations page instead.");
+      setGeoError("Geolocation is not supported.");
       return;
     }
 
@@ -88,52 +88,48 @@ export function AlwaysOnTheMovePage({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <main className="min-h-screen bg-canvas text-text-primary">
-      <section className="relative overflow-hidden border-b border-border-hairline pt-28 md:pt-32 lg:min-h-[calc(100vh-5rem)] lg:pt-20">
-        <div className="absolute inset-x-0 top-0 h-20 bg-white" aria-hidden />
-
-        <div className="mx-auto grid min-h-[calc(100vh-7rem)] w-full max-w-[1440px] grid-cols-1 items-center gap-12 px-6 pb-16 pt-10 md:px-10 lg:grid-cols-12 lg:gap-16 lg:px-12 lg:pt-20 lg:pb-20">
-          <div className="flex flex-col lg:col-span-6">
-            <span className="font-display text-[11px] font-bold uppercase tracking-eyebrow text-accent">
-              City Ready
-            </span>
-            <h1 className="mt-5 max-w-[10ch] font-display text-[clamp(3rem,7vw,6.75rem)] font-bold uppercase leading-[0.9] text-text-primary">
-              Always On The Move
-            </h1>
-            <div className="mt-7 max-w-[58ch] space-y-4 font-body text-base leading-relaxed text-text-secondary md:text-lg">
-              <p className="text-xl font-semibold text-text-primary md:text-2xl">
-                Big flavour, wherever the city takes you.
-              </p>
-              <p>
-                From busy lunch breaks to late-night cravings, Great British
-                Doner is always close by with freshly made wraps, loaded boxes,
-                and street food done properly.
-              </p>
-              <p>
-                Find your nearest location and order your favourites on the go.
-              </p>
-            </div>
-
-            <div className="mt-9 w-full max-w-xl">
-              <NearestBranchPanel
-                location={activeLocation}
-                distanceLabel={distanceLabel}
-                geoLoading={geoLoading}
-                geoError={geoError}
-                onFindNearest={handleFindNearest}
-                mapLink={mapLink}
-                deliveryLink={deliveryLink}
-                collectionLink={collectionLink}
-              />
-            </div>
+    <section className="relative overflow-hidden border-t border-border-hairline bg-canvas py-16 lg:py-24 text-text-primary">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-12 lg:gap-16 lg:px-12">
+        <div className="flex flex-col lg:col-span-6">
+          <span className="font-display text-[11px] font-bold uppercase tracking-eyebrow text-accent">
+            City Ready
+          </span>
+          <h2 className="mt-5 max-w-[10ch] font-display text-[clamp(2.5rem,5vw,4.5rem)] font-bold uppercase leading-[0.9] text-text-primary">
+            Always On The Move
+          </h2>
+          <div className="mt-7 max-w-[58ch] space-y-4 font-body text-base leading-relaxed text-text-secondary md:text-lg">
+            <p className="text-xl font-semibold text-text-primary md:text-2xl">
+              Big flavour, wherever the city takes you.
+            </p>
+            <p>
+              From busy lunch breaks to late-night cravings, Great British
+              Doner is always close by with freshly made wraps, loaded boxes,
+              and street food done properly.
+            </p>
+            <p>
+              Find your nearest location and order your favourites on the go.
+            </p>
           </div>
 
-          <div className="lg:col-span-6">
-            <CityMotionVisual location={activeLocation} distanceLabel={distanceLabel} />
+          <div className="mt-9 w-full max-w-xl">
+            <NearestBranchPanel
+              location={activeLocation}
+              distanceLabel={distanceLabel}
+              geoLoading={geoLoading}
+              geoError={geoError}
+              onFindNearest={handleFindNearest}
+              mapLink={mapLink}
+              deliveryLink={deliveryLink}
+              collectionLink={collectionLink}
+            />
           </div>
         </div>
-      </section>
-    </main>
+
+        <div className="lg:col-span-6">
+          <CityMotionVisual location={activeLocation} distanceLabel={distanceLabel} />
+        </div>
+      </div>
+    </section>
   );
 }
 

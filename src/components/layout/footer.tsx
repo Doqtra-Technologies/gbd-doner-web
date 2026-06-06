@@ -10,7 +10,7 @@ const GRAIN =
 
 type DirectoryColumn = {
   title: string;
-  links: ReadonlyArray<{ label: string; href: string }>;
+  links: ReadonlyArray<{ label: string; href: string; download?: boolean }>;
 };
 
 const directory: ReadonlyArray<DirectoryColumn> = [
@@ -116,7 +116,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
       <ul>
         {links.map((link) => (
           <li key={link.label}>
-            <FooterLink href={link.href} label={link.label} />
+            <FooterLink href={link.href} label={link.label} download={link.download} />
           </li>
         ))}
       </ul>
@@ -124,7 +124,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
   );
 }
 
-function FooterLink({ href, label }: { href: string; label: string }) {
+function FooterLink({ href, label, download }: { href: string; label: string; download?: boolean }) {
   const external = /^https?:\/\//.test(href);
   const className =
     "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-4 hover:translate-x-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
@@ -135,6 +135,17 @@ function FooterLink({ href, label }: { href: string; label: string }) {
         href={href}
         target="_blank"
         rel="noreferrer noopener"
+        className={className}
+      >
+        {label}
+      </a>
+    );
+  }
+  if (download) {
+    return (
+      <a
+        href={href}
+        download
         className={className}
       >
         {label}

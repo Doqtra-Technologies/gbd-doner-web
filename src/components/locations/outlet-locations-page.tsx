@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { LocationImageDeck } from "@/components/locations/location-image-deck";
+import { AlwaysOnTheMoveSection } from "@/components/always-on-the-move/always-on-the-move-section";
 import type { Location } from "@/domain/location";
 import { cn } from "@/lib/utils";
 
@@ -101,12 +102,8 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
         </div>
       </section>
 
-      {/*
-       * TEMPORARILY DISABLED
-       * Mobile Truck / Live Map Section
-       * Retained for future reactivation
-       */}
-      {/* <LiveMapCTA locations={visibleLocations} /> */}
+      {/* ── Always On The Move ─────────────────────────────────────────── */}
+      <AlwaysOnTheMoveSection locations={locations} />
     </div>
   );
 }
