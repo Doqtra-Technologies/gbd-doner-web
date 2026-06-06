@@ -116,6 +116,133 @@ add_action('carbon_fields_register_fields', function () {
 
             $Field::make('text', 'feed_empty_state', __('Shown when there are no articles to display'))
                 ->set_default_value('More stories arriving soon.'),
+        ])
+
+        // -------------------------------------------------------------
+        // Home Page tab
+        // -------------------------------------------------------------
+        ->add_tab(__('Home Page'), [
+            $Field::make('separator', 'sep_home_hero', __('Hero Section')),
+            $Field::make('text', 'home_hero_video_url', __('Hero Video URL / Path'))
+                ->help_text('e.g. /banner/0515(3).mp4'),
+            $Field::make('text', 'home_hero_title_line_1', __('Hero Title Line 1')),
+            $Field::make('text', 'home_hero_title_line_2', __('Hero Title Line 2')),
+            $Field::make('text', 'home_hero_title_line_3', __('Hero Title Line 3')),
+            $Field::make('textarea', 'home_hero_lead', __('Hero Lead Paragraph'))
+                ->set_rows(2),
+
+            $Field::make('separator', 'sep_home_cravings', __('Cravings Section')),
+            $Field::make('text', 'home_cravings_eyebrow', __('Cravings Eyebrow')),
+            $Field::make('text', 'home_cravings_heading_line_1', __('Cravings Heading Line 1')),
+            $Field::make('text', 'home_cravings_heading_line_2', __('Cravings Heading Line 2')),
+
+            $Field::make('separator', 'sep_home_cravings_card1', __('Cravings Card 1 (Left)')),
+            $Field::make('text', 'home_cravings_card1_label', __('Card 1 Label')),
+            $Field::make('text', 'home_cravings_card1_title', __('Card 1 Title')),
+            $Field::make('textarea', 'home_cravings_card1_desc', __('Card 1 Description'))
+                ->set_rows(2),
+            $Field::make('text', 'home_cravings_card1_image_url', __('Card 1 Image URL / Path')),
+
+            $Field::make('separator', 'sep_home_cravings_card2', __('Cravings Card 2 (Right)')),
+            $Field::make('text', 'home_cravings_card2_label', __('Card 2 Label')),
+            $Field::make('text', 'home_cravings_card2_title', __('Card 2 Title')),
+            $Field::make('textarea', 'home_cravings_card2_desc', __('Card 2 Description'))
+                ->set_rows(2),
+            $Field::make('text', 'home_cravings_card2_image_url', __('Card 2 Image URL / Path')),
+        ])
+
+        // -------------------------------------------------------------
+        // Our Story Page tab
+        // -------------------------------------------------------------
+        ->add_tab(__('Our Story Page'), [
+            $Field::make('separator', 'sep_story_hero', __('Hero Section')),
+            $Field::make('text', 'story_hero_image_url', __('Hero Image URL / Path')),
+            $Field::make('text', 'story_hero_eyebrow', __('Hero Eyebrow')),
+            $Field::make('text', 'story_hero_title_line_1', __('Hero Title Line 1')),
+            $Field::make('text', 'story_hero_title_line_2', __('Hero Title Line 2')),
+            $Field::make('textarea', 'story_hero_subheading', __('Hero Subheading'))
+                ->set_rows(2),
+
+            $Field::make('separator', 'sep_story_philosophy', __('Philosophy Section')),
+            $Field::make('text', 'story_philosophy_eyebrow', __('Philosophy Eyebrow')),
+            $Field::make('text', 'story_philosophy_heading_line_1', __('Philosophy Heading Line 1')),
+            $Field::make('text', 'story_philosophy_heading_line_2', __('Philosophy Heading Line 2')),
+            $Field::make('textarea', 'story_philosophy_lead_paragraph', __('Philosophy Lead Paragraph'))
+                ->set_rows(4)
+                ->help_text('Use \n for line breaks'),
+            $Field::make('textarea', 'story_philosophy_secondary_text', __('Philosophy Secondary Text'))
+                ->set_rows(6)
+                ->help_text('Use \n for line breaks'),
+            $Field::make('text', 'story_philosophy_tags', __('Philosophy Tags'))
+                ->help_text('e.g. British Kebab Awards · PETA Approved'),
+            $Field::make('text', 'story_philosophy_image1_url', __('Philosophy Image 1 URL / Path')),
+            $Field::make('text', 'story_philosophy_image2_url', __('Philosophy Image 2 URL / Path')),
+            $Field::make('text', 'story_philosophy_stat_value', __('Philosophy Stat Value'))
+                ->help_text('e.g. 4.9★'),
+            $Field::make('text', 'story_philosophy_stat_label', __('Philosophy Stat Label'))
+                ->help_text('e.g. Average Google rating across our stores'),
+            $Field::make('text', 'story_philosophy_tag_label', __('Philosophy Tag Label'))
+                ->help_text('e.g. The GBD Standard'),
+
+            $Field::make('separator', 'sep_story_blueprint', __('Blueprint Section')),
+            $Field::make('text', 'story_blueprint_eyebrow', __('Blueprint Eyebrow')),
+            $Field::make('text', 'story_blueprint_heading', __('Blueprint Heading')),
+            $Field::make('textarea', 'story_blueprint_desc', __('Blueprint Description'))
+                ->set_rows(2),
+
+            $Field::make('separator', 'sep_story_blueprint_pt1', __('Blueprint Point 1')),
+            $Field::make('text', 'story_blueprint_pt1_eyebrow', __('Pt 1 Eyebrow')),
+            $Field::make('text', 'story_blueprint_pt1_title', __('Pt 1 Title')),
+            $Field::make('textarea', 'story_blueprint_pt1_desc', __('Pt 1 Description'))
+                ->set_rows(2),
+            $Field::make('text', 'story_blueprint_pt1_image_url', __('Pt 1 Image URL / Path')),
+
+            $Field::make('separator', 'sep_story_blueprint_pt2', __('Blueprint Point 2')),
+            $Field::make('text', 'story_blueprint_pt2_eyebrow', __('Pt 2 Eyebrow')),
+            $Field::make('text', 'story_blueprint_pt2_title', __('Pt 2 Title')),
+            $Field::make('textarea', 'story_blueprint_pt2_desc', __('Pt 2 Description'))
+                ->set_rows(2),
+            $Field::make('text', 'story_blueprint_pt2_watermark', __('Pt 2 Watermark Text'))
+                ->help_text('e.g. VG'),
+
+            $Field::make('separator', 'sep_story_blueprint_pt3', __('Blueprint Point 3')),
+            $Field::make('text', 'story_blueprint_pt3_eyebrow', __('Pt 3 Eyebrow')),
+            $Field::make('text', 'story_blueprint_pt3_title', __('Pt 3 Title')),
+            $Field::make('textarea', 'story_blueprint_pt3_desc', __('Pt 3 Description'))
+                ->set_rows(2),
+            $Field::make('text', 'story_blueprint_pt3_image_url', __('Pt 3 Image URL / Path')),
+
+            $Field::make('separator', 'sep_story_community', __('Community Section')),
+            $Field::make('text', 'story_community_eyebrow', __('Community Eyebrow')),
+            $Field::make('text', 'story_community_heading', __('Community Heading')),
+            $Field::make('textarea', 'story_community_desc', __('Community Description'))
+                ->set_rows(2),
+
+            $Field::make('complex', 'story_recognition_items', __('Recognition Items'))
+                ->add_fields([
+                    $Field::make('text', 'image_url', __('Image URL / Path')),
+                    $Field::make('text', 'label', __('Label')),
+                    $Field::make('textarea', 'copy', __('Copy'))->set_rows(2),
+                ])
+                ->set_header_template('<%- label %>'),
+        ])
+
+        // -------------------------------------------------------------
+        // Global Settings tab
+        // -------------------------------------------------------------
+        ->add_tab(__('Global Settings'), [
+            $Field::make('separator', 'sep_global_contact', __('Contact Info')),
+            $Field::make('text', 'global_contact_email', __('Contact Email')),
+            $Field::make('text', 'global_copyright', __('Copyright Text')),
+
+            $Field::make('separator', 'sep_global_socials', __('Social Links')),
+            $Field::make('text', 'global_social_instagram', __('Instagram URL')),
+            $Field::make('text', 'global_social_tiktok', __('TikTok URL')),
+            $Field::make('text', 'global_social_facebook', __('Facebook URL')),
+
+            $Field::make('separator', 'sep_global_newsletter', __('Footer Newsletter')),
+            $Field::make('text', 'global_newsletter_heading', __('Newsletter Heading')),
+            $Field::make('textarea', 'global_newsletter_subtext', __('Newsletter Subtext'))->set_rows(2),
         ]);
 });
 
@@ -174,12 +301,100 @@ add_action('graphql_register_types', function () {
         ],
     ]);
 
+    register_graphql_object_type('CravingsCardSettings', [
+        'fields' => [
+            'label'    => ['type' => 'String'],
+            'title'    => ['type' => 'String'],
+            'desc'     => ['type' => 'String'],
+            'imageUrl' => ['type' => 'String'],
+        ],
+    ]);
+
+    register_graphql_object_type('HomePageSettings', [
+        'fields' => [
+            'heroVideoUrl'          => ['type' => 'String'],
+            'heroTitleLine1'        => ['type' => 'String'],
+            'heroTitleLine2'        => ['type' => 'String'],
+            'heroTitleLine3'        => ['type' => 'String'],
+            'heroLead'              => ['type' => 'String'],
+            'cravingsEyebrow'       => ['type' => 'String'],
+            'cravingsHeadingLine1'  => ['type' => 'String'],
+            'cravingsHeadingLine2'  => ['type' => 'String'],
+            'cravingsCard1'         => ['type' => 'CravingsCardSettings'],
+            'cravingsCard2'         => ['type' => 'CravingsCardSettings'],
+        ],
+    ]);
+
+    register_graphql_object_type('BlueprintPoint', [
+        'fields' => [
+            'eyebrow'   => ['type' => 'String'],
+            'title'     => ['type' => 'String'],
+            'desc'      => ['type' => 'String'],
+            'imageUrl'  => ['type' => 'String'],
+            'watermark' => ['type' => 'String'],
+        ],
+    ]);
+
+    register_graphql_object_type('RecognitionItem', [
+        'fields' => [
+            'imageUrl' => ['type' => 'String'],
+            'label'    => ['type' => 'String'],
+            'copy'     => ['type' => 'String'],
+        ],
+    ]);
+
+    register_graphql_object_type('OurStoryPageSettings', [
+        'fields' => [
+            'heroImageUrl'             => ['type' => 'String'],
+            'heroEyebrow'              => ['type' => 'String'],
+            'heroTitleLine1'           => ['type' => 'String'],
+            'heroTitleLine2'           => ['type' => 'String'],
+            'heroSubheading'           => ['type' => 'String'],
+            'philosophyEyebrow'        => ['type' => 'String'],
+            'philosophyHeadingLine1'   => ['type' => 'String'],
+            'philosophyHeadingLine2'   => ['type' => 'String'],
+            'philosophyLeadParagraph'  => ['type' => 'String'],
+            'philosophySecondaryText'  => ['type' => 'String'],
+            'philosophyTags'           => ['type' => 'String'],
+            'philosophyImage1Url'      => ['type' => 'String'],
+            'philosophyImage2Url'      => ['type' => 'String'],
+            'philosophyStatValue'      => ['type' => 'String'],
+            'philosophyStatLabel'      => ['type' => 'String'],
+            'philosophyTagLabel'       => ['type' => 'String'],
+            'blueprintEyebrow'         => ['type' => 'String'],
+            'blueprintHeading'         => ['type' => 'String'],
+            'blueprintDesc'            => ['type' => 'String'],
+            'blueprintPt1'             => ['type' => 'BlueprintPoint'],
+            'blueprintPt2'             => ['type' => 'BlueprintPoint'],
+            'blueprintPt3'             => ['type' => 'BlueprintPoint'],
+            'communityEyebrow'         => ['type' => 'String'],
+            'communityHeading'         => ['type' => 'String'],
+            'communityDesc'            => ['type' => 'String'],
+            'recognitionItems'         => ['type' => ['list_of' => 'RecognitionItem']],
+        ],
+    ]);
+
+    register_graphql_object_type('GlobalSettings', [
+        'fields' => [
+            'contactEmail'      => ['type' => 'String'],
+            'copyright'         => ['type' => 'String'],
+            'socialInstagram'   => ['type' => 'String'],
+            'socialTiktok'      => ['type' => 'String'],
+            'socialFacebook'    => ['type' => 'String'],
+            'newsletterHeading' => ['type' => 'String'],
+            'newsletterSubtext' => ['type' => 'String'],
+        ],
+    ]);
+
     register_graphql_object_type('SiteSettings', [
         'description' => 'Site-wide editable settings.',
         'fields' => [
             'catering'  => ['type' => 'CateringFormSettings'],
             'locations' => ['type' => 'LocationsPageSettings'],
             'feed'      => ['type' => 'FeedPageSettings'],
+            'home'      => ['type' => 'HomePageSettings'],
+            'ourStory'  => ['type' => 'OurStoryPageSettings'],
+            'global'    => ['type' => 'GlobalSettings'],
         ],
     ]);
 
@@ -231,6 +446,83 @@ add_action('graphql_register_types', function () {
                         'emptyState'   => carbon_get_theme_option('feed_empty_state') ?: null,
                     ];
                 })(),
+                'home' => [
+                    'heroVideoUrl'          => carbon_get_theme_option('home_hero_video_url') ?: null,
+                    'heroTitleLine1'        => carbon_get_theme_option('home_hero_title_line_1') ?: null,
+                    'heroTitleLine2'        => carbon_get_theme_option('home_hero_title_line_2') ?: null,
+                    'heroTitleLine3'        => carbon_get_theme_option('home_hero_title_line_3') ?: null,
+                    'heroLead'              => carbon_get_theme_option('home_hero_lead') ?: null,
+                    'cravingsEyebrow'       => carbon_get_theme_option('home_cravings_eyebrow') ?: null,
+                    'cravingsHeadingLine1'  => carbon_get_theme_option('home_cravings_heading_line_1') ?: null,
+                    'cravingsHeadingLine2'  => carbon_get_theme_option('home_cravings_heading_line_2') ?: null,
+                    'cravingsCard1' => [
+                        'label'    => carbon_get_theme_option('home_cravings_card1_label') ?: null,
+                        'title'    => carbon_get_theme_option('home_cravings_card1_title') ?: null,
+                        'desc'     => carbon_get_theme_option('home_cravings_card1_desc') ?: null,
+                        'imageUrl' => carbon_get_theme_option('home_cravings_card1_image_url') ?: null,
+                    ],
+                    'cravingsCard2' => [
+                        'label'    => carbon_get_theme_option('home_cravings_card2_label') ?: null,
+                        'title'    => carbon_get_theme_option('home_cravings_card2_title') ?: null,
+                        'desc'     => carbon_get_theme_option('home_cravings_card2_desc') ?: null,
+                        'imageUrl' => carbon_get_theme_option('home_cravings_card2_image_url') ?: null,
+                    ],
+                ],
+                'ourStory' => [
+                    'heroImageUrl'             => carbon_get_theme_option('story_hero_image_url') ?: null,
+                    'heroEyebrow'              => carbon_get_theme_option('story_hero_eyebrow') ?: null,
+                    'heroTitleLine1'           => carbon_get_theme_option('story_hero_title_line_1') ?: null,
+                    'heroTitleLine2'           => carbon_get_theme_option('story_hero_title_line_2') ?: null,
+                    'heroSubheading'           => carbon_get_theme_option('story_hero_subheading') ?: null,
+                    'philosophyEyebrow'        => carbon_get_theme_option('story_philosophy_eyebrow') ?: null,
+                    'philosophyHeadingLine1'   => carbon_get_theme_option('story_philosophy_heading_line_1') ?: null,
+                    'philosophyHeadingLine2'   => carbon_get_theme_option('story_philosophy_heading_line_2') ?: null,
+                    'philosophyLeadParagraph'  => carbon_get_theme_option('story_philosophy_lead_paragraph') ?: null,
+                    'philosophySecondaryText'  => carbon_get_theme_option('story_philosophy_secondary_text') ?: null,
+                    'philosophyTags'           => carbon_get_theme_option('story_philosophy_tags') ?: null,
+                    'philosophyImage1Url'      => carbon_get_theme_option('story_philosophy_image1_url') ?: null,
+                    'philosophyImage2Url'      => carbon_get_theme_option('story_philosophy_image2_url') ?: null,
+                    'philosophyStatValue'      => carbon_get_theme_option('story_philosophy_stat_value') ?: null,
+                    'philosophyStatLabel'      => carbon_get_theme_option('story_philosophy_stat_label') ?: null,
+                    'philosophyTagLabel'       => carbon_get_theme_option('story_philosophy_tag_label') ?: null,
+                    'blueprintEyebrow'         => carbon_get_theme_option('story_blueprint_eyebrow') ?: null,
+                    'blueprintHeading'         => carbon_get_theme_option('story_blueprint_heading') ?: null,
+                    'blueprintDesc'            => carbon_get_theme_option('story_blueprint_desc') ?: null,
+                    'blueprintPt1' => [
+                        'eyebrow'   => carbon_get_theme_option('story_blueprint_pt1_eyebrow') ?: null,
+                        'title'     => carbon_get_theme_option('story_blueprint_pt1_title') ?: null,
+                        'desc'      => carbon_get_theme_option('story_blueprint_pt1_desc') ?: null,
+                        'imageUrl'  => carbon_get_theme_option('story_blueprint_pt1_image_url') ?: null,
+                        'watermark' => null,
+                    ],
+                    'blueprintPt2' => [
+                        'eyebrow'   => carbon_get_theme_option('story_blueprint_pt2_eyebrow') ?: null,
+                        'title'     => carbon_get_theme_option('story_blueprint_pt2_title') ?: null,
+                        'desc'      => carbon_get_theme_option('story_blueprint_pt2_desc') ?: null,
+                        'imageUrl'  => null,
+                        'watermark' => carbon_get_theme_option('story_blueprint_pt2_watermark') ?: null,
+                    ],
+                    'blueprintPt3' => [
+                        'eyebrow'   => carbon_get_theme_option('story_blueprint_pt3_eyebrow') ?: null,
+                        'title'     => carbon_get_theme_option('story_blueprint_pt3_title') ?: null,
+                        'desc'      => carbon_get_theme_option('story_blueprint_pt3_desc') ?: null,
+                        'imageUrl'  => carbon_get_theme_option('story_blueprint_pt3_image_url') ?: null,
+                        'watermark' => null,
+                    ],
+                    'communityEyebrow'         => carbon_get_theme_option('story_community_eyebrow') ?: null,
+                    'communityHeading'         => carbon_get_theme_option('story_community_heading') ?: null,
+                    'communityDesc'            => carbon_get_theme_option('story_community_desc') ?: null,
+                    'recognitionItems'         => carbon_get_theme_option('story_recognition_items') ?: [],
+                ],
+                'global' => [
+                    'contactEmail'      => carbon_get_theme_option('global_contact_email') ?: null,
+                    'copyright'         => carbon_get_theme_option('global_copyright') ?: null,
+                    'socialInstagram'   => carbon_get_theme_option('global_social_instagram') ?: null,
+                    'socialTiktok'      => carbon_get_theme_option('global_social_tiktok') ?: null,
+                    'socialFacebook'    => carbon_get_theme_option('global_social_facebook') ?: null,
+                    'newsletterHeading' => carbon_get_theme_option('global_newsletter_heading') ?: null,
+                    'newsletterSubtext' => carbon_get_theme_option('global_newsletter_subtext') ?: null,
+                ],
             ];
         },
     ]);

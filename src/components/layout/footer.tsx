@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CTAButton } from "@/components/ui/cta-button";
 import { globalData } from "@/data/content";
+import type { GlobalSettings } from "@/domain/site-settings";
 
 const { newsletter, footerLists, contact } = globalData;
 
@@ -13,17 +14,24 @@ type DirectoryColumn = {
   links: ReadonlyArray<{ label: string; href: string; download?: boolean }>;
 };
 
-const directory: ReadonlyArray<DirectoryColumn> = [
-  footerLists.about,
-  footerLists.follow,
-  footerLists.explore,
-  {
-    title: "LEGAL",
-    links: [{ label: "Privacy Policy", href: "/privacy" }],
-  },
-];
+export function Footer({ settings }: { settings?: GlobalSettings }) {
+  const directory: ReadonlyArray<DirectoryColumn> = [
+    footerLists.about,
+    {
+      title: "FOLLOW US",
+      links: [
+        { label: "Instagram", href: settings?.socialInstagram || globalData.footerLists.follow.links[0].href },
+        { label: "TikTok", href: settings?.socialTiktok || globalData.footerLists.follow.links[1].href },
+        { label: "Facebook", href: settings?.socialFacebook || globalData.footerLists.follow.links[2].href },
+      ],
+    },
+    footerLists.explore,
+    {
+      title: "LEGAL",
+      links: [{ label: "Privacy Policy", href: "/privacy" }],
+    },
+  ];
 
-export function Footer() {
   return (
     <footer
       data-theme="dark"
@@ -48,9 +56,9 @@ export function Footer() {
 
       <div className="border-t border-text-inverse/10">
         <CinematicBand />
-        <DirectoryMatrix />
-        <NewsletterRow />
-        <BaselineRow />
+        <DirectoryMatrix directory={directory} />
+        <NewsletterRow settings={settings} />
+        <BaselineRow settings={settings} />
       </div>
     </footer>
   );
@@ -97,7 +105,7 @@ function CinematicBand() {
   );
 }
 
-function DirectoryMatrix() {
+function DirectoryMatrix({ directory }: { directory: ReadonlyArray<DirectoryColumn> }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 w-full border-b border-text-inverse/10">
       {directory.map((col) => (
@@ -159,15 +167,15 @@ function FooterLink({ href, label, download }: { href: string; label: string; do
   );
 }
 
-function NewsletterRow() {
+function NewsletterRow({ settings }: { settings?: GlobalSettings }) {
   return (
     <div className="w-full p-10 lg:p-16 border-b border-text-inverse/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
       <div>
         <span className="block text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-4">
-          {newsletter.heading}
+          {settings?.newsletterHeading || newsletter.heading}
         </span>
         <p className="max-w-md text-sm text-text-inverse opacity-70 font-light leading-relaxed">
-          {newsletter.subtext}
+          {settings?.newsletterSubtext || newsletter.subtext}
         </p>
       </div>
 
@@ -207,17 +215,20 @@ function NewsletterRow() {
   );
 }
 
-function BaselineRow() {
+function BaselineRow({ settings }: { settings?: GlobalSettings }) {
+  const copyright = settings?.copyright || contact.copyright;
+  const email = settings?.contactEmail || contact.email;
+
   return (
     <div className="w-full px-10 py-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-inverse border-t border-text-inverse/10">
       <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
-        {contact.copyright}
+        {copyright}
       </p>
       <a
-        href={`mailto:${contact.email}`}
+        href={`mailto:${email}`}
         className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40 hover:opacity-100 transition-opacity duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
       >
-        {contact.email}
+        {email}
       </a>
     </div>
   );

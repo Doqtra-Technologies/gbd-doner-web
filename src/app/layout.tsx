@@ -3,6 +3,7 @@ import { Montserrat, Open_Sans, Anton } from "next/font/google";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/config";
+import { getGlobalSettings } from "@/data/repositories/site-settings-repository";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 
@@ -57,20 +58,22 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const globalSettings = await getGlobalSettings();
+
   return (
     <html
       lang="en"
       className={`${montserrat.variable} ${openSans.variable} ${anton.variable} scroll-smooth`}
     >
       <body className="font-body antialiased">
-        <Nav />
+        <Nav settings={globalSettings} />
         <main className="relative w-full min-h-screen">{children}</main>
-        <Footer />
+        <Footer settings={globalSettings} />
       </body>
     </html>
   );

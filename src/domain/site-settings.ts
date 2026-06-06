@@ -42,3 +42,76 @@ export interface FeedPageSettings {
   lead: string;
   emptyState: string;
 }
+
+export interface CravingsCardSettings {
+  label: string;
+  title: string;
+  desc: string;
+  imageUrl: string;
+}
+
+export interface HomePageSettings {
+  heroVideoUrl: string;
+  heroTitleLine1: string;
+  heroTitleLine2: string;
+  heroTitleLine3: string;
+  heroLead: string;
+  cravingsEyebrow: string;
+  cravingsHeadingLine1: string;
+  cravingsHeadingLine2: string;
+  cravingsCard1: CravingsCardSettings;
+  cravingsCard2: CravingsCardSettings;
+}
+
+export interface BlueprintPoint {
+  eyebrow: string;
+  title: string;
+  desc: string;
+  imageUrl: string | null;
+  watermark: string | null;
+}
+
+export interface RecognitionItem {
+  imageUrl: string;
+  label: string;
+  copy: string;
+}
+
+export interface OurStoryPageSettings {
+  heroImageUrl: string;
+  heroEyebrow: string;
+  heroTitleLine1: string;
+  heroTitleLine2: string;
+  heroSubheading: string;
+  philosophyEyebrow: string;
+  philosophyHeadingLine1: string;
+  philosophyHeadingLine2: string;
+  philosophyLeadParagraph: string;
+  philosophySecondaryText: string;
+  philosophyTags: string;
+  philosophyImage1Url: string;
+  philosophyImage2Url: string;
+  philosophyStatValue: string;
+  philosophyStatLabel: string;
+  philosophyTagLabel: string;
+  blueprintEyebrow: string;
+  blueprintHeading: string;
+  blueprintDesc: string;
+  blueprintPt1: BlueprintPoint;
+  blueprintPt2: BlueprintPoint;
+  blueprintPt3: BlueprintPoint;
+  communityEyebrow: string;
+  communityHeading: string;
+  communityDesc: string;
+  recognitionItems: RecognitionItem[];
+}
+
+export interface GlobalSettings {
+  contactEmail: string;
+  copyright: string;
+  socialInstagram: string;
+  socialTiktok: string;
+  socialFacebook: string;
+  newsletterHeading: string;
+  newsletterSubtext: string;
+}

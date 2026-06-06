@@ -12,6 +12,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { DUR, EASE } from "@/brand/motion";
+import type { HomePageSettings } from "@/domain/site-settings";
 /**
  * Hero — fullscreen cinematic video stage for the homepage.
  *
@@ -35,7 +36,7 @@ import { DUR, EASE } from "@/brand/motion";
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-export function Hero() {
+export function Hero({ settings }: { settings?: HomePageSettings }) {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -81,7 +82,7 @@ export function Hero() {
           className="absolute inset-0 -top-[7%] h-[114%]"
         >
           <video
-            src="/banner/0515(3).mp4"
+            src={settings?.heroVideoUrl || "/banner/0515(3).mp4"}
             autoPlay
             muted
             loop
@@ -145,7 +146,7 @@ export function Hero() {
                 animate="show"
                 className="block"
               >
-                More Meat
+                {settings?.heroTitleLine1 || "More Meat"}
               </motion.span>
 
               <motion.span
@@ -155,7 +156,7 @@ export function Hero() {
                 animate="show"
                 className="block"
               >
-                More Flavor
+                {settings?.heroTitleLine2 || "More Flavor"}
               </motion.span>
 
               <motion.span
@@ -166,7 +167,7 @@ export function Hero() {
                 className="relative inline-block w-max mt-2 lg:mt-4"
               >
                 {/* The Text */}
-                <span className="relative z-10 text-white">More Doner</span>
+                <span className="relative z-10 text-white">{settings?.heroTitleLine3 || "More Doner"}</span>
                 
                 {/* The Brush Stroke Behind the Text */}
                 <motion.svg 
@@ -198,7 +199,7 @@ export function Hero() {
               animate="show"
               className="mt-7 max-w-md font-body text-base leading-relaxed text-white/70 sm:text-lg"
             >
-              British doner engineered for bold cravings.
+              {settings?.heroLead || "British doner engineered for bold cravings."}
             </motion.p>
 
             {/* CTAs */}

@@ -14,6 +14,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Container } from "@/components/ui/container";
 import { BrushHighlight } from "@/components/ui/brush-highlight";
 import { DUR, EASE } from "@/brand/motion";
+import type { HomePageSettings } from "@/domain/site-settings";
 
 /**
  * MadeForEveryCraving — cinematic editorial showcase that bridges the hero
@@ -33,7 +34,7 @@ import { DUR, EASE } from "@/brand/motion";
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-export function MadeForEveryCraving() {
+export function MadeForEveryCraving({ settings }: { settings?: HomePageSettings }) {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -99,7 +100,7 @@ export function MadeForEveryCraving() {
           <div className="flex items-center gap-3.5">
             <span aria-hidden className="h-px w-9 bg-gbd-red" />
             <span className="font-display text-[11px] font-bold uppercase tracking-eyebrow text-accent">
-              02 — Cravings
+              {settings?.cravingsEyebrow || "02 — Cravings"}
             </span>
           </div>
           <h2
@@ -107,10 +108,10 @@ export function MadeForEveryCraving() {
             className="mt-6 font-campaign uppercase text-white text-[clamp(2.75rem,8vw,6.5rem)]"
             style={{ lineHeight: 0.9, letterSpacing: "-0.03em" }}
           >
-            <span className="block">Made For Every</span>
+            <span className="block">{settings?.cravingsHeadingLine1 || "Made For Every"}</span>
             <span className="relative inline-block">
               <BrushHighlight delay={0.35} />
-              <span className="relative z-10 block">Craving</span>
+              <span className="relative z-10 block">{settings?.cravingsHeadingLine2 || "Craving"}</span>
             </span>
           </h2>
         </motion.div>
@@ -142,7 +143,7 @@ export function MadeForEveryCraving() {
               {/* Image (parallax wrapper, hover zoom) */}
               <motion.div style={{ y: yLeft }} className="absolute inset-0 -top-[8%] h-[116%]">
                 <Image
-                  src="/craving/roll.png"
+                  src={settings?.cravingsCard1?.imageUrl || "/craving/roll.png"}
                   alt="GBD signature wrap, spit-fired"
                   fill
                   sizes="(max-width: 1024px) 100vw, 65vw"
@@ -188,20 +189,20 @@ export function MadeForEveryCraving() {
               <div className="absolute inset-x-0 bottom-0 p-7 sm:p-9 lg:p-11">
                 <div className="transition-transform duration-700 ease-smooth group-hover:-translate-y-1.5">
                   <Eyebrow tone="accent" className="tracking-eyebrow">
-                    GBD Favorites
+                    {settings?.cravingsCard1?.label || "GBD Favorites"}
                   </Eyebrow>
                   <h3
                     className="mt-3 font-campaign uppercase text-white text-3xl sm:text-4xl lg:text-5xl"
                     style={{ letterSpacing: "-0.02em", lineHeight: 0.95 }}
                   >
-                    Signature Wraps
+                    {settings?.cravingsCard1?.title || "Signature Wraps"}
                   </h3>
                   <span
                     aria-hidden
                     className="mt-4 block h-[2px] w-12 origin-left bg-gbd-red transition-transform duration-500 ease-smooth group-hover:scale-x-[2.2]"
                   />
                   <p className="mt-4 max-w-sm font-body text-sm leading-relaxed text-white/70 sm:text-base">
-                    Stacked with bold flavor and spit-fired perfection.
+                    {settings?.cravingsCard1?.desc || "Stacked with bold flavor and spit-fired perfection."}
                   </p>
                 </div>
               </div>
@@ -233,7 +234,7 @@ export function MadeForEveryCraving() {
               {/* Drink (parallax wrapper, gentle hover motion) */}
               <motion.div style={{ y: yRight }} className="absolute inset-0 -top-[8%] h-[116%]">
                 <Image
-                  src="/craving/juice.png"
+                  src={settings?.cravingsCard2?.imageUrl || "/craving/juice.png"}
                   alt="GBD cold drink, studio-lit"
                   fill
                   sizes="(max-width: 1024px) 100vw, 32vw"
@@ -274,16 +275,16 @@ export function MadeForEveryCraving() {
               <div className="absolute inset-x-0 bottom-0 p-7 sm:p-9 lg:p-10">
                 <div className="transition-transform duration-700 ease-smooth group-hover:-translate-y-1">
                   <Eyebrow tone="accent" className="tracking-eyebrow">
-                    Refresh
+                    {settings?.cravingsCard2?.label || "Refresh"}
                   </Eyebrow>
                   <h3
                     className="mt-3 font-campaign uppercase text-white text-3xl sm:text-4xl"
                     style={{ letterSpacing: "-0.02em", lineHeight: 0.95 }}
                   >
-                    Fuel in Every Sip
+                    {settings?.cravingsCard2?.title || "Fuel in Every Sip"}
                   </h3>
                   <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-white/70 sm:text-base">
-                    Freshly poured perfection.
+                    {settings?.cravingsCard2?.desc || "Freshly poured perfection."}
                   </p>
                 </div>
               </div>

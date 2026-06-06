@@ -26,7 +26,10 @@ export function PageBanner({
   const EASE = [0.22, 1, 0.36, 1];
   
   return (
-    <section className="relative flex min-h-[60vh] lg:min-h-[70vh] xl:max-h-[760px] w-full items-center overflow-hidden bg-surface-inverse">
+    <section 
+      data-theme="dark"
+      className="relative flex min-h-[60vh] lg:min-h-[70vh] xl:max-h-[760px] w-full items-center overflow-hidden bg-surface-inverse"
+    >
       {/* Background Image with Zoom Out effect */}
       <motion.div
         className="absolute inset-0"

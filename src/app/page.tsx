@@ -5,15 +5,20 @@ import { StoryMarqueeAndBrick } from "@/components/home/story-marquee-and-brick"
 import { LocationLedger } from "@/components/locations/location-ledger";
 import { OutletCarousel } from "@/components/locations/outlet-carousel";
 import { getLocations } from "@/data/repositories/locations-repository";
+import { getHomePageSettings } from "@/data/repositories/site-settings-repository";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const locations = await getLocations();
+  const [locations, homeSettings] = await Promise.all([
+    getLocations(),
+    getHomePageSettings(),
+  ]);
+
   return (
     <>
-      <Hero />
-      <MadeForEveryCraving />
+      <Hero settings={homeSettings} />
+      <MadeForEveryCraving settings={homeSettings} />
       <BestSellers />
       <OutletCarousel locations={locations} />
       <StoryMarqueeAndBrick />

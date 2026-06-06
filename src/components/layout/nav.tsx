@@ -7,11 +7,26 @@ import { Logo } from "@/components/brand/logo";
 import { CTAButton } from "@/components/ui/cta-button";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
+import type { GlobalSettings } from "@/domain/site-settings";
 
-export function Nav() {
+function isPathnameDarkBgByDefault(path: string): boolean {
+  return (
+    path === "/" ||
+    path === "/our-story" ||
+    path === "/menu" ||
+    path === "/catering" ||
+    path === "/locations" ||
+    path.startsWith("/locations/") ||
+    path === "/feed"
+  );
+}
+
+export function Nav({ settings }: { settings?: GlobalSettings }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [isOverDarkBg, setIsOverDarkBg] = useState(false);
+  const [isOverDarkBg, setIsOverDarkBg] = useState(() =>
+    isPathnameDarkBgByDefault(pathname)
+  );
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,14 +42,19 @@ export function Nav() {
 
   // Collision radar: observe dark-themed sections intersecting the nav zone.
   useEffect(() => {
+    setIsOverDarkBg(isPathnameDarkBgByDefault(pathname));
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
-    const darkSections = document.querySelectorAll('[data-theme="dark"]');
+    const intersectionStates = new Map<Element, boolean>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const isDark = entries.some((entry) => entry.isIntersecting);
+        entries.forEach((entry) => {
+          intersectionStates.set(entry.target, entry.isIntersecting);
+        });
+        const isDark = Array.from(intersectionStates.values()).some(Boolean);
         setIsOverDarkBg(isDark);
       },
       {
@@ -42,11 +62,44 @@ export function Nav() {
       },
     );
 
-    darkSections.forEach((sec) => observer.observe(sec));
+    const observedElements = new Set<Element>();
+
+    const updateObservedElements = () => {
+      const darkSections = document.querySelectorAll('[data-theme="dark"]');
+      let initialDark = false;
+
+      darkSections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 80 && rect.bottom > 0) {
+          initialDark = true;
+        }
+
+        if (!observedElements.has(sec)) {
+          observer.observe(sec);
+          observedElements.add(sec);
+        }
+      });
+
+      if (initialDark) {
+        setIsOverDarkBg(true);
+      }
+    };
+
+    updateObservedElements();
+
+    const mutationObserver = new MutationObserver(() => {
+      updateObservedElements();
+    });
+
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
+      mutationObserver.disconnect();
     };
   }, [pathname]);
 
@@ -188,7 +241,7 @@ export function Nav() {
             </span>
             <div className="flex items-center gap-6">
               <a
-                href={siteConfig.social.instagram}
+                href={settings?.socialInstagram || siteConfig.social.instagram}
                 target="_blank"
                 rel="noreferrer"
                 className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -196,7 +249,7 @@ export function Nav() {
                 Instagram
               </a>
               <a
-                href={siteConfig.social.tiktok}
+                href={settings?.socialTiktok || siteConfig.social.tiktok}
                 target="_blank"
                 rel="noreferrer"
                 className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -204,7 +257,7 @@ export function Nav() {
                 TikTok
               </a>
               <a
-                href={siteConfig.social.facebook}
+                href={settings?.socialFacebook || siteConfig.social.facebook}
                 target="_blank"
                 rel="noreferrer"
                 className="font-display font-bold uppercase tracking-button text-xs text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -217,24 +270,19 @@ export function Nav() {
       </div>
 
       {/* Mobile Floating Action Button (FAB) */}
-      {pathname !== "/order-now" && (
-        <div 
-          className={cn(
-            "fixed bottom-8 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-[600ms] ease-smooth md:hidden",
-            !open ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95 pointer-events-none"
-          )}
+      <div
+        className={cn(
+          "fixed bottom-6 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-500 md:hidden",
+          isScrolled && !open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
+        )}
+      >
+        <Link
+          href="/order-now"
+          className="flex h-14 items-center justify-center rounded-full bg-surface-inverse/85 px-10 font-display text-sm font-bold uppercase tracking-button text-white shadow-[0_16px_40px_-12px_rgba(10,18,28,0.8)] backdrop-blur-xl transition-[transform,background-color] active:scale-95 hover:bg-surface-inverse"
         >
-          <Link
-            href="/order-now"
-            className="flex h-[56px] items-center justify-center rounded-full bg-accent px-8 font-display text-sm font-[800] uppercase tracking-button text-white shadow-[0_12px_32px_-8px_rgba(201,64,53,0.5)] backdrop-blur-xl transition-all duration-300 ease-smooth active:scale-95 hover:bg-accent/90 hover:shadow-[0_16px_40px_-8px_rgba(201,64,53,0.6)]"
-          >
-            <svg className="w-5 h-5 mr-3 -ml-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            <span className="mt-[2px]">Order Now</span>
-          </Link>
-        </div>
-      )}
+          Order Now
+        </Link>
+      </div>
     </>
   );
 }

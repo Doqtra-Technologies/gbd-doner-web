@@ -91,7 +91,10 @@ export default async function LocationDetailPage({
   return (
     <main className="w-full bg-canvas pb-24">
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[60vh] lg:min-h-[70vh] flex flex-col justify-end bg-surface-inverse">
+      <section
+        data-theme="dark"
+        className="relative w-full min-h-[60vh] lg:min-h-[70vh] flex flex-col justify-end bg-surface-inverse"
+      >
         <div className="absolute inset-0">
           <Image
             src={loc.imageUrl ?? "/banner/location.jpeg"}

@@ -204,6 +204,87 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
         lead
         emptyState
       }
+      home {
+        heroVideoUrl
+        heroTitleLine1
+        heroTitleLine2
+        heroTitleLine3
+        heroLead
+        cravingsEyebrow
+        cravingsHeadingLine1
+        cravingsHeadingLine2
+        cravingsCard1 {
+          label
+          title
+          desc
+          imageUrl
+        }
+        cravingsCard2 {
+          label
+          title
+          desc
+          imageUrl
+        }
+      }
+      ourStory {
+        heroImageUrl
+        heroEyebrow
+        heroTitleLine1
+        heroTitleLine2
+        heroSubheading
+        philosophyEyebrow
+        philosophyHeadingLine1
+        philosophyHeadingLine2
+        philosophyLeadParagraph
+        philosophySecondaryText
+        philosophyTags
+        philosophyImage1Url
+        philosophyImage2Url
+        philosophyStatValue
+        philosophyStatLabel
+        philosophyTagLabel
+        blueprintEyebrow
+        blueprintHeading
+        blueprintDesc
+        blueprintPt1 {
+          eyebrow
+          title
+          desc
+          imageUrl
+          watermark
+        }
+        blueprintPt2 {
+          eyebrow
+          title
+          desc
+          imageUrl
+          watermark
+        }
+        blueprintPt3 {
+          eyebrow
+          title
+          desc
+          imageUrl
+          watermark
+        }
+        communityEyebrow
+        communityHeading
+        communityDesc
+        recognitionItems {
+          imageUrl
+          label
+          copy
+        }
+      }
+      global {
+        contactEmail
+        copyright
+        socialInstagram
+        socialTiktok
+        socialFacebook
+        newsletterHeading
+        newsletterSubtext
+      }
     }
   }
 `;
