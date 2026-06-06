@@ -78,7 +78,7 @@ export function Nav() {
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
             className={cn(
-              "group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center transition-colors duration-500 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
+              "group relative z-10 flex h-11 w-11 -ml-2 items-center justify-center transition-colors duration-500 ease-smooth focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
               navInkClass,
             )}
           >
@@ -139,7 +139,7 @@ export function Nav() {
             type="button"
             aria-label="Close Menu"
             onClick={() => setOpen(false)}
-            className="group relative z-10 flex h-10 w-10 -ml-2 items-center justify-center text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+            className="group relative z-10 flex h-11 w-11 -ml-2 items-center justify-center text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
           >
             <span className="sr-only">Close</span>
             <span className="relative block h-3.5 w-7">

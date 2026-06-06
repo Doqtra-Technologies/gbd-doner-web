@@ -49,7 +49,7 @@ export function BestSellers() {
     <section
       data-theme="dark"
       aria-labelledby="lineup-title"
-      className="relative overflow-hidden bg-surface-inverse pt-20 pb-24 text-text-inverse"
+      className="relative overflow-hidden bg-surface-inverse pt-12 pb-16 md:pt-20 md:pb-24 text-text-inverse"
     >
       {/* ── Atmospheric background (navy depth, never flat black) ────── */}
       <div

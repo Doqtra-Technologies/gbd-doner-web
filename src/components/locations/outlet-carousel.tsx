@@ -13,7 +13,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
   }
 
   return (
-    <section className="bg-canvas border-t border-border-hairline pt-[96px] pb-[120px]">
+    <section className="bg-canvas border-t border-border-hairline pt-16 pb-20 md:pt-[96px] md:pb-[120px]">
       <div 
         className="mx-auto w-full max-w-[1920px]"
         style={{ paddingInline: 'clamp(32px, 4vw, 96px)' }}

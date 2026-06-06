@@ -46,10 +46,7 @@ export function PageBanner({
 
       {/* Primary Linear Gradient */}
       <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "linear-gradient(90deg, rgba(6,24,47,.72) 0%, rgba(6,24,47,.48) 35%, rgba(6,24,47,.18) 70%, rgba(6,24,47,.05) 100%)",
-        }}
+        className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(6,24,47,.72)_0%,rgba(6,24,47,.48)_35%,rgba(6,24,47,.18)_70%,rgba(6,24,47,.05)_100%)] lg:bg-[linear-gradient(90deg,rgba(6,24,47,.72)_0%,rgba(6,24,47,.48)_35%,rgba(6,24,47,.18)_70%,rgba(6,24,47,.05)_100%)]"
       />
 
       {/* Content Container */}
