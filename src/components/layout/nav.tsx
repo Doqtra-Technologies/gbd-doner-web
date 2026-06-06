@@ -128,7 +128,7 @@ export function Nav() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[10020] bg-white backdrop-blur-xl transition-all duration-300 ease-smooth flex flex-col",
+          "fixed inset-0 z-[10020] bg-white/90 backdrop-blur-2xl transition-all duration-300 ease-smooth flex flex-col",
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -212,6 +212,21 @@ export function Nav() {
             </div>
           </div>
         </nav>
+      </div>
+
+      {/* Mobile Floating Action Button (FAB) */}
+      <div 
+        className={cn(
+          "fixed bottom-6 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-500 md:hidden",
+          isScrolled && !open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
+        )}
+      >
+        <Link
+          href="/order-now"
+          className="flex h-14 items-center justify-center rounded-full bg-surface-inverse/85 px-10 font-display text-sm font-bold uppercase tracking-button text-white shadow-[0_16px_40px_-12px_rgba(10,18,28,0.8)] backdrop-blur-xl transition-[transform,background-color] active:scale-95 hover:bg-surface-inverse"
+        >
+          Order Now
+        </Link>
       </div>
     </>
   );

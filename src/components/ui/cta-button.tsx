@@ -29,7 +29,7 @@ type Variant = "primary" | "tertiary";
 type Size = "md" | "lg";
 
 const primaryBase =
-  "group/cta-primary relative inline-flex items-center justify-center select-none rounded-full border border-transparent bg-accent font-display font-bold uppercase tracking-button text-text-inverse transition-colors duration-300 ease-smooth hover:bg-accent/90 active:translate-y-px disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
+  "group/cta-primary relative inline-flex items-center justify-center select-none rounded-full border border-transparent bg-accent font-display font-bold uppercase tracking-button text-text-inverse transition-all duration-300 ease-smooth hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
 const primarySizes: Record<Size, string> = {
   md: "h-11 px-7 text-[11px]",

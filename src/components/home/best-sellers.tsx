@@ -124,7 +124,7 @@ export function BestSellers() {
         </div>
 
         {/* ── Featured + secondary (deliberate hierarchy imbalance) ──── */}
-        <div className="mt-8 grid grid-cols-1 gap-5 md:mt-12 lg:grid-cols-12 lg:items-stretch lg:gap-6">
+        <div className="mt-8 -mx-5 sm:mx-0 grid grid-cols-1 gap-5 md:mt-12 lg:grid-cols-12 lg:items-stretch lg:gap-6">
           {/* Dominant featured tile */}
           <motion.div
             variants={rise}
@@ -183,7 +183,7 @@ function Tile({ item, featured = false, priority = false, sizes, className }: Ti
       href="/menu"
       aria-label={item.alt}
       className={cn(
-        "group relative block overflow-hidden rounded-[24px] bg-gbd-navy shadow-[0_36px_100px_-32px_rgba(201,64,53,0.2),0_22px_60px_-30px_rgba(10,18,28,0.9)]",
+        "group relative block overflow-hidden rounded-none sm:rounded-[24px] bg-gbd-navy shadow-[0_36px_100px_-32px_rgba(201,64,53,0.2),0_22px_60px_-30px_rgba(10,18,28,0.9)]",
         className,
       )}
     >
@@ -231,7 +231,7 @@ function Tile({ item, featured = false, priority = false, sizes, className }: Ti
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-white/10" />
       <div
         aria-hidden
-        className="absolute inset-0 rounded-[24px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/45"
+        className="absolute inset-0 rounded-none sm:rounded-[24px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/45"
       />
       {/* Content */}
       <div className={cn("absolute inset-x-0 bottom-0", featured ? "p-7 sm:p-9 lg:p-10" : "p-6 sm:p-7")}>

@@ -116,7 +116,7 @@ export function MadeForEveryCraving() {
         </motion.div>
 
         {/* ── Asymmetric cards ───────────────────────────────────────── */}
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 lg:mt-12 lg:grid-cols-[7fr_3fr] lg:gap-6">
+        <div className="mt-8 -mx-5 sm:mx-0 grid grid-cols-1 gap-5 sm:mt-10 lg:mt-12 lg:grid-cols-[7fr_3fr] lg:gap-6">
           {/* LEFT — Signature Wraps (wide cinematic feature) */}
           <motion.div
             variants={rise}
@@ -128,7 +128,7 @@ export function MadeForEveryCraving() {
             <Link
               href="/menu"
               aria-label="Signature Wraps — view the menu"
-              className="group relative block h-[440px] overflow-hidden rounded-[28px] bg-gbd-navy shadow-[0_40px_120px_-30px_rgba(201,64,53,0.22),0_24px_70px_-30px_rgba(10,18,28,0.9)] sm:h-[520px] lg:h-[620px]"
+              className="group relative block h-[440px] overflow-hidden rounded-none sm:rounded-[28px] bg-gbd-navy shadow-[0_40px_120px_-30px_rgba(201,64,53,0.22),0_24px_70px_-30px_rgba(10,18,28,0.9)] sm:h-[520px] lg:h-[620px]"
             >
               {/* Ambient red glow behind the food */}
               <div
@@ -182,7 +182,7 @@ export function MadeForEveryCraving() {
               <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-white/10" />
               <div
                 aria-hidden
-                className="absolute inset-0 rounded-[28px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/45"
+                className="absolute inset-0 rounded-none sm:rounded-[28px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/45"
               />
               {/* Content */}
               <div className="absolute inset-x-0 bottom-0 p-7 sm:p-9 lg:p-11">
@@ -219,7 +219,7 @@ export function MadeForEveryCraving() {
             <Link
               href="/menu"
               aria-label="Fuel in Every Sip — view the menu"
-              className="group relative block h-[440px] overflow-hidden rounded-[28px] bg-gbd-navy shadow-[0_40px_120px_-30px_rgba(201,64,53,0.18),0_24px_70px_-30px_rgba(10,18,28,0.9)] transition-transform duration-700 ease-smooth hover:-translate-y-2 sm:h-[520px] lg:h-[620px]"
+              className="group relative block h-[440px] overflow-hidden rounded-none sm:rounded-[28px] bg-gbd-navy shadow-[0_40px_120px_-30px_rgba(201,64,53,0.18),0_24px_70px_-30px_rgba(10,18,28,0.9)] transition-transform duration-700 ease-smooth hover:-translate-y-2 sm:h-[520px] lg:h-[620px]"
             >
               {/* Spotlight + red ambient reflection */}
               <div
@@ -268,7 +268,7 @@ export function MadeForEveryCraving() {
               <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-white/10" />
               <div
                 aria-hidden
-                className="absolute inset-0 rounded-[28px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/40"
+                className="absolute inset-0 rounded-none sm:rounded-[28px] ring-1 ring-gbd-red/15 transition-[box-shadow] duration-700 ease-smooth group-hover:ring-gbd-red/40"
               />
               {/* Content */}
               <div className="absolute inset-x-0 bottom-0 p-7 sm:p-9 lg:p-10">
