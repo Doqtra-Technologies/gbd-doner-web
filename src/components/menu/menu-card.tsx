@@ -8,7 +8,7 @@ import type { MenuItem } from "@/domain/menu-item";
  * Clean White Matrix menu — tall portrait cards, RED kinetic hover, with the
  * hover-reveal accordion (description + dual CTAs).
  *
- * Geometry (mirrors the GDK reference): the card is a locked portrait
+ * Geometry: the card is a locked portrait
  * aspect-ratio. A small image floats in heavy negative space (flex-1 canvas,
  * strict h-40 cap), and the title is anchored to the very bottom.
  *

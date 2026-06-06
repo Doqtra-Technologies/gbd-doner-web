@@ -5,7 +5,7 @@ import { formatGBP } from "@/lib/utils";
 import type { MenuItem } from "@/domain/menu-item";
 
 /**
- * MenuProductCard — Atis-style architectural card with strict flex-grow.
+ * MenuProductCard — Clean architectural card with strict flex-grow.
  *
  *   ┌────────────────────────┐
  *   │   aspect-square        │ ← locked 1:1, never stretches
