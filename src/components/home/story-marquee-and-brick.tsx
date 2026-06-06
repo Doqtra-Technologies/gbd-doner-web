@@ -8,7 +8,7 @@ import { Numeral } from "@/components/ui/numeral";
 import { DUR, EASE } from "@/brand/motion";
 import { cn } from "@/lib/utils";
 
-const MARQUEE_PHRASE = "REAL FLAVOUR. REAL PEOPLE. YOU IN?";
+const MARQUEE_PHRASE = "THAT'S A WRAP!";
 
 /**
  * StoryMarqueeAndBrick — architectural story section.
