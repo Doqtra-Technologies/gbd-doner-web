@@ -75,7 +75,21 @@ export async function POST(request: NextRequest) {
           `,
         });
 
-        console.log(`✅ Newsletter subscription email sent to ${recipientEmail} for ${email}`);
+        // Send welcome email to the subscriber
+        await transporter.sendMail({
+          from: process.env.SMTP_FROM || process.env.SMTP_USER,
+          to: email,
+          subject: "Welcome to the GBD Club!",
+          text: "Thank you for joining the Great British Doner Club! You're now on the list for exclusive drops and secret menu items.",
+          html: `
+            <h2>Welcome to the GBD Club!</h2>
+            <p>Thank you for joining the Great British Doner Club.</p>
+            <p>You're now on the list for exclusive access to seasonal drops, secret menu items, and fuel-focused content delivered weekly.</p>
+            <p><strong>Stay tuned!</strong></p>
+          `,
+        });
+
+        console.log(`✅ Newsletter subscription email sent to ${recipientEmail} and welcome email sent to ${email}`);
       } catch (emailError) {
         console.error("Email sending failed for subscription:", emailError);
         // Continue anyway - client gets success response

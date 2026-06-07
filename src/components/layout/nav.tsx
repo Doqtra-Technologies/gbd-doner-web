@@ -273,7 +273,7 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
       <div
         className={cn(
           "fixed bottom-6 left-1/2 z-[9990] -translate-x-1/2 transition-all duration-500 md:hidden",
-          isScrolled && !open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
+          isScrolled && !open && pathname !== "/catering" ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
         )}
       >
         <Link
