@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { PageBanner } from "@/components/ui/page-banner";
 import { JoinClubForm } from "@/components/our-story/join-club-form";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { getOurStoryPageSettings } from "@/data/repositories/site-settings-repository";
 import type { OurStoryPageSettings } from "@/domain/site-settings";
 
@@ -42,6 +43,7 @@ export default async function OurStoryPage() {
     <main className="w-full bg-canvas text-text-primary">
       <StoryHero settings={storySettings} />
       <PhilosophySpread settings={storySettings} />
+      <StatsSection />
       <BlueprintSection settings={storySettings} />
       <CommunitySection settings={storySettings} />
     </main>
@@ -147,6 +149,72 @@ function PhilosophySpread({ settings }: { settings: OurStoryPageSettings }) {
             <span className="absolute -top-3 right-4 z-10 bg-accent px-3 py-1.5 font-display text-[10px] font-bold uppercase tracking-eyebrow text-white">
               {settings.philosophyTagLabel}
             </span>
+          </div>
+        </div>
+      </Shell>
+    </Section>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   STATS — dark band with numeric achievements.
+   ──────────────────────────────────────────────────────────────────────── */
+function StatsSection() {
+  return (
+    <Section size="compact" className="bg-surface-inverse text-white">
+      <Shell>
+        <div className="flex flex-col items-center py-8 lg:py-12">
+          <Heading level={3} tone="inverse" className="mb-10 text-center sm:mb-14">
+            We&apos;re Good with Numbers
+          </Heading>
+          <div className="flex w-full max-w-4xl flex-wrap justify-center gap-x-8 gap-y-12 sm:justify-between sm:gap-x-0">
+            <div className="flex flex-col items-center gap-3">
+              <span className="font-display text-5xl font-bold leading-none sm:text-6xl md:text-[80px]">
+                <AnimatedNumber value={5} />
+              </span>
+              <span className="font-body text-xs text-white/70 sm:text-sm">
+                Locations
+              </span>
+            </div>
+            
+            <div className="hidden items-center justify-center sm:flex">
+              <span aria-hidden className="mt-[-24px] h-1.5 w-1.5 rounded-full bg-white/30" />
+            </div>
+
+            <div className="flex flex-col items-center gap-3">
+              <span className="font-display text-5xl font-bold leading-none sm:text-6xl md:text-[80px]">
+                <AnimatedNumber value={100000} suffix="+" />
+              </span>
+              <span className="font-body text-xs text-white/70 sm:text-sm">
+                Doners Served
+              </span>
+            </div>
+            
+            <div className="hidden items-center justify-center sm:flex">
+              <span aria-hidden className="mt-[-24px] h-1.5 w-1.5 rounded-full bg-white/30" />
+            </div>
+
+            <div className="flex flex-col items-center gap-3">
+              <span className="font-display text-5xl font-bold leading-none sm:text-6xl md:text-[80px]">
+                <AnimatedNumber value={4.9} decimals={1} />
+              </span>
+              <span className="font-body text-xs text-white/70 sm:text-sm">
+                Google Review
+              </span>
+            </div>
+            
+            <div className="hidden items-center justify-center sm:flex">
+              <span aria-hidden className="mt-[-24px] h-1.5 w-1.5 rounded-full bg-white/30" />
+            </div>
+
+            <div className="flex flex-col items-center gap-3">
+              <span className="font-display text-5xl font-bold leading-none sm:text-6xl md:text-[80px]">
+                <AnimatedNumber value={4} suffix="+" />
+              </span>
+              <span className="font-body text-xs text-white/70 sm:text-sm">
+                Industry Awards
+              </span>
+            </div>
           </div>
         </div>
       </Shell>
