@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 
 export function TrustBadges() {
   return (
-    <section className="bg-[#0A121C] py-12 md:py-16">
+    <section className="bg-surface-inverse py-12 md:py-16">
       <Container>
         <div className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:gap-20">
           
@@ -19,12 +19,12 @@ export function TrustBadges() {
           {/* Rating Card with Offset Shadow */}
           <div className="relative">
             {/* Offset shadow */}
-            <div className="absolute inset-0 translate-x-3 -translate-y-3 bg-[#D4958F] sm:translate-x-4 sm:-translate-y-4" />
+            <div className="absolute inset-0 translate-x-3 -translate-y-3 bg-accent sm:translate-x-4 sm:-translate-y-4" />
             
             {/* Dark card */}
             <div className="relative flex min-w-[280px] flex-col justify-center bg-gbd-navy px-8 py-6 text-white shadow-2xl sm:min-w-[320px] sm:px-10 sm:py-8 border border-white/5">
               <div className="flex items-center gap-2">
-                <span className="font-display text-[4rem] font-bold leading-none tracking-tight sm:text-[5.5rem]">
+                <span className="font-display text-[4rem] font-bold leading-none tracking-display sm:text-[5.5rem]">
                   4.9
                 </span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mt-2 h-10 w-10 sm:mt-4 sm:h-12 sm:w-12">
