@@ -261,25 +261,49 @@ function CommunitySection({ settings }: { settings: OurStoryPageSettings }) {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {settings.recognitionItems.map((item) => (
-            <article key={item.label} className="group flex flex-col gap-4">
-              <div className="relative aspect-[3/4] overflow-hidden">
-                <Image
-                  src={item.imageUrl}
-                  alt={item.label}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
-                  className={CINEMATIC}
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Heading level={3}>{item.label}</Heading>
-                <p className="font-body text-sm leading-relaxed text-text-secondary">
-                  {item.copy}
-                </p>
-              </div>
-            </article>
-          ))}
+          {settings.recognitionItems.map((item) => {
+            const cardContent = (
+              <>
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.label}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
+                    className={CINEMATIC}
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <Heading level={3} className="group-hover:text-accent transition-colors duration-300">
+                    {item.label}
+                  </Heading>
+                  <p className="font-body text-sm leading-relaxed text-text-secondary">
+                    {item.copy}
+                  </p>
+                </div>
+              </>
+            );
+
+            if (item.link) {
+              return (
+                <a
+                  key={item.label}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            return (
+              <article key={item.label} className="group flex flex-col gap-4">
+                {cardContent}
+              </article>
+            );
+          })}
 
           {/* Join plate — bordered, text-led */}
           <div className="flex flex-col justify-between gap-6 border border-border-hairline p-7">

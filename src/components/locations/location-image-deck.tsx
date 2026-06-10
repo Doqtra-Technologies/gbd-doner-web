@@ -37,6 +37,11 @@ const OUTLET_DECK_IMAGES: Record<string, [string, string, string]> = {
     "/locations/liverpool2.png",
     "/locations/liverpool3.png",
   ],
+  "liverpool-express": [
+    "/locations/express1.png",
+    "/locations/express2.png",
+    "/locations/express3.JPG",
+  ],
   piccadilly: [
     "/locations/Piccadilly.png",   // .webp does not exist — use .png
     "/locations/piccadilly2.png",

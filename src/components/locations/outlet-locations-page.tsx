@@ -229,18 +229,21 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
 function OutletLocationCard({ location }: { location: Location }) {
   const isManchester = location.city === "Manchester";
   const isPiccadilly = location.slug.toLowerCase().includes("piccadilly");
-  const title = isManchester && isPiccadilly
-    ? "Manchester — Piccadilly"
-    : isManchester
-      ? "Manchester — Deansgate"
-      : "Liverpool — Bold Street";
+  const isExpress = location.slug.toLowerCase().includes("express");
+  const title = isExpress
+    ? "Liverpool Express"
+    : isManchester && isPiccadilly
+      ? "Manchester — Piccadilly"
+      : isManchester
+        ? "Manchester — Deansgate"
+        : "Liverpool — Bold Street";
 
   const address = [location.addressLine1, location.addressLine2, `${location.city} ${location.postcode}`]
     .filter(Boolean)
     .join(", ");
 
   const phone = location.phone;
-  const hours = formatOpeningHours(location.hours);
+  const hours = formatOpeningHours(location.hours, location.slug);
   const collectionHref = location.clickAndCollectUrl ?? "/locations";
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/locations";
 
@@ -387,9 +390,16 @@ function HoverAction({ href, external, children }: {
 }
 
 /** Returns label–time pairs for display in the card info panel. */
-function formatOpeningHours(hours: Location["hours"]): Array<{ label: string; time: string }> {
+function formatOpeningHours(hours: Location["hours"], slug?: string): Array<{ label: string; time: string }> {
   if (hours.length === 0) {
     return [{ label: "Hours", time: "Please check in-store" }];
+  }
+
+  if (slug === "liverpool-express") {
+    return [
+      { label: "Thursday", time: "21:00 – 05:00" },
+      { label: "Fri – Sat", time: "21:00 – 05:00" },
+    ];
   }
 
   const weekdays = hours.filter((e) => ["Mon", "Tue", "Wed", "Thu", "Sun"].includes(e.day));

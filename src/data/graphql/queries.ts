@@ -274,6 +274,7 @@ export const SITE_SETTINGS_QUERY = /* GraphQL */ `
           imageUrl
           label
           copy
+          link
         }
       }
       global {

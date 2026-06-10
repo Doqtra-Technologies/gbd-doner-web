@@ -129,18 +129,21 @@ export const STORY_DEFAULTS: OurStoryPageSettings = {
   recognitionItems: [
     {
       imageUrl: "/Story/6.png",
-      label: "Award-Winning",
+      label: "Manchester Evening News",
       copy: "Recognised at the British Kebab Awards and awarded by PETA.",
+      link: "https://www.manchestereveningnews.co.uk/whats-on/food-drink-news/kebab-shop-named-one-uks-33661572",
     },
     {
-      imageUrl: "/Story/1.jpeg",
-      label: "In The Press",
+      imageUrl: "/Story/1.PNG",
+      label: "PETA",
       copy: "Featured by The Sun and on the BBC discussing doner culture.",
+      link: "https://www.peta.org.uk/press/gbd-doner-wins-peta-vegan-food-award-for-best-vegan-kebab/",
     },
     {
       imageUrl: "/Story/8.png",
-      label: "A Growing Community",
+      label: "BBC",
       copy: "Viral content and a community across Manchester and Liverpool.",
+      link: "https://www.facebook.com/watch/?v=799008026563619",
     },
   ],
 };
@@ -285,7 +288,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
   if (raw.heroTitleLine1) out.heroTitleLine1 = raw.heroTitleLine1;
   if (raw.heroTitleLine2) out.heroTitleLine2 = raw.heroTitleLine2;
   if (raw.heroSubheading) out.heroSubheading = raw.heroSubheading;
-  
+
   if (raw.philosophyEyebrow) out.philosophyEyebrow = raw.philosophyEyebrow;
   if (raw.philosophyHeadingLine1) out.philosophyHeadingLine1 = raw.philosophyHeadingLine1;
   if (raw.philosophyHeadingLine2) out.philosophyHeadingLine2 = raw.philosophyHeadingLine2;
@@ -341,6 +344,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
         imageUrl: item.imageUrl || def.imageUrl,
         label: item.label || def.label,
         copy: item.copy || def.copy,
+        link: item.link || def.link,
       };
     });
   }

@@ -223,6 +223,7 @@ add_action('carbon_fields_register_fields', function () {
                     $Field::make('text', 'image_url', __('Image URL / Path')),
                     $Field::make('text', 'label', __('Label')),
                     $Field::make('textarea', 'copy', __('Copy'))->set_rows(2),
+                    $Field::make('text', 'link', __('Clickable Link')),
                 ])
                 ->set_header_template('<%- label %>'),
         ])
@@ -340,6 +341,7 @@ add_action('graphql_register_types', function () {
             'imageUrl' => ['type' => 'String'],
             'label'    => ['type' => 'String'],
             'copy'     => ['type' => 'String'],
+            'link'     => ['type' => 'String'],
         ],
     ]);
 
@@ -512,7 +514,14 @@ add_action('graphql_register_types', function () {
                     'communityEyebrow'         => carbon_get_theme_option('story_community_eyebrow') ?: null,
                     'communityHeading'         => carbon_get_theme_option('story_community_heading') ?: null,
                     'communityDesc'            => carbon_get_theme_option('story_community_desc') ?: null,
-                    'recognitionItems'         => carbon_get_theme_option('story_recognition_items') ?: [],
+                    'recognitionItems'         => array_map(function($item) {
+                        return [
+                            'imageUrl' => isset($item['image_url']) ? $item['image_url'] : '',
+                            'label'    => isset($item['label']) ? $item['label'] : '',
+                            'copy'     => isset($item['copy']) ? $item['copy'] : '',
+                            'link'     => isset($item['link']) ? $item['link'] : '',
+                        ];
+                    }, carbon_get_theme_option('story_recognition_items') ?: []),
                 ],
                 'global' => [
                     'contactEmail'      => carbon_get_theme_option('global_contact_email') ?: null,

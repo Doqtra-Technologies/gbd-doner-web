@@ -75,6 +75,7 @@ export interface RecognitionItem {
   imageUrl: string;
   label: string;
   copy: string;
+  link?: string;
 }
 
 export interface OurStoryPageSettings {

@@ -27,32 +27,35 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
               Find your nearest branch for pickup or delivery.
             </p>
           </div>
-          {/* Controls only visible on mobile/tablet if scrolling is needed, hidden on desktop grid */}
-          <div className="hidden md:flex xl:hidden items-center gap-4">
-            <button
-              aria-label="previous"
-              onClick={() => scrollBy(-500)}
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button
-              aria-label="next"
-              onClick={() => scrollBy(500)}
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-white border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.08)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(15,30,45,0.12)]"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
         </div>
 
-        <div
-          ref={scrollerRef}
-          className="flex xl:grid xl:grid-cols-3 gap-8 xl:gap-12 overflow-x-auto xl:overflow-visible touch-pan-x snap-x snap-mandatory xl:snap-none pb-8 xl:pb-0 no-scrollbar -mx-8 px-8 xl:mx-0 xl:px-0"
-        >
-          {locations.map((loc) => (
-            <OutletCard key={loc.id} location={loc} />
-          ))}
+        <div className="relative">
+          {/* Left Overlay Arrow */}
+          <button
+            aria-label="previous"
+            onClick={() => scrollBy(-500)}
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white/90 border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.12)] backdrop-blur-md transition-all hover:scale-105 hover:bg-white hover:shadow-[0_16px_36px_rgba(15,30,45,0.18)] active:scale-95 cursor-pointer"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+
+          {/* Right Overlay Arrow */}
+          <button
+            aria-label="next"
+            onClick={() => scrollBy(500)}
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white/90 border border-border-hairline text-accent shadow-[0_8px_24px_rgba(15,30,45,0.12)] backdrop-blur-md transition-all hover:scale-105 hover:bg-white hover:shadow-[0_16px_36px_rgba(15,30,45,0.18)] active:scale-95 cursor-pointer"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+
+          <div
+            ref={scrollerRef}
+            className="flex gap-8 md:gap-10 xl:gap-12 overflow-x-auto touch-pan-x snap-x snap-mandatory pb-8 no-scrollbar -mx-8 px-8 xl:mx-0 xl:px-0"
+          >
+            {locations.map((loc) => (
+              <OutletCard key={loc.id} location={loc} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -64,7 +67,7 @@ function OutletCard({ location }: { location: Location }) {
   const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
-    <article className="group relative w-[85vw] sm:w-[calc(50vw-40px)] xl:w-full shrink-0 xl:shrink snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
+    <article className="group relative w-[85vw] sm:w-[calc(50vw-32px)] lg:w-[calc(33.33vw-40px)] xl:w-[460px] 2xl:w-[480px] shrink-0 snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
       <div 
         className="w-full relative rounded-[18px] transition-shadow duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{

@@ -121,7 +121,7 @@ export function FullMenu({
     <>
       {/* Premium cinematic banner — unified system */}
       <PageBanner
-        imageSrc="/menu/BANNER/ChatGPT Image 24 May 2026 23_18_04.png"
+        imageSrc="/menu/BANNER/IMG_0019.JPG.jpeg"
         imageAlt="GBD menu spread"
         eyebrow="THE MENU"
         headline={

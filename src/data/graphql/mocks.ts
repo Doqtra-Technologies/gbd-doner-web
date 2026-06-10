@@ -733,6 +733,29 @@ export const MOCK_LOCATIONS: Location[] = [
     imageUrl: "/locations/Piccadilly.png",
     images: ["/locations/Piccadilly.png", "/locations/Piccadilly-2.png"],
   },
+  {
+    id: "loc-4",
+    slug: "liverpool-express",
+    name: "Liverpool Express",
+    isFlagship: false,
+    addressLine1: "Wood Street",
+    addressLine2: null,
+    city: "Liverpool",
+    postcode: "L1 4DS",
+    phone: null,
+    coordinates: { lat: 53.4042, lng: -2.9796 },
+    hours: [
+      { day: "Thu", open: "21:00", close: "05:00" },
+      { day: "Fri", open: "21:00", close: "05:00" },
+      { day: "Sat", open: "21:00", close: "05:00" },
+    ],
+    clickAndCollectUrl: "https://order.gbdoner.com/liverpool-express",
+    deliveryLinks: [
+      { provider: "deliveroo", url: "https://deliveroo.co.uk/" },
+    ],
+    imageUrl: "/locations/express1.png",
+    images: ["/locations/express1.png", "/locations/express2.png", "/locations/express3.JPG"],
+  },
 ];
 
 export const MOCK_POSTS: Post[] = [

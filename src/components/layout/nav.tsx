@@ -156,7 +156,21 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
             <Logo size="md" variant={logoVariant} />
           </div>
 
-          <div className="hidden lg:flex ml-auto">
+          <div className="hidden lg:flex ml-auto items-center gap-4">
+            <CTAButton
+              variant="primary"
+              size="md"
+              href="https://leventborek.co.uk/#franchise"
+              external
+              className={cn(
+                "bg-transparent border transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
+                isOverDarkBg
+                  ? "border-white/30 text-white hover:bg-white hover:text-surface-inverse hover:border-white"
+                  : "border-surface-inverse/30 text-surface-inverse hover:bg-surface-inverse hover:text-white hover:border-surface-inverse",
+              )}
+            >
+              Franchise
+            </CTAButton>
             <CTAButton
               variant="primary"
               size="md"
@@ -211,12 +225,23 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
           <ul className="space-y-6">
             {siteConfig.nav.map((item) => {
               const isDownload = "download" in item && (item as any).download;
+              const isExternal = "external" in item && (item as any).external;
               return (
                 <li key={item.href}>
                   {isDownload ? (
                     <a
                       href={item.href}
                       download
+                      onClick={() => setOpen(false)}
+                      className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      {item.label}
+                    </a>
+                  ) : isExternal ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => setOpen(false)}
                       className="font-display font-bold uppercase tracking-display text-4xl md:text-5xl text-text-primary transition-opacity duration-300 ease-out opacity-100 hover:opacity-50 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
@@ -235,10 +260,7 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
               );
             })}
           </ul>
-          <div className="pt-10 border-t border-border-hairline flex items-center justify-between mt-8 flex-none">
-            <span className="font-display font-bold uppercase tracking-eyebrow text-xs text-text-secondary">
-              Est. London
-            </span>
+          <div className="pt-10 border-t border-border-hairline flex items-center justify-end mt-8 flex-none">
             <div className="flex items-center gap-6">
               <a
                 href={settings?.socialInstagram || siteConfig.social.instagram}
