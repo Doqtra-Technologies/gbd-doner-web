@@ -156,21 +156,7 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
             <Logo size="md" variant={logoVariant} />
           </div>
 
-          <div className="hidden lg:flex ml-auto items-center gap-4">
-            <CTAButton
-              variant="primary"
-              size="md"
-              href="https://leventborek.co.uk/#franchise"
-              external
-              className={cn(
-                "bg-transparent border transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
-                isOverDarkBg
-                  ? "border-white/30 text-white hover:bg-white hover:text-surface-inverse hover:border-white"
-                  : "border-surface-inverse/30 text-surface-inverse hover:bg-surface-inverse hover:text-white hover:border-surface-inverse",
-              )}
-            >
-              Franchise
-            </CTAButton>
+          <div className="hidden lg:flex ml-auto">
             <CTAButton
               variant="primary"
               size="md"
