@@ -340,11 +340,20 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
   if (Array.isArray(raw.recognitionItems) && raw.recognitionItems.length > 0) {
     out.recognitionItems = raw.recognitionItems.map((item, idx) => {
       const def = defaults.recognitionItems[idx] || defaults.recognitionItems[0];
+      let imageUrl = item.imageUrl || def.imageUrl;
+      const label = item.label || def.label;
+      const copy = item.copy || def.copy;
+      const link = item.link || def.link;
+
+      if (label.toLowerCase().includes("sun") && imageUrl.toLowerCase().includes("1.png")) {
+        imageUrl = "/Story/6.png";
+      }
+
       return {
-        imageUrl: item.imageUrl || def.imageUrl,
-        label: item.label || def.label,
-        copy: item.copy || def.copy,
-        link: item.link || def.link,
+        imageUrl,
+        label,
+        copy,
+        link,
       };
     });
   }
