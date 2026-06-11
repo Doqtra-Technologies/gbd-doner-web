@@ -18,7 +18,7 @@ export const globalData = {
         { label: "Menu", href: "/menu" }, 
         { label: "Allergens", href: "/allergens/Allergens.pdf", download: true }, 
         { label: "Catering", href: "/catering" },
-        { label: "Franchise", href: "https://leventborek.co.uk/#franchise" }
+        { label: "Franchise", href: "/franchise" }
       ] 
     },
     follow: { 

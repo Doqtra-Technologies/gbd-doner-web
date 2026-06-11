@@ -13,7 +13,7 @@ export const siteConfig = {
     // { href: "/loyalty", label: "Loyalty" },
     { href: "/catering", label: "Catering" },
     { href: "/feed", label: "The Feed" },
-    { href: "https://leventborek.co.uk/#franchise", label: "Franchise", external: true },
+    { href: "/franchise", label: "Franchise" },
   ],
   social: {
     instagram: "https://www.instagram.com/greatbritishdoner/",

@@ -17,7 +17,8 @@ function isPathnameDarkBgByDefault(path: string): boolean {
     path === "/catering" ||
     path === "/locations" ||
     path.startsWith("/locations/") ||
-    path === "/feed"
+    path === "/feed" ||
+    path === "/franchise"
   );
 }
 
