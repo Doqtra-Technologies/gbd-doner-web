@@ -67,8 +67,8 @@ export function Footer({ settings }: { settings?: GlobalSettings }) {
  */
 function CinematicBand() {
   return (
-    <div className="border-b border-text-inverse/10 px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
+    <div className="border-b border-text-inverse/10 px-6 py-10 sm:py-16 sm:px-10 lg:px-16 lg:py-24">
+      <div className="grid grid-cols-1 gap-6 sm:gap-10 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-9">
           <div className="flex items-center gap-3.5">
             <span aria-hidden className="h-px w-9 bg-gbd-red" />
@@ -77,7 +77,7 @@ function CinematicBand() {
             </span>
           </div>
           <h2
-            className="mt-6 font-campaign uppercase text-white text-[clamp(2.5rem,8vw,6.5rem)]"
+            className="mt-4 sm:mt-6 font-campaign uppercase text-white text-[clamp(2.5rem,8vw,6.5rem)]"
             style={{ lineHeight: 0.9, letterSpacing: "-0.03em" }}
           >
             <span className="block">Great British</span>
@@ -103,7 +103,7 @@ function CinematicBand() {
 
 function DirectoryMatrix({ directory }: { directory: ReadonlyArray<DirectoryColumn> }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 w-full border-b border-text-inverse/10">
+    <div className="grid grid-cols-3 w-full border-b border-text-inverse/10">
       {directory.map((col) => (
         <DirectoryCell key={col.title} title={col.title} links={col.links} />
       ))}
@@ -113,8 +113,8 @@ function DirectoryMatrix({ directory }: { directory: ReadonlyArray<DirectoryColu
 
 function DirectoryCell({ title, links }: DirectoryColumn) {
   return (
-    <div className="p-10 lg:p-16 border-b md:border-b-0 md:border-r border-text-inverse/10 last:border-r-0">
-      <h3 className="text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-8">
+    <div className="py-6 px-4 sm:p-10 lg:p-16 border-r border-text-inverse/10 last:border-r-0">
+      <h3 className="text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-4 sm:mb-8">
         {title}
       </h3>
       <ul>
@@ -131,7 +131,7 @@ function DirectoryCell({ title, links }: DirectoryColumn) {
 function FooterLink({ href, label, download }: { href: string; label: string; download?: boolean }) {
   const external = /^https?:\/\//.test(href);
   const className =
-    "block text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-4 hover:translate-x-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
+    "block text-xs sm:text-sm font-light text-text-inverse opacity-80 hover:opacity-100 hover:text-accent transition-all duration-300 ease-out mb-2 sm:mb-4 hover:translate-x-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
 
   if (external) {
     return (
@@ -165,9 +165,9 @@ function FooterLink({ href, label, download }: { href: string; label: string; do
 
 function NewsletterRow({ settings }: { settings?: GlobalSettings }) {
   return (
-    <div className="w-full p-10 lg:p-16 border-b border-text-inverse/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <div className="w-full py-8 px-6 sm:p-10 lg:p-16 border-b border-text-inverse/10 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
       <div>
-        <span className="block text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-4">
+        <span className="block text-[9px] uppercase tracking-eyebrow text-text-inverse opacity-40 mb-3 sm:mb-4">
           {settings?.newsletterHeading || newsletter.heading}
         </span>
         <p className="max-w-md text-sm text-text-inverse opacity-70 font-light leading-relaxed">
@@ -185,12 +185,12 @@ function NewsletterRow({ settings }: { settings?: GlobalSettings }) {
           name="email"
           required
           placeholder="your.email"
-          className="w-full appearance-none bg-transparent border-0 border-b border-text-inverse/20 py-4 text-2xl lg:text-3xl font-light text-text-inverse focus:outline-none focus:border-accent focus:ring-0 transition-colors duration-500 placeholder:text-text-inverse/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          className="w-full appearance-none bg-transparent border-0 border-b border-text-inverse/20 py-3 sm:py-4 text-xl sm:text-2xl lg:text-3xl font-light text-text-inverse focus:outline-none focus:border-accent focus:ring-0 transition-colors duration-500 placeholder:text-text-inverse/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         />
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute right-0 bottom-5 text-text-inverse opacity-50 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          className="absolute right-0 bottom-4 sm:bottom-5 text-text-inverse opacity-50 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         >
           <svg
             viewBox="0 0 24 24"
@@ -216,7 +216,7 @@ function BaselineRow({ settings }: { settings?: GlobalSettings }) {
   const email = settings?.contactEmail || contact.email;
 
   return (
-    <div className="w-full px-10 py-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-inverse border-t border-text-inverse/10">
+    <div className="w-full px-6 py-4 sm:px-10 sm:py-6 lg:px-16 flex flex-row justify-between items-center gap-4 bg-surface-inverse border-t border-text-inverse/10">
       <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
         {copyright}
       </p>
