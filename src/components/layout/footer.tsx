@@ -26,10 +26,6 @@ export function Footer({ settings }: { settings?: GlobalSettings }) {
       ],
     },
     footerLists.explore,
-    {
-      title: "LEGAL",
-      links: [{ label: "Privacy Policy", href: "/privacy" }],
-    },
   ];
 
   return (
@@ -107,7 +103,7 @@ function CinematicBand() {
 
 function DirectoryMatrix({ directory }: { directory: ReadonlyArray<DirectoryColumn> }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 w-full border-b border-text-inverse/10">
+    <div className="grid grid-cols-1 md:grid-cols-3 w-full border-b border-text-inverse/10">
       {directory.map((col) => (
         <DirectoryCell key={col.title} title={col.title} links={col.links} />
       ))}

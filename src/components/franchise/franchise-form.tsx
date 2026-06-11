@@ -74,8 +74,6 @@ export function FranchiseForm() {
     }
   }
 
-  const [isHovered, setIsHovered] = useState(false);
-
   const inputClass =
     "w-full appearance-none rounded-[4px] border border-gray-300 bg-white px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-disabled/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors duration-300 disabled:opacity-50";
 
@@ -224,10 +222,7 @@ export function FranchiseForm() {
         <button
           type="submit"
           disabled={status === "submitting" || status === "ok"}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          style={{ backgroundColor: isHovered ? "#485336" : "#596643" }}
-          className="inline-flex h-12 min-w-[150px] items-center justify-center rounded-full px-10 font-display text-xs font-bold uppercase tracking-button text-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-lg"
+          className="inline-flex h-12 min-w-[150px] items-center justify-center rounded-full bg-accent hover:bg-accent/90 px-10 font-display text-xs font-bold uppercase tracking-button text-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-lg"
         >
           {status === "submitting" ? "Submitting..." : "Submit"}
         </button>
