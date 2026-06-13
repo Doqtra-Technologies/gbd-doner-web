@@ -146,7 +146,7 @@ export const STORY_DEFAULTS: OurStoryPageSettings = {
       link: "https://www.facebook.com/watch/?v=799008026563619",
     },
     {
-      imageUrl: "/Story/ECHO.png",
+      imageUrl: "/Story/echo.jpeg",
       label: "Liverpool ECHO",
       copy: "Liverpool restaurants' huge honour as they are named among best in UK.",
       link: "https://www.liverpoolecho.co.uk/whats-on/food-drink-news/liverpool-restaurants-huge-honour-named-33493363.amp",

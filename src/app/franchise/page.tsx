@@ -14,7 +14,7 @@ export default function FranchisePage() {
       <section className="relative lg:sticky lg:top-0 lg:h-screen w-full lg:w-1/2 flex-none h-[45vh] sm:h-[55vh] overflow-hidden group">
         {/* Banner image with smooth transition */}
         <Image
-          src="/banner/location.jpeg"
+          src="/banner/franchise.jpeg"
           alt="Levent Börek Franchise Banner"
           fill
           priority

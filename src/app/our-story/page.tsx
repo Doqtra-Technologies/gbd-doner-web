@@ -30,7 +30,7 @@ function Shell({
   className?: string;
 }) {
   return (
-    <div className={cn("mx-auto w-full max-w-[1400px] px-6 lg:px-12", className)}>
+    <div className={cn("mx-auto w-full max-w-[1600px] px-6 lg:px-12", className)}>
       {children}
     </div>
   );
@@ -536,7 +536,7 @@ function CommunitySection({ settings }: { settings: OurStoryPageSettings }) {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {settings.recognitionItems.map((item) => {
             const cardContent = (
               <>
@@ -545,7 +545,7 @@ function CommunitySection({ settings }: { settings: OurStoryPageSettings }) {
                     src={item.imageUrl}
                     alt={item.label}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
                     className="object-contain transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                   />
                 </div>
