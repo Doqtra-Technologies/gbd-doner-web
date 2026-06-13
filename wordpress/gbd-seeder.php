@@ -204,6 +204,131 @@ function gbd_seed_run() {
         $created['post']++;
     }
 
+    // --- Site Settings (Theme Options) ---
+    $settings = [
+        // Catering Form
+        'catering_eyebrow' => 'Catering',
+        'catering_heading_lines' => "Modern street food,\nmade for everyday life",
+        'catering_lead' => "Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience. Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.",
+        'catering_field_name_label' => 'Full Name',
+        'catering_field_name_placeholder' => 'Enter your full name',
+        'catering_field_email_label' => 'Email Address',
+        'catering_field_email_placeholder' => 'jane@company.com',
+        'catering_field_company_label' => 'Company / Organisation',
+        'catering_field_company_placeholder' => 'Optional',
+        'catering_field_headcount_label' => 'Estimated Guest Count',
+        'catering_field_headcount_placeholder' => 'Select guest size',
+        'catering_field_message_label' => 'Event Details & Requirements',
+        'catering_field_message_placeholder' => "Tell us more about your event, dietary preferences, vegan requirements, location, or anything else we should know.",
+        'catering_submit_label' => 'Submit Enquiry',
+        'catering_submit_label_sending' => 'Sending…',
+        'catering_status_idle' => 'We’ll get back to you shortly.',
+        'catering_status_sending' => 'Sending your brief…',
+        'catering_status_success' => 'Thanks — your enquiry is in. We’ll reply shortly.',
+        'catering_status_error' => 'Something went wrong — please try again.',
+        'catering_recipient_email' => '',
+
+        // Locations Page
+        'locations_eyebrow' => 'Locations',
+        'locations_heading' => 'Find your nearest branch for pickup or delivery.',
+        'locations_empty_state' => 'No locations match your search.',
+
+        // Feed Page
+        'feed_eyebrow' => 'The Feed',
+        'feed_heading_lines' => "Why vegan doner is changing\nfast food in the UK.",
+        'feed_lead' => "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining.",
+        'feed_empty_state' => 'More stories arriving soon.',
+
+        // Home Page
+        'home_hero_video_url' => '/banner/0515(3).mp4',
+        'home_hero_title_line_1' => 'More Meat',
+        'home_hero_title_line_2' => 'More Flavor',
+        'home_hero_title_line_3' => 'More Doner',
+        'home_hero_lead' => 'British doner engineered for bold cravings.',
+        'home_cravings_eyebrow' => '02 — Cravings',
+        'home_cravings_heading_line_1' => 'Made For Every',
+        'home_cravings_heading_line_2' => 'Craving',
+        'home_cravings_card1_label' => 'GBD Favorites',
+        'home_cravings_card1_title' => 'Signature Wraps',
+        'home_cravings_card1_desc' => 'Stacked with bold flavor and spit-fired perfection.',
+        'home_cravings_card1_image_url' => '/craving/roll.png',
+        'home_cravings_card2_label' => 'Refresh',
+        'home_cravings_card2_title' => 'Fuel in Every Sip',
+        'home_cravings_card2_desc' => 'Freshly poured perfection.',
+        'home_cravings_card2_image_url' => '/craving/juice.png',
+
+        // Our Story Page
+        'story_hero_image_url' => '/Story/our story banner.png',
+        'story_hero_eyebrow' => 'OUR STORY',
+        'story_hero_title_line_1' => 'A NEW GENERATION',
+        'story_hero_title_line_2' => 'OF DONER',
+        'story_hero_subheading' => 'Adapting traditional shish doner culture to the speed, aesthetics and lifestyle of modern Britain.',
+        'story_philosophy_eyebrow' => 'Our Philosophy',
+        'story_philosophy_heading_line_1' => 'Real Food.',
+        'story_philosophy_heading_line_2' => 'Real Standards.',
+        'story_philosophy_lead_paragraph' => "At GBD, every detail matters.\n\nWe use authentic shish doner.\nWe invest heavily in product development.\nWe place technology at the centre of our operations.\nAnd we see design not just as aesthetics, but as part of the customer experience itself.",
+        'story_philosophy_secondary_text' => "Our approach is built around consistency, quality, and modern hospitality.\nWe stay connected to our roots, but we don’t believe tradition should stand still.\nTo us, tradition should evolve while being preserved.\nBy developing one of Britain’s first vegan shish doner concepts, we’ve also helped introduce doner culture to new generations and changing consumer habits.\nToday, our stores maintain an average Google rating of 4.9 out of 5 — something we see as a reflection of the standards and experience we aim to deliver every single day.",
+        'story_philosophy_tags' => 'British Kebab Awards · PETA Approved',
+        'story_philosophy_image1_url' => '/Story/2.png',
+        'story_philosophy_image2_url' => '/Story/3.png',
+        'story_philosophy_stat_value' => '4.9★',
+        'story_philosophy_stat_label' => 'Average Google rating across our stores',
+        'story_philosophy_tag_label' => 'The GBD Standard',
+        'story_blueprint_eyebrow' => 'The Blueprint',
+        'story_blueprint_heading' => 'The GBD Blueprint',
+        'story_blueprint_desc' => 'How tradition is engineered into a modern food experience — where every single detail matters.',
+        'story_blueprint_pt1_eyebrow' => '01 — Sourced',
+        'story_blueprint_pt1_title' => 'Authentic Shish Doner',
+        'story_blueprint_pt1_desc' => 'We use authentic shish doner and invest heavily in product development — staying connected to our roots while letting tradition evolve rather than stand still.',
+        'story_blueprint_pt1_image_url' => '/Story/4.png',
+        'story_blueprint_pt2_eyebrow' => '02 — Craft',
+        'story_blueprint_pt2_title' => 'Vegan Pioneers',
+        'story_blueprint_pt2_desc' => 'By developing one of Britain’s first vegan shish doner concepts, we’ve introduced doner culture to new generations and changing consumer habits — without compromising on flavour.',
+        'story_blueprint_pt2_watermark' => 'VG',
+        'story_blueprint_pt3_eyebrow' => '03 — Modern',
+        'story_blueprint_pt3_title' => 'Design & Technology',
+        'story_blueprint_pt3_desc' => 'We place technology at the centre of our operations and treat design not as decoration, but as part of the customer experience itself.',
+        'story_blueprint_pt3_image_url' => '/Story/5.png',
+        'story_community_eyebrow' => 'The Community Effect',
+        'story_community_heading' => 'As seen In',
+        'story_community_desc' => 'Building the future of modern street food culture.',
+        'story_recognition_items' => [
+            [
+                'image_url' => '/Story/MANCH.png',
+                'label' => 'Manchester Evening News',
+                'copy' => 'Featured by The Sun and on the BBC discussing doner culture.',
+                'link' => 'https://www.manchestereveningnews.co.uk/whats-on/food-drink-news/kebab-shop-named-one-uks-33661572',
+            ],
+            [
+                'image_url' => '/Story/6.png',
+                'label' => ' the SUN',
+                'copy' => 'Featured in The Sun\'s top 10 kebabs in the UK.',
+                'link' => '',
+            ],
+            [
+                'image_url' => '/Story/BBC.png',
+                'label' => 'BBC',
+                'copy' => 'Viral content and a community across Manchester and Liverpool.',
+                'link' => 'https://www.facebook.com/watch/?v=799008026563619',
+            ],
+        ],
+
+        // Global Settings
+        'global_contact_email' => 'info@gbddoner.com',
+        'global_copyright' => '© Great British Doner. All Rights Reserved 2026.',
+        'global_social_instagram' => 'https://www.instagram.com/greatbritishdoner/',
+        'global_social_tiktok' => 'https://www.tiktok.com/@greatbritishdoner',
+        'global_social_facebook' => 'https://www.facebook.com/p/Great-British-Doner-61580394281827/',
+        'global_newsletter_heading' => 'JOIN THE GBD COMMUNITY',
+        'global_newsletter_subtext' => 'Enter your email address to receive updates, exclusive offers, new launches, and latest news from Great British Doner.',
+    ];
+
+    foreach ($settings as $key => $val) {
+        if (function_exists('carbon_set_theme_option')) {
+            carbon_set_theme_option($key, $val);
+        }
+    }
+
     update_option('gbd_seeder_last_run', current_time('mysql'));
     return ['created' => $created, 'skipped' => $skipped];
 }

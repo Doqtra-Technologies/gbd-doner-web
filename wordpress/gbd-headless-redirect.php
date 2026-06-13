@@ -37,6 +37,19 @@ add_action('template_redirect', function () {
     }
 
     $frontend = defined('GBD_FRONTEND_URL') ? GBD_FRONTEND_URL : 'http://localhost:3000';
-    wp_safe_redirect(rtrim($frontend, '/') . $req, 302);
+    wp_redirect(rtrim($frontend, '/') . $req, 302);
     exit;
 });
+
+/**
+ * Force successful logins to redirect to the WordPress dashboard (wp-admin).
+ * This prevents users from being redirected to the homepage, which would
+ * trigger the frontend redirect and bounce them to the Next.js site.
+ */
+add_filter('login_redirect', function ($redirect_to, $request, $user) {
+    if (is_a($user, 'WP_User')) {
+        return admin_url();
+    }
+    return $redirect_to;
+}, 10, 3);
+

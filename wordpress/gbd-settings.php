@@ -10,6 +10,22 @@
 
 if (!defined('ABSPATH')) exit;
 
+// Allow non-administrators to access theme options containers
+add_filter('carbon_fields_theme_options_container_admin_only_access', '__return_false');
+
+// Allow Editors to access the Carbon Fields REST API options endpoint
+add_filter('rest_endpoints', function ($endpoints) {
+    $route = '/carbon-fields/v1/options';
+    if (isset($endpoints[$route])) {
+        foreach ($endpoints[$route] as $method => $route_data) {
+            $endpoints[$route][$method]['permission_callback'] = function () {
+                return current_user_can('edit_pages');
+            };
+        }
+    }
+    return $endpoints;
+}, 20);
+
 // -----------------------------------------------------------------------------
 // 1. Theme Options page — "Site Settings" in the WP admin sidebar
 // -----------------------------------------------------------------------------
@@ -22,6 +38,7 @@ add_action('carbon_fields_register_fields', function () {
 
     $Container::make('theme_options', __('Site Settings'))
         ->set_icon('dashicons-admin-settings')
+        ->set_page_file('crb_site_settings.php')
         ->add_tab(__('Catering Form'), [
             // ---------- Section copy ----------
             $Field::make('separator', 'sep_section', __('Section copy (the left column above the form)')),
