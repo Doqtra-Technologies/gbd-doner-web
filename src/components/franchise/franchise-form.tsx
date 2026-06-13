@@ -18,9 +18,9 @@ export function FranchiseForm() {
   const [message, setMessage] = useState("");
 
   const investmentOptions = [
-    { label: ">100K-150K", value: ">100K-150K" },
-    { label: ">151K-200K Over", value: ">151K-200K Over" },
-    { label: ">201K Over", value: ">201K Over" },
+    { label: "200-300k", value: "200-300k" },
+    { label: "300-400k", value: "300-400k" },
+    { label: "400k+", value: "400k+" },
   ];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
