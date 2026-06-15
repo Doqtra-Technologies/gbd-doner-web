@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "GBD Doner",
   tagline: "British Doner Redefined",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gbdoner.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gbddoner.com",
   description:
     "Modern fast-casual doner. Ethically sourced, urban-kinetic, built for the city.",
   ogImage: "/og.jpg",

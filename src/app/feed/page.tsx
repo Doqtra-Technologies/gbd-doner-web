@@ -10,9 +10,23 @@ import type { FeedPageSettings } from "@/domain/site-settings";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "The Feed",
-  description:
-    "Nutrition science, community spotlights, and the GBD point of view.",
+  title: "The Feed | Stories, News & Culture | GBD Doner",
+  description: "Nutrition science, community spotlights, and the Great British Doner point of view. Dive into modern street food culture.",
+  keywords: ["doner kebab blog", "GBD Doner news", "vegan doner news", "british street food blog"],
+  alternates: {
+    canonical: "/feed",
+  },
+  openGraph: {
+    title: "The Feed | Stories, News & Culture | GBD Doner",
+    description: "Nutrition science, community spotlights, and the Great British Doner point of view.",
+    url: "/feed",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Feed | Stories, News & Culture | GBD Doner",
+    description: "Nutrition science, community spotlights, and the Great British Doner point of view.",
+  },
 };
 
 type FeedArticle = {

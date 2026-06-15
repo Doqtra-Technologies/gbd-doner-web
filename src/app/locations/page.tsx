@@ -6,9 +6,23 @@ import { PageBanner } from "@/components/ui/page-banner";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Locations",
-  description:
-    "Browse outlet locations, filter by city, and open each store page for details.",
+  title: "Find Your Nearest Great British Doner Location",
+  description: "Browse all GBD Doner locations across the UK including Manchester and Liverpool. Get directions, opening hours, and store details.",
+  keywords: ["GBD Doner locations", "doner near me", "doner kebab manchester", "doner kebab liverpool", "halal doner near me"],
+  alternates: {
+    canonical: "/locations",
+  },
+  openGraph: {
+    title: "Find Your Nearest Great British Doner Location",
+    description: "Browse all GBD Doner locations across the UK. Get directions, opening hours, and store details.",
+    url: "/locations",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Find Your Nearest Great British Doner Location",
+    description: "Browse all GBD Doner locations across the UK.",
+  },
 };
 
 export default async function LocationsPage() {

@@ -12,9 +12,23 @@ import { getOurStoryPageSettings } from "@/data/repositories/site-settings-repos
 import type { OurStoryPageSettings } from "@/domain/site-settings";
 
 export const metadata: Metadata = {
-  title: "Our Story",
-  description:
-    "Great British Doner — adapting traditional shish doner culture to the speed, aesthetics, and lifestyle of modern Britain.",
+  title: "Our Story | Modern British Street Food | GBD Doner",
+  description: "Discover how Great British Doner is adapting traditional shish doner culture to the speed, aesthetics, and lifestyle of modern Britain.",
+  keywords: ["Great British Doner story", "about GBD Doner", "British street food", "shish doner", "modern doner kebab"],
+  alternates: {
+    canonical: "/our-story",
+  },
+  openGraph: {
+    title: "Our Story | Modern British Street Food | GBD Doner",
+    description: "Discover how Great British Doner is adapting traditional shish doner culture to the speed, aesthetics, and lifestyle of modern Britain.",
+    url: "/our-story",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Story | Modern British Street Food | GBD Doner",
+    description: "Discover how Great British Doner is adapting traditional shish doner culture.",
+  },
 };
 
 // Long, editorial zoom on hover — the page's single shared motion primitive.
