@@ -17,7 +17,7 @@ Because the website uses a **modern headless architecture**, WordPress acts pure
 ---
 
 ## 1. Logging In
-1. Go to your WordPress admin URL (e.g., `https://api.gbdoner.com/wp-admin` or your staging URL).
+1. Go to your WordPress admin URL (e.g., `https://api.greatbritishdoner.com/wp-admin` or your staging URL).
 2. Enter your username and password.
 3. You will see the main WordPress Dashboard. The options you need are in the **left-hand sidebar**.
 

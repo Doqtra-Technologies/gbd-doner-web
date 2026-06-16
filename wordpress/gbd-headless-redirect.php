@@ -6,8 +6,10 @@
  * Author: GBD Doner
  *
  * Configuration:
- *   - In production, set GBD_FRONTEND_URL in wp-config.php:
- *       define('GBD_FRONTEND_URL', 'https://gbdoner.com');
+ *   - In production, set GBD_FRONTEND_URL in wp-config.php or as an environment variable:
+ *       define('GBD_FRONTEND_URL', 'https://greatbritishdoner.com');
+ *       OR
+ *       GBD_FRONTEND_URL=https://greatbritishdoner.com
  *   - Falls back to http://localhost:3000 for local dev.
  */
 
@@ -36,7 +38,9 @@ add_action('template_redirect', function () {
         return;
     }
 
-    $frontend = defined('GBD_FRONTEND_URL') ? GBD_FRONTEND_URL : 'http://localhost:3000';
+    $frontend = defined('GBD_FRONTEND_URL') 
+        ? GBD_FRONTEND_URL 
+        : (getenv('GBD_FRONTEND_URL') ?: 'http://localhost:3000');
     wp_redirect(rtrim($frontend, '/') . $req, 302);
     exit;
 });

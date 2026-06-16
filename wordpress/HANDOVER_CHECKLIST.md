@@ -54,7 +54,7 @@ Make sure content updates on the live website immediately when the client hits "
     ```php
     putenv('GBD_REVALIDATE_SECRET=your-secure-random-revalidate-token');
     putenv('GBD_PREVIEW_SECRET=your-secure-random-preview-token');
-    putenv('GBD_FRONTEND_URL=https://gbdoner.com'); // Your live Next.js URL
+    putenv('GBD_FRONTEND_URL=https://greatbritishdoner.com'); // Your live Next.js URL
     ```
 
 ---
@@ -64,16 +64,15 @@ On your hosting provider (Vercel, Netlify, etc.), configure the environment vari
 
 | Variable Key | Value | Description |
 |---|---|---|
-| `NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL` | `https://api.gbdoner.com/graphql` | Points to live WordPress endpoint |
+| `NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL` | `https://api.greatbritishdoner.com/graphql` | Points to live WordPress endpoint |
 | `NEXT_PUBLIC_USE_MOCK_DATA` | `false` | Disables mock data, reads WP |
 | `WORDPRESS_REVALIDATE_SECRET` | `your-secure-random-revalidate-token` | Must match GBD_REVALIDATE_SECRET in WP |
 | `WORDPRESS_PREVIEW_SECRET` | `your-secure-random-preview-token` | Must match GBD_PREVIEW_SECRET in WP |
-| `NEXT_PUBLIC_MAPBOX_TOKEN` | `pk.eyJ...` | Client's production Mapbox key |
 | `SMTP_HOST` | `smtp.sendgrid.net` (example) | Outgoing email server |
 | `SMTP_PORT` | `587` | Port for SMTP |
 | `SMTP_USER` | `apikey` (example) | Username |
 | `SMTP_PASS` | `SG.your-key-here` | SMTP password/key |
-| `SMTP_FROM` | `noreply@gbdoner.com` | Verified sending domain |
+| `SMTP_FROM` | `noreply@greatbritishdoner.com` | Verified sending domain |
 
 ---
 
@@ -90,7 +89,7 @@ On your hosting provider (Vercel, Netlify, etc.), configure the environment vari
 When you deliver the project, send the client a clean handover package containing:
 1.  **Welcome Message**: Thank them and outline the deliverables.
 2.  **Access Details** (Deliver securely via a shared vault like 1Password or Bitwarden — **never** in raw email text):
-    *   WordPress Admin URL (e.g., `https://api.gbdoner.com/wp-admin`)
+    *   WordPress Admin URL (e.g., `https://api.greatbritishdoner.com/wp-admin`)
     *   Client Editor username & password.
     *   Domain control panel details (if you managed it for them).
 3.  **Documentation**:
