@@ -180,11 +180,10 @@ export function FranchiseForm() {
                 className="sr-only"
               />
               <span
-                className={`w-4 h-4 border flex items-center justify-center rounded-[2px] transition-all duration-200 ${
-                  investmentAmount === option.value
+                className={`w-4 h-4 border flex items-center justify-center rounded-[2px] transition-all duration-200 ${investmentAmount === option.value
                     ? "border-accent bg-accent text-white"
                     : "border-gray-300 bg-white group-hover:border-gray-400"
-                }`}
+                  }`}
               >
                 {investmentAmount === option.value && (
                   <svg
@@ -237,7 +236,7 @@ export function FranchiseForm() {
         )}
 
         {status === "error" && (
-          <p className="font-body text-sm text-accent font-semibold mt-1 transition-all duration-300">
+          <p className="font-body text-sm text-accent font-semibold mt-1 transition-all duration-290">
             {errorMessage}
           </p>
         )}
