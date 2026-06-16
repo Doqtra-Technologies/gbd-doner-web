@@ -10,6 +10,8 @@ import type { OpeningHours } from "@/domain/location";
 import { ClientOpeningStatus } from "@/components/locations/client-opening-status";
 import { calculateDistance } from "@/lib/distance";
 import { cn } from "@/lib/utils";
+import { JsonLd } from "@/components/ui/json-ld";
+import { siteConfig } from "@/lib/config";
 
 export const revalidate = 60;
 
@@ -47,8 +49,15 @@ export async function generateMetadata({
   const loc = await getLocationBySlug(slug);
   if (!loc) return { title: "Location not found" };
   return {
-    title: loc.name,
+    title: `${loc.name} | GBD Doner Locations`,
     description: `${loc.addressLine1}, ${loc.city} ${loc.postcode}. Find opening hours, delivery, and Click + Collect.`,
+    alternates: { canonical: `/locations/${slug}` },
+    openGraph: {
+      title: `${loc.name} | GBD Doner Locations`,
+      description: `${loc.addressLine1}, ${loc.city} ${loc.postcode}. Find opening hours, delivery, and Click + Collect.`,
+      url: `/locations/${slug}`,
+      images: loc.imageUrl ? [loc.imageUrl] : [],
+    }
   };
 }
 
@@ -88,8 +97,42 @@ export default async function LocationDetailPage({
 
   const galleryImages = loc.images && loc.images.length > 0 ? loc.images : (loc.imageUrl ? [loc.imageUrl] : []);
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: loc.name,
+    image: loc.imageUrl ? [`${siteConfig.url}${loc.imageUrl}`] : undefined,
+    url: `${siteConfig.url}/locations/${loc.slug}`,
+    telephone: loc.phone || undefined,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: loc.addressLine1,
+      addressLocality: loc.city,
+      postalCode: loc.postcode,
+      addressCountry: "UK"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: loc.coordinates.lat,
+      longitude: loc.coordinates.lng
+    },
+    openingHoursSpecification: sortedHours.map(h => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.day,
+      opens: h.open,
+      closes: h.close
+    })),
+    sameAs: [
+      siteConfig.social.instagram,
+      siteConfig.social.facebook,
+      siteConfig.social.tiktok
+    ],
+    menu: `${siteConfig.url}/menu`
+  };
+
   return (
     <main className="w-full bg-canvas pb-24">
+      <JsonLd data={schema} />
       {/* 1. Hero Section */}
       <section
         data-theme="dark"

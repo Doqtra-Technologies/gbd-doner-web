@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getPosts } from "@/data/repositories/posts-repository";
+import { JsonLd } from "@/components/ui/json-ld";
+import { siteConfig } from "@/lib/config";
 
 export const revalidate = 60;
 
@@ -22,12 +24,15 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Article not found" };
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: `${post.title} | GBD Doner Feed`,
+    description: post.excerpt || `Read ${post.title} on the GBD Doner Feed.`,
+    alternates: { canonical: `/feed/${slug}` },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: `${post.title} | GBD Doner Feed`,
+      description: post.excerpt || `Read ${post.title} on the GBD Doner Feed.`,
+      url: `/feed/${slug}`,
       images: post.featuredImageUrl ? [post.featuredImageUrl] : undefined,
+      type: "article",
     },
   };
 }
@@ -43,9 +48,30 @@ export default async function FeedArticlePage({
 
   const publishedLabel = formatDate(post.publishedAt);
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    image: post.featuredImageUrl ? [`${siteConfig.url}${post.featuredImageUrl}`] : undefined,
+    datePublished: post.publishedAt,
+    author: [{
+        "@type": "Person",
+        name: post.author,
+    }],
+    publisher: {
+        "@type": "Organization",
+        name: "GBD Doner",
+        logo: {
+            "@type": "ImageObject",
+            url: `${siteConfig.url}/logo/gbd-logo.png`
+        }
+    }
+  };
+
   return (
     // pt-16 / pt-20 = exact navbar height so the article header clears the fixed nav.
     <main className="w-full bg-canvas pt-16 lg:pt-20">
+      <JsonLd data={schema} />
       <article className="border-b border-border-hairline">
         <header className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline">
           <div className="md:col-span-5 flex flex-col justify-center gap-8 p-10 lg:p-16">

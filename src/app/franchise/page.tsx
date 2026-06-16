@@ -1,15 +1,64 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { FranchiseForm } from "@/components/franchise/franchise-form";
+import { JsonLd } from "@/components/ui/json-ld";
+import { siteConfig } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "Franchise | Levent Börek",
-  description: "Join our story. Franchise opportunities available with Levent Börek.",
+  title: "Own a Great British Doner Franchise | GBD Doner",
+  description: "Join our story and partner with the next generation of modern British street food. Franchise opportunities available across the UK.",
+  keywords: ["doner franchise", "restaurant franchise", "food franchise uk", "GBD Doner franchise", "fast food franchise"],
+  alternates: {
+    canonical: "/franchise",
+  },
+  openGraph: {
+    title: "Own a Great British Doner Franchise | GBD Doner",
+    description: "Partner with the next generation of modern British street food. Franchise opportunities available.",
+    url: "/franchise",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Own a Great British Doner Franchise | GBD Doner",
+    description: "Partner with the next generation of modern British street food.",
+  },
 };
 
 export default function FranchisePage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much does a Great British Doner franchise cost?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The initial investment for a Great British Doner franchise varies depending on location and store size. Please complete our enquiry form for a detailed breakdown."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Do I need previous restaurant experience to open a franchise?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "While food and beverage experience is beneficial, it is not strictly required. We provide comprehensive training, operational blueprints, and ongoing support."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What locations are currently available for franchising?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We are actively seeking franchise partners across the UK, with priority regions including Greater Manchester, Merseyside, London, and the Midlands."
+        }
+      }
+    ]
+  };
+
   return (
     <main className="w-full min-h-screen flex flex-col lg:flex-row bg-white text-text-primary">
+      <JsonLd data={faqSchema} />
       {/* Left Column: Visual Banner */}
       <section className="relative lg:sticky lg:top-0 lg:h-screen w-full lg:w-1/2 flex-none h-[45vh] sm:h-[55vh] overflow-hidden group">
         {/* Banner image with smooth transition */}

@@ -6,9 +6,23 @@ import { getLocationsPageSettings } from "@/data/repositories/site-settings-repo
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Order Now",
-  description:
-    "Choose a branch to start your order, view delivery links, or collect in store.",
+  title: "Order Now | Delivery & Collection | GBD Doner",
+  description: "Order Great British Doner for delivery or collection. Choose your nearest branch and start your order via Deliveroo, UberEats, or click and collect.",
+  keywords: ["order doner online", "doner delivery near me", "GBD Doner delivery", "doner collection"],
+  alternates: {
+    canonical: "/order-now",
+  },
+  openGraph: {
+    title: "Order Now | Delivery & Collection | GBD Doner",
+    description: "Order Great British Doner for delivery or collection. Choose your nearest branch and start your order.",
+    url: "/order-now",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Order Now | Delivery & Collection | GBD Doner",
+    description: "Order Great British Doner for delivery or collection.",
+  },
 };
 
 export default async function OrderNowPage() {

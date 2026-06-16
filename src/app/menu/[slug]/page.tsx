@@ -7,6 +7,8 @@ import {
   getMenuItems,
 } from "@/data/repositories/menu-repository";
 import { formatGBP } from "@/lib/utils";
+import { JsonLd } from "@/components/ui/json-ld";
+import { siteConfig } from "@/lib/config";
 
 export const revalidate = 60;
 
@@ -26,11 +28,13 @@ export async function generateMetadata({
   const item = await getMenuItemBySlug(slug);
   if (!item) return { title: "Menu item not found" };
   return {
-    title: item.title,
-    description: item.description,
+    title: `${item.title} | GBD Doner Menu`,
+    description: item.description || `Enjoy the ${item.title} from GBD Doner. Prepared fresh daily.`,
+    alternates: { canonical: `/menu/${slug}` },
     openGraph: {
-      title: item.title,
-      description: item.description,
+      title: `${item.title} | GBD Doner Menu`,
+      description: item.description || `Enjoy the ${item.title} from GBD Doner.`,
+      url: `/menu/${slug}`,
       images: item.imageUrl ? [item.imageUrl] : undefined,
     },
   };
@@ -45,8 +49,25 @@ export default async function MenuItemDetailPage({
   const item = await getMenuItemBySlug(slug);
   if (!item) notFound();
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MenuItem",
+    name: item.title,
+    description: item.description,
+    image: item.imageUrl ? `${siteConfig.url}${item.imageUrl}` : undefined,
+    offers: {
+      "@type": "Offer",
+      price: item.priceGBP,
+      priceCurrency: "GBP",
+      availability: "https://schema.org/InStock",
+      url: `${siteConfig.url}/menu/${item.slug}`
+    },
+    suitableForDiet: (item.dietaryFlags as string[] | undefined)?.includes("VG") ? "https://schema.org/VeganDiet" : (item.dietaryFlags as string[] | undefined)?.includes("Halal") ? "https://schema.org/HalalDiet" : undefined,
+  };
+
   return (
     <main className="w-full bg-canvas">
+      <JsonLd data={schema} />
       <article className="border-b border-border-hairline">
         <div className="grid grid-cols-1 md:grid-cols-12 border-b border-border-hairline">
           <div className="md:col-span-6 relative w-full aspect-square bg-text-primary/[0.03] p-8 lg:p-16 border-b md:border-b-0 md:border-r border-border-hairline">

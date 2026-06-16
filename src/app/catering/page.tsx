@@ -8,9 +8,23 @@ import type { CateringFormSettings } from "@/domain/site-settings";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Catering",
-  description:
-    "GBD for team lunches, corporate events, and city-wide takeovers.",
+  title: "Corporate & Event Catering Services | GBD Doner",
+  description: "Bring bold flavour to the table. GBD Doner catering for team lunches, corporate events, and private gatherings. Custom doner platters and boxes.",
+  keywords: ["doner catering", "corporate catering", "office lunch delivery", "halal catering manchester", "event food delivery"],
+  alternates: {
+    canonical: "/catering",
+  },
+  openGraph: {
+    title: "Corporate & Event Catering Services | GBD Doner",
+    description: "Bring bold flavour to the table. GBD Doner catering for team lunches and corporate events.",
+    url: "/catering",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Corporate & Event Catering Services | GBD Doner",
+    description: "Bring bold flavour to the table. GBD Doner catering for team lunches and corporate events.",
+  },
 };
 
 /**
@@ -26,11 +40,46 @@ export const metadata: Metadata = {
  * SaaS-template layouts.
  */
 import { PageBanner } from "@/components/ui/page-banner";
+import { JsonLd } from "@/components/ui/json-ld";
+import { siteConfig } from "@/lib/config";
 
 export default async function CateringPage() {
   const cateringSettings = await getCateringSettings();
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Do you offer corporate catering in Manchester?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, we offer corporate catering services for offices and events throughout Manchester city centre and surrounding areas."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Is your catering menu fully halal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, our entire catering menu features 100% halal-certified meat, freshly prepared for your event."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Can you cater for vegan and vegetarian diets?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely. We offer a dedicated range of vegan doner options and vegetarian sides suitable for large groups."
+        }
+      }
+    ]
+  };
+
   return (
     <main className="w-full bg-canvas text-text-primary">
+      <JsonLd data={faqSchema} />
       <PageBanner
         imageSrc="/banner/catering.png"
         imageAlt="GBD Catering"

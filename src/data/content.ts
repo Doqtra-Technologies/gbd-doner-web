@@ -18,7 +18,8 @@ export const globalData = {
         { label: "Menu", href: "/menu" }, 
         { label: "Allergens", href: "/allergens/Allergens.pdf", download: true }, 
         { label: "Catering", href: "/catering" },
-        { label: "Franchise", href: "/franchise" }
+        { label: "Franchise", href: "/franchise" },
+        { label: "The Feed", href: "/feed" }
       ] 
     },
     follow: { 
