@@ -41,7 +41,7 @@ export async function getMenuItems(): Promise<MenuItem[]> {
   const client = getGraphQLClient();
   const data = await client.request<RawMenuItemsResponse>(MENU_ITEMS_QUERY);
 
-  return data.menuItems.nodes.map((node): MenuItem => {
+  return (data.menuItems?.nodes ?? []).filter(Boolean).map((node): MenuItem => {
     const f = node.menuItemFields ?? null;
     return {
       id: node.id,
@@ -53,7 +53,7 @@ export async function getMenuItems(): Promise<MenuItem[]> {
       category: (f?.category ?? "boxes") as MenuCategorySlug,
       isBestSeller: Boolean(f?.isBestSeller),
       dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-      allergens: f?.allergens ?? [],
+      allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
       nutrition: f?.nutrition ?? null,
     };
   });
@@ -98,7 +98,7 @@ export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | 
     category: (f?.category ?? "boxes") as MenuCategorySlug,
     isBestSeller: Boolean(f?.isBestSeller),
     dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-    allergens: f?.allergens ?? [],
+    allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
     nutrition: f?.nutrition ?? null,
     bodyHtml: node.content ?? null,
   };

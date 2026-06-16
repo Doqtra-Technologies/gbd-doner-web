@@ -9,6 +9,10 @@ const remotePatterns = [
   // Local headless WordPress (LocalWP / Laragon / wp-env).
   { protocol: "http", hostname: "gbd.local" },
   { protocol: "https", hostname: "gbd.local" },
+  { protocol: "http", hostname: "gbddoner.local" },
+  { protocol: "https", hostname: "gbddoner.local" },
+  { protocol: "http", hostname: "**.local" },
+  { protocol: "https", hostname: "**.local" },
   { protocol: "http", hostname: "localhost" },
 ];
 

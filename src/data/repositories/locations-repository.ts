@@ -34,7 +34,7 @@ export async function getLocations(): Promise<Location[]> {
   const client = getGraphQLClient();
   const data = await client.request<RawLocationsResponse>(LOCATIONS_QUERY);
 
-  return data.locations.nodes.map((node): Location => {
+  return (data.locations?.nodes ?? []).filter(Boolean).map((node): Location => {
     const f = node.locationFields;
     return {
       id: node.id,
@@ -47,9 +47,9 @@ export async function getLocations(): Promise<Location[]> {
       phone: f?.phone ?? null,
       isFlagship: Boolean(f?.isFlagship),
       coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-      hours: f?.hours ?? [],
+      hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
       clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-      deliveryLinks: f?.deliveryLinks ?? [],
+      deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
       imageUrl: f?.imageUrl ?? null,
     };
   });
@@ -93,9 +93,9 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
     phone: f?.phone ?? null,
     isFlagship: Boolean(f?.isFlagship),
     coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-    hours: f?.hours ?? [],
+    hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
     clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-    deliveryLinks: f?.deliveryLinks ?? [],
+    deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
     imageUrl: f?.imageUrl ?? null,
     bodyHtml: node.content ?? null,
   };

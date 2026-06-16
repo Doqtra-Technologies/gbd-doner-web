@@ -30,7 +30,7 @@ export async function getPosts(): Promise<Post[]> {
   const client = getGraphQLClient();
   const data = await client.request<RawPostsResponse>(POSTS_QUERY);
 
-  return data.posts.nodes.map((node): Post => ({
+  return (data.posts?.nodes ?? []).filter(Boolean).map((node): Post => ({
     id: node.id,
     slug: node.slug,
     title: node.title,
