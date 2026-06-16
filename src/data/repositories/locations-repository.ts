@@ -24,7 +24,9 @@ export async function getLocations(): Promise<Location[]> {
     "images": images[].asset->url
   }`;
 
-  const locations = await client.fetch<Location[]>(query);
+  const locations = await client.fetch<Location[]>(query, {}, {
+    next: { tags: ["location"] }
+  });
   
   // Ensure nested objects default safely
   return (locations || []).map(loc => ({
@@ -54,7 +56,9 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
     "images": images[].asset->url
   }`;
 
-  const loc = await client.fetch<LocationDetail | null>(query, { slug });
+  const loc = await client.fetch<LocationDetail | null>(query, { slug }, {
+    next: { tags: ["location", `location:${slug}`] }
+  });
   if (!loc) return null;
 
   return {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -62,10 +62,13 @@ export async function POST(request: Request) {
     if (body._type === "post")      paths.add(`/feed/${slug}`);
   }
 
-  // Always refresh the home in case it surfaces best-sellers/featured posts.
   paths.add("/");
 
   paths.forEach((p) => revalidatePath(p));
+  
+  if (body._type) {
+    revalidateTag(body._type);
+  }
 
   return NextResponse.json({ ok: true, revalidated: Array.from(paths), now: Date.now() });
 }
