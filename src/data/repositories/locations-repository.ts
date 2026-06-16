@@ -1,81 +1,47 @@
 import { dataConfig } from "@/lib/config";
-import type { Location, OpeningHours, DeliveryLink } from "@/domain/location";
-import { getGraphQLClient } from "@/data/graphql/client";
-import { LOCATIONS_QUERY, LOCATION_BY_SLUG_QUERY } from "@/data/graphql/queries";
+import type { Location } from "@/domain/location";
+import { client } from "@/data/sanity/client";
 import { MOCK_LOCATIONS } from "@/data/graphql/mocks";
-import { sanitizeImageUrl } from "@/lib/utils";
 
-interface RawLocationsResponse {
-  locations: {
-    nodes: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      locationFields: {
-        addressLine1: string | null;
-        addressLine2: string | null;
-        city: string | null;
-        postcode: string | null;
-        phone: string | null;
-        isFlagship: boolean | null;
-        lat: number | null;
-        lng: number | null;
-        clickAndCollectUrl: string | null;
-        imageUrl: string | null;
-        deliveryLinks: DeliveryLink[] | null;
-        hours: OpeningHours[] | null;
-      } | null;
-    }>;
-  };
+export interface LocationDetail extends Location {
+  bodyHtml: string | null;
 }
 
 export async function getLocations(): Promise<Location[]> {
   if (dataConfig.useMocks) return MOCK_LOCATIONS;
 
   try {
-    const client = getGraphQLClient();
-    const data = await client.request<RawLocationsResponse>(LOCATIONS_QUERY);
+    const query = `*[_type == "location"] | order(name asc) {
+      "id": _id,
+      "slug": slug.current,
+      name,
+      addressLine1,
+      addressLine2,
+      city,
+      postcode,
+      phone,
+      isFlagship,
+      coordinates,
+      hours,
+      clickAndCollectUrl,
+      deliveryLinks,
+      "imageUrl": image.asset->url,
+      "images": images[].asset->url
+    }`;
 
-    return (data.locations?.nodes ?? [])
-      .filter((node) => node && node.slug)
-      .map((node): Location => {
-        const f = node.locationFields;
-        return {
-          id: node.id,
-          slug: node.slug,
-          name: node.title,
-          addressLine1: f?.addressLine1 ?? "",
-          addressLine2: f?.addressLine2 ?? null,
-          city: f?.city ?? "",
-          postcode: f?.postcode ?? "",
-          phone: f?.phone ?? null,
-          isFlagship: Boolean(f?.isFlagship),
-          coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-          hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
-          clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-          deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-          imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
-        };
-      });
+    const locations = await client.fetch<Location[]>(query);
+    
+    // Ensure nested objects default safely
+    return (locations || []).map(loc => ({
+      ...loc,
+      coordinates: loc.coordinates || { lat: 0, lng: 0 },
+      hours: loc.hours || [],
+      deliveryLinks: loc.deliveryLinks || [],
+    }));
   } catch (error) {
-    console.error("Failed to fetch locations from WordPress, falling back to mock locations:", error);
+    console.error("Failed to fetch locations from Sanity, falling back to mock locations:", error);
     return MOCK_LOCATIONS;
   }
-}
-
-export interface LocationDetail extends Location {
-  /** Long-form HTML body from the WP editor; null when not provided. */
-  bodyHtml: string | null;
-}
-
-interface RawLocationBySlugResponse {
-  location: {
-    id: string;
-    slug: string;
-    title: string;
-    content: string | null;
-    locationFields: RawLocationsResponse["locations"]["nodes"][number]["locationFields"];
-  } | null;
 }
 
 export async function getLocationBySlug(slug: string): Promise<LocationDetail | null> {
@@ -85,31 +51,36 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
   }
 
   try {
-    const client = getGraphQLClient();
-    const data = await client.request<RawLocationBySlugResponse>(LOCATION_BY_SLUG_QUERY, { slug });
-    const node = data.location;
-    if (!node) return null;
+    const query = `*[_type == "location" && slug.current == $slug][0] {
+      "id": _id,
+      "slug": slug.current,
+      name,
+      addressLine1,
+      addressLine2,
+      city,
+      postcode,
+      phone,
+      isFlagship,
+      coordinates,
+      hours,
+      clickAndCollectUrl,
+      deliveryLinks,
+      "imageUrl": image.asset->url,
+      "images": images[].asset->url
+    }`;
 
-    const f = node.locationFields;
+    const loc = await client.fetch<LocationDetail | null>(query, { slug });
+    if (!loc) return null;
+
     return {
-      id: node.id,
-      slug: node.slug,
-      name: node.title,
-      addressLine1: f?.addressLine1 ?? "",
-      addressLine2: f?.addressLine2 ?? null,
-      city: f?.city ?? "",
-      postcode: f?.postcode ?? "",
-      phone: f?.phone ?? null,
-      isFlagship: Boolean(f?.isFlagship),
-      coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-      hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
-      clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-      deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-      imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
-      bodyHtml: node.content ?? null,
+      ...loc,
+      coordinates: loc.coordinates || { lat: 0, lng: 0 },
+      hours: loc.hours || [],
+      deliveryLinks: loc.deliveryLinks || [],
+      bodyHtml: null, // Sanity structure currently omits rich text body for locations
     };
   } catch (error) {
-    console.error(`Failed to fetch location by slug ${slug} from WordPress, falling back to mock:`, error);
+    console.error(`Failed to fetch location by slug ${slug} from Sanity, falling back to mock:`, error);
     const hit = MOCK_LOCATIONS.find((l) => l.slug === slug);
     return hit ? { ...hit, bodyHtml: null } : null;
   }

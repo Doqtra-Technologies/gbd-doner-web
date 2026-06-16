@@ -1,6 +1,5 @@
 import { dataConfig } from "@/lib/config";
-import { getGraphQLClient } from "@/data/graphql/client";
-import { SITE_SETTINGS_QUERY } from "@/data/graphql/queries";
+import { client } from "@/data/sanity/client";
 import { sanitizeImageUrl } from "@/lib/utils";
 import type {
   CateringFormSettings,
@@ -12,17 +11,13 @@ import type {
 } from "@/domain/site-settings";
 
 // ----------------------------------------------------------------------------
-// Defaults — every string here matches what was hardcoded on the page before
-// these settings existed. If WP is unreachable or a field is left blank, the
-// site renders exactly as it always did.
+// Defaults
 // ----------------------------------------------------------------------------
 
 export const CATERING_DEFAULTS: CateringFormSettings = {
   eyebrow: "Catering",
   headingLines: ["Modern street food,", "made for everyday life"],
-  lead:
-    "Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience. Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.",
-
+  lead: "Bold flavours, fast service, and a cleaner approach to doner. From quick lunch breaks to late-night cravings, Great British Doner delivers a modern fast-casual experience built around quality ingredients and everyday convenience. Whether you’re grabbing a wrap on the go or ordering in with friends, GBD brings together flavour, speed, and consistency in one seamless experience.",
   fieldNameLabel: "Full Name",
   fieldNamePlaceholder: "Enter your full name",
   fieldEmailLabel: "Email Address",
@@ -32,17 +27,13 @@ export const CATERING_DEFAULTS: CateringFormSettings = {
   fieldHeadcountLabel: "Estimated Guest Count",
   fieldHeadcountPlaceholder: "Select guest size",
   fieldMessageLabel: "Event Details & Requirements",
-  fieldMessagePlaceholder:
-    "Tell us more about your event, dietary preferences, vegan requirements, location, or anything else we should know.",
-
+  fieldMessagePlaceholder: "Tell us more about your event, dietary preferences, vegan requirements, location, or anything else we should know.",
   submitLabel: "Submit Enquiry",
   submitLabelSending: "Sending…",
-
   statusIdle: "We’ll get back to you shortly.",
   statusSending: "Sending your brief…",
   statusSuccess: "Thanks — your enquiry is in. We’ll reply shortly.",
   statusError: "Something went wrong — please try again.",
-
   recipientEmail: null,
 };
 
@@ -55,8 +46,7 @@ export const LOCATIONS_PAGE_DEFAULTS: LocationsPageSettings = {
 export const FEED_PAGE_DEFAULTS: FeedPageSettings = {
   eyebrow: "The Feed",
   headingLines: ["Why vegan doner is changing", "fast food in the UK."],
-  lead:
-    "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining.",
+  lead: "The UK food scene is evolving — and vegan doner is becoming one of the biggest shifts in modern fast casual dining.",
   emptyState: "More stories arriving soon.",
 };
 
@@ -166,207 +156,42 @@ export const GLOBAL_DEFAULTS: GlobalSettings = {
 };
 
 // ----------------------------------------------------------------------------
-// Raw GraphQL response shape
+// Sanity implementation
 // ----------------------------------------------------------------------------
 
 interface RawSiteSettingsResponse {
-  siteSettings: {
-    catering: Partial<CateringFormSettings> | null;
-    locations: Partial<LocationsPageSettings> | null;
-    feed: Partial<FeedPageSettings> | null;
-    home: Partial<HomePageSettings> | null;
-    ourStory: Partial<OurStoryPageSettings> | null;
-    global: Partial<GlobalSettings> | null;
-  } | null;
+  global?: Partial<GlobalSettings>;
+  // For other settings that are yet to be modeled in Sanity, we just use defaults for now.
 }
 
-// ----------------------------------------------------------------------------
-// Merge helpers — only override defaults with non-empty strings / arrays
-// ----------------------------------------------------------------------------
-
-function mergeStringFields<T>(
-  defaults: T,
-  raw: Partial<T> | null | undefined,
-  arrayKeys: ReadonlyArray<keyof T> = [],
-  nullableKeys: ReadonlyArray<keyof T> = [],
-): T {
-  const out = { ...defaults } as T;
-  if (!raw) return out;
-
-  const target = out as unknown as Record<string, unknown>;
-  const source = raw as unknown as Record<string, unknown>;
-
-  (Object.keys(defaults as object) as Array<keyof T>).forEach((key) => {
-    const k = key as string;
-    const value = source[k];
-
-    if (arrayKeys.includes(key)) {
-      if (Array.isArray(value) && value.length > 0) target[k] = value;
-      return;
-    }
-
-    if (nullableKeys.includes(key)) {
-      target[k] = value ?? null;
-      return;
-    }
-
-    if (typeof value === "string" && value.trim().length > 0) target[k] = value;
-  });
-
-  return out;
-}
-
-// ----------------------------------------------------------------------------
-// Single network call, three slices. Lazy-cached per request.
-// ----------------------------------------------------------------------------
-
-async function fetchAllSiteSettings(): Promise<RawSiteSettingsResponse["siteSettings"]> {
+async function fetchAllSiteSettings(): Promise<RawSiteSettingsResponse | null> {
   if (dataConfig.useMocks) return null;
   try {
-    const client = getGraphQLClient();
-    const data = await client.request<RawSiteSettingsResponse>(SITE_SETTINGS_QUERY);
-    return data.siteSettings ?? null;
-  } catch {
+    const query = `*[_type == "siteSettings"][0]`;
+    const data = await client.fetch<any>(query);
+    if (!data) return null;
+    
+    // Map Sanity schema to domain settings
+    return {
+      global: {
+        contactEmail: data.contactEmail,
+        copyright: data.copyright,
+        socialInstagram: data.socialInstagram,
+        socialTiktok: data.socialTiktok,
+        socialFacebook: data.socialFacebook,
+        newsletterHeading: data.newsletterHeading,
+        newsletterSubtext: data.newsletterSubtext,
+      }
+    };
+  } catch (err) {
+    console.error("Failed to fetch site settings from Sanity:", err);
     return null;
   }
 }
 
-export async function getCateringSettings(): Promise<CateringFormSettings> {
-  const raw = await fetchAllSiteSettings();
-  return mergeStringFields(
-    CATERING_DEFAULTS,
-    raw?.catering ?? null,
-    ["headingLines"],
-    ["recipientEmail"],
-  );
-}
-
-export async function getLocationsPageSettings(): Promise<LocationsPageSettings> {
-  const raw = await fetchAllSiteSettings();
-  return mergeStringFields(LOCATIONS_PAGE_DEFAULTS, raw?.locations ?? null);
-}
-
-export async function getFeedPageSettings(): Promise<FeedPageSettings> {
-  const raw = await fetchAllSiteSettings();
-  return mergeStringFields(FEED_PAGE_DEFAULTS, raw?.feed ?? null, [
-    "headingLines",
-  ]);
-}
-
-function mergeHomeFields(defaults: HomePageSettings, raw: Partial<HomePageSettings> | null | undefined): HomePageSettings {
-  const out = { ...defaults };
-  if (!raw) return out;
-
-  if (raw.heroVideoUrl) out.heroVideoUrl = sanitizeImageUrl(raw.heroVideoUrl) || defaults.heroVideoUrl;
-  if (raw.heroTitleLine1) out.heroTitleLine1 = raw.heroTitleLine1;
-  if (raw.heroTitleLine2) out.heroTitleLine2 = raw.heroTitleLine2;
-  if (raw.heroTitleLine3) out.heroTitleLine3 = raw.heroTitleLine3;
-  if (raw.heroLead) out.heroLead = raw.heroLead;
-  if (raw.cravingsEyebrow) out.cravingsEyebrow = raw.cravingsEyebrow;
-  if (raw.cravingsHeadingLine1) out.cravingsHeadingLine1 = raw.cravingsHeadingLine1;
-  if (raw.cravingsHeadingLine2) out.cravingsHeadingLine2 = raw.cravingsHeadingLine2;
-
-  if (raw.cravingsCard1) {
-    out.cravingsCard1 = {
-      label: raw.cravingsCard1.label || defaults.cravingsCard1.label,
-      title: raw.cravingsCard1.title || defaults.cravingsCard1.title,
-      desc: raw.cravingsCard1.desc || defaults.cravingsCard1.desc,
-      imageUrl: sanitizeImageUrl(raw.cravingsCard1.imageUrl) || defaults.cravingsCard1.imageUrl,
-    };
-  }
-  if (raw.cravingsCard2) {
-    out.cravingsCard2 = {
-      label: raw.cravingsCard2.label || defaults.cravingsCard2.label,
-      title: raw.cravingsCard2.title || defaults.cravingsCard2.title,
-      desc: raw.cravingsCard2.desc || defaults.cravingsCard2.desc,
-      imageUrl: sanitizeImageUrl(raw.cravingsCard2.imageUrl) || defaults.cravingsCard2.imageUrl,
-    };
-  }
-
-  return out;
-}
-
-function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryPageSettings> | null | undefined): OurStoryPageSettings {
-  const out = { ...defaults };
-  if (!raw) return out;
-
-  if (raw.heroImageUrl) out.heroImageUrl = sanitizeImageUrl(raw.heroImageUrl) || defaults.heroImageUrl;
-  if (raw.heroEyebrow) out.heroEyebrow = raw.heroEyebrow;
-  if (raw.heroTitleLine1) out.heroTitleLine1 = raw.heroTitleLine1;
-  if (raw.heroTitleLine2) out.heroTitleLine2 = raw.heroTitleLine2;
-  if (raw.heroSubheading) out.heroSubheading = raw.heroSubheading;
-
-  if (raw.philosophyEyebrow) out.philosophyEyebrow = raw.philosophyEyebrow;
-  if (raw.philosophyHeadingLine1) out.philosophyHeadingLine1 = raw.philosophyHeadingLine1;
-  if (raw.philosophyHeadingLine2) out.philosophyHeadingLine2 = raw.philosophyHeadingLine2;
-  if (raw.philosophyLeadParagraph) out.philosophyLeadParagraph = raw.philosophyLeadParagraph;
-  if (raw.philosophySecondaryText) out.philosophySecondaryText = raw.philosophySecondaryText;
-  if (raw.philosophyTags) out.philosophyTags = raw.philosophyTags;
-  if (raw.philosophyImage1Url) out.philosophyImage1Url = sanitizeImageUrl(raw.philosophyImage1Url) || defaults.philosophyImage1Url;
-  if (raw.philosophyImage2Url) out.philosophyImage2Url = sanitizeImageUrl(raw.philosophyImage2Url) || defaults.philosophyImage2Url;
-  if (raw.philosophyStatValue) out.philosophyStatValue = raw.philosophyStatValue;
-  if (raw.philosophyStatLabel) out.philosophyStatLabel = raw.philosophyStatLabel;
-  if (raw.philosophyTagLabel) out.philosophyTagLabel = raw.philosophyTagLabel;
-
-  if (raw.blueprintEyebrow) out.blueprintEyebrow = raw.blueprintEyebrow;
-  if (raw.blueprintHeading) out.blueprintHeading = raw.blueprintHeading;
-  if (raw.blueprintDesc) out.blueprintDesc = raw.blueprintDesc;
-
-  if (raw.blueprintPt1) {
-    out.blueprintPt1 = {
-      eyebrow: raw.blueprintPt1.eyebrow || defaults.blueprintPt1.eyebrow,
-      title: raw.blueprintPt1.title || defaults.blueprintPt1.title,
-      desc: raw.blueprintPt1.desc || defaults.blueprintPt1.desc,
-      imageUrl: sanitizeImageUrl(raw.blueprintPt1.imageUrl) || defaults.blueprintPt1.imageUrl,
-      watermark: null,
-    };
-  }
-  if (raw.blueprintPt2) {
-    out.blueprintPt2 = {
-      eyebrow: raw.blueprintPt2.eyebrow || defaults.blueprintPt2.eyebrow,
-      title: raw.blueprintPt2.title || defaults.blueprintPt2.title,
-      desc: raw.blueprintPt2.desc || defaults.blueprintPt2.desc,
-      imageUrl: null,
-      watermark: raw.blueprintPt2.watermark || defaults.blueprintPt2.watermark,
-    };
-  }
-  if (raw.blueprintPt3) {
-    out.blueprintPt3 = {
-      eyebrow: raw.blueprintPt3.eyebrow || defaults.blueprintPt3.eyebrow,
-      title: raw.blueprintPt3.title || defaults.blueprintPt3.title,
-      desc: raw.blueprintPt3.desc || defaults.blueprintPt3.desc,
-      imageUrl: sanitizeImageUrl(raw.blueprintPt3.imageUrl) || defaults.blueprintPt3.imageUrl,
-      watermark: null,
-    };
-  }
-
-  if (raw.communityEyebrow) out.communityEyebrow = raw.communityEyebrow;
-  if (raw.communityHeading) out.communityHeading = raw.communityHeading;
-  if (raw.communityDesc) out.communityDesc = raw.communityDesc;
-
-  if (Array.isArray(raw.recognitionItems) && raw.recognitionItems.length > 0) {
-    out.recognitionItems = raw.recognitionItems.map((item, idx) => {
-      const def = defaults.recognitionItems[idx] || defaults.recognitionItems[0];
-      let imageUrl = sanitizeImageUrl(item.imageUrl) || def.imageUrl;
-      const label = item.label || def.label;
-      const copy = item.copy || def.copy;
-      const link = item.link || def.link;
-
-      if (label.toLowerCase().includes("sun") && imageUrl.toLowerCase().includes("1.png")) {
-        imageUrl = "/Story/6.png";
-      }
-
-      return {
-        imageUrl,
-        label,
-        copy,
-        link,
-      };
-    });
-  }
-
-  return out;
-}
+// ----------------------------------------------------------------------------
+// Merge helpers 
+// ----------------------------------------------------------------------------
 
 function mergeGlobalFields(defaults: GlobalSettings, raw: Partial<GlobalSettings> | null | undefined): GlobalSettings {
   const out = { ...defaults };
@@ -383,14 +208,24 @@ function mergeGlobalFields(defaults: GlobalSettings, raw: Partial<GlobalSettings
   return out;
 }
 
+export async function getCateringSettings(): Promise<CateringFormSettings> {
+  return CATERING_DEFAULTS; // No Sanity model yet, use defaults
+}
+
+export async function getLocationsPageSettings(): Promise<LocationsPageSettings> {
+  return LOCATIONS_PAGE_DEFAULTS; // No Sanity model yet, use defaults
+}
+
+export async function getFeedPageSettings(): Promise<FeedPageSettings> {
+  return FEED_PAGE_DEFAULTS; // No Sanity model yet, use defaults
+}
+
 export async function getHomePageSettings(): Promise<HomePageSettings> {
-  const raw = await fetchAllSiteSettings();
-  return mergeHomeFields(HOME_DEFAULTS, raw?.home ?? null);
+  return HOME_DEFAULTS; // No Sanity model yet, use defaults
 }
 
 export async function getOurStoryPageSettings(): Promise<OurStoryPageSettings> {
-  const raw = await fetchAllSiteSettings();
-  return mergeStoryFields(STORY_DEFAULTS, raw?.ourStory ?? null);
+  return STORY_DEFAULTS; // No Sanity model yet, use defaults
 }
 
 export async function getGlobalSettings(): Promise<GlobalSettings> {

@@ -1,87 +1,40 @@
 import { dataConfig } from "@/lib/config";
-import type { MenuItem, MenuCategory, MenuCategorySlug } from "@/domain/menu-item";
-import { getGraphQLClient } from "@/data/graphql/client";
-import { MENU_ITEMS_QUERY, MENU_ITEM_BY_SLUG_QUERY } from "@/data/graphql/queries";
+import type { MenuItem, MenuCategory } from "@/domain/menu-item";
+import { client } from "@/data/sanity/client";
 import { MOCK_MENU_CATEGORIES, MOCK_MENU_ITEMS } from "@/data/graphql/mocks";
-import { sanitizeImageUrl } from "@/lib/utils";
 
-interface RawMenuItemsResponse {
-  menuItems: {
-    nodes: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      excerpt: string | null;
-      featuredImage: { node: { sourceUrl: string; altText: string | null } } | null;
-      menuItemFields: {
-        priceGbp: number | null;
-        isBestSeller: boolean | null;
-        category: MenuCategorySlug | null;
-        imageUrl: string | null;
-        dietaryFlags: string[] | null;
-        allergens: Array<{ code: string; label: string }> | null;
-        nutrition: {
-          calories: number;
-          protein: number;
-          carbs: number;
-          fat: number;
-        } | null;
-      } | null;
-    }>;
-  };
-}
-
-function stripHtml(s: string | null | undefined): string {
-  if (!s) return "";
-  return s.replace(/<[^>]*>/g, "").trim();
+export interface MenuItemDetail extends MenuItem {
+  bodyHtml: string | null;
 }
 
 export async function getMenuItems(): Promise<MenuItem[]> {
   if (dataConfig.useMocks) return MOCK_MENU_ITEMS;
 
   try {
-    const client = getGraphQLClient();
-    const data = await client.request<RawMenuItemsResponse>(MENU_ITEMS_QUERY);
+    const query = `*[_type == "menuItem"] | order(title asc) {
+      "id": _id,
+      "slug": slug.current,
+      title,
+      description,
+      priceGBP,
+      "imageUrl": image.asset->url,
+      category,
+      isBestSeller,
+      allergens,
+      nutrition,
+      dietaryFlags
+    }`;
 
-    return (data.menuItems?.nodes ?? [])
-      .filter((node) => node && node.slug)
-      .map((node): MenuItem => {
-        const f = node.menuItemFields ?? null;
-        return {
-          id: node.id,
-          slug: node.slug,
-          title: node.title,
-          description: stripHtml(node.excerpt),
-          priceGBP: f?.priceGbp ?? null,
-          imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
-          category: (f?.category ?? "boxes") as MenuCategorySlug,
-          isBestSeller: Boolean(f?.isBestSeller),
-          dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-          allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
-          nutrition: f?.nutrition ?? null,
-        };
-      });
+    const items = await client.fetch<MenuItem[]>(query);
+    return (items || []).map(item => ({
+      ...item,
+      allergens: item.allergens || [],
+      dietaryFlags: item.dietaryFlags || []
+    }));
   } catch (error) {
-    console.error("Failed to fetch menu items from WordPress, falling back to mock menu items:", error);
+    console.error("Failed to fetch menu items from Sanity, falling back to mock menu items:", error);
     return MOCK_MENU_ITEMS;
   }
-}
-
-export interface MenuItemDetail extends MenuItem {
-  /** Long-form HTML body from the WP editor; null when not provided. */
-  bodyHtml: string | null;
-}
-
-interface RawMenuItemBySlugResponse {
-  menuItem: {
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    content: string | null;
-    featuredImage: { node: { sourceUrl: string; altText: string | null } } | null;
-    menuItemFields: RawMenuItemsResponse["menuItems"]["nodes"][number]["menuItemFields"];
-  } | null;
 }
 
 export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | null> {
@@ -91,28 +44,31 @@ export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | 
   }
 
   try {
-    const client = getGraphQLClient();
-    const data = await client.request<RawMenuItemBySlugResponse>(MENU_ITEM_BY_SLUG_QUERY, { slug });
-    const node = data.menuItem;
-    if (!node) return null;
+    const query = `*[_type == "menuItem" && slug.current == $slug][0] {
+      "id": _id,
+      "slug": slug.current,
+      title,
+      description,
+      priceGBP,
+      "imageUrl": image.asset->url,
+      category,
+      isBestSeller,
+      allergens,
+      nutrition,
+      dietaryFlags
+    }`;
 
-    const f = node.menuItemFields ?? null;
+    const item = await client.fetch<MenuItemDetail | null>(query, { slug });
+    if (!item) return null;
+
     return {
-      id: node.id,
-      slug: node.slug,
-      title: node.title,
-      description: stripHtml(node.excerpt),
-      priceGBP: f?.priceGbp ?? null,
-      imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
-      category: (f?.category ?? "boxes") as MenuCategorySlug,
-      isBestSeller: Boolean(f?.isBestSeller),
-      dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-      allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
-      nutrition: f?.nutrition ?? null,
-      bodyHtml: node.content ?? null,
+      ...item,
+      allergens: item.allergens || [],
+      dietaryFlags: item.dietaryFlags || [],
+      bodyHtml: null, // Basic schema omits rich body for menu items
     };
   } catch (error) {
-    console.error(`Failed to fetch menu item by slug ${slug} from WordPress, falling back to mock:`, error);
+    console.error(`Failed to fetch menu item by slug ${slug} from Sanity, falling back to mock:`, error);
     const hit = MOCK_MENU_ITEMS.find((i) => i.slug === slug);
     return hit ? { ...hit, bodyHtml: null } : null;
   }
@@ -124,7 +80,5 @@ export async function getBestSellers(limit = 4): Promise<MenuItem[]> {
 }
 
 export async function getMenuCategories(): Promise<MenuCategory[]> {
-  // Categories are an enum on the domain side; this stays a simple lookup
-  // whether data is mocked or live.
   return MOCK_MENU_CATEGORIES;
 }
