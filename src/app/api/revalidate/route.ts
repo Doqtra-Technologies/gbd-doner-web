@@ -5,22 +5,19 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const POST_TYPE_PATHS: Record<string, string[]> = {
-  menu_item: ["/menu"],
+  menuItem: ["/menu"],
   location: ["/order-now", "/locations"],
   post: ["/feed"],
-  // Triggered by the Site Settings (theme-options) save in WP.
-  // Touches every page that reads editable copy from siteSettings.
-  site_settings: ["/catering", "/order-now", "/feed"],
+  siteSettings: ["/catering", "/order-now", "/feed"],
 };
 
 type RevalidatePayload = {
-  postType?: string;
-  slug?: string;
-  paths?: string[];
+  _type?: string;
+  slug?: { current?: string } | string;
 };
 
 export async function POST(request: Request) {
-  const expected = process.env.WORDPRESS_REVALIDATE_SECRET;
+  const expected = process.env.SANITY_REVALIDATE_SECRET;
   if (!expected) {
     return NextResponse.json(
       { ok: false, error: "Revalidation is not configured." },
@@ -28,8 +25,9 @@ export async function POST(request: Request) {
     );
   }
 
+  // Check URL param or custom header for the Sanity Webhook secret
   const provided =
-    request.headers.get("x-wp-revalidate-secret") ??
+    request.headers.get("x-sanity-secret") ??
     new URL(request.url).searchParams.get("secret");
 
   if (provided !== expected) {
@@ -43,18 +41,25 @@ export async function POST(request: Request) {
     body = {};
   }
 
-  const paths = new Set<string>(body.paths ?? []);
-  if (body.postType && POST_TYPE_PATHS[body.postType]) {
-    POST_TYPE_PATHS[body.postType].forEach((p) => paths.add(p));
+  const paths = new Set<string>();
+  
+  if (body._type && POST_TYPE_PATHS[body._type]) {
+    POST_TYPE_PATHS[body._type].forEach((p) => paths.add(p));
   }
 
-  // If a slug was sent for a CPT, also revalidate the detail page so a
-  // single item edit refreshes both the list AND its detail route.
-  if (body.slug) {
-    const slug = encodeURIComponent(body.slug);
-    if (body.postType === "menu_item") paths.add(`/menu/${slug}`);
-    if (body.postType === "location")  paths.add(`/locations/${slug}`);
-    if (body.postType === "post")      paths.add(`/feed/${slug}`);
+  // Handle slug revalidation for list vs detail
+  let currentSlug = "";
+  if (typeof body.slug === "string") {
+    currentSlug = body.slug;
+  } else if (body.slug?.current) {
+    currentSlug = body.slug.current;
+  }
+
+  if (currentSlug) {
+    const slug = encodeURIComponent(currentSlug);
+    if (body._type === "menuItem") paths.add(`/menu/${slug}`);
+    if (body._type === "location")  paths.add(`/locations/${slug}`);
+    if (body._type === "post")      paths.add(`/feed/${slug}`);
   }
 
   // Always refresh the home in case it surfaces best-sellers/featured posts.
