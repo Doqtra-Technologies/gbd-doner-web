@@ -32,28 +32,35 @@ interface RawLocationsResponse {
 export async function getLocations(): Promise<Location[]> {
   if (dataConfig.useMocks) return MOCK_LOCATIONS;
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawLocationsResponse>(LOCATIONS_QUERY);
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawLocationsResponse>(LOCATIONS_QUERY);
 
-  return (data.locations?.nodes ?? []).filter(Boolean).map((node): Location => {
-    const f = node.locationFields;
-    return {
-      id: node.id,
-      slug: node.slug,
-      name: node.title,
-      addressLine1: f?.addressLine1 ?? "",
-      addressLine2: f?.addressLine2 ?? null,
-      city: f?.city ?? "",
-      postcode: f?.postcode ?? "",
-      phone: f?.phone ?? null,
-      isFlagship: Boolean(f?.isFlagship),
-      coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-      hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
-      clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-      deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-      imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
-    };
-  });
+    return (data.locations?.nodes ?? [])
+      .filter((node) => node && node.slug)
+      .map((node): Location => {
+        const f = node.locationFields;
+        return {
+          id: node.id,
+          slug: node.slug,
+          name: node.title,
+          addressLine1: f?.addressLine1 ?? "",
+          addressLine2: f?.addressLine2 ?? null,
+          city: f?.city ?? "",
+          postcode: f?.postcode ?? "",
+          phone: f?.phone ?? null,
+          isFlagship: Boolean(f?.isFlagship),
+          coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
+          hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
+          clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
+          deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
+          imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
+        };
+      });
+  } catch (error) {
+    console.error("Failed to fetch locations from WordPress, falling back to mock locations:", error);
+    return MOCK_LOCATIONS;
+  }
 }
 
 export interface LocationDetail extends Location {
@@ -77,27 +84,33 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
     return hit ? { ...hit, bodyHtml: null } : null;
   }
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawLocationBySlugResponse>(LOCATION_BY_SLUG_QUERY, { slug });
-  const node = data.location;
-  if (!node) return null;
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawLocationBySlugResponse>(LOCATION_BY_SLUG_QUERY, { slug });
+    const node = data.location;
+    if (!node) return null;
 
-  const f = node.locationFields;
-  return {
-    id: node.id,
-    slug: node.slug,
-    name: node.title,
-    addressLine1: f?.addressLine1 ?? "",
-    addressLine2: f?.addressLine2 ?? null,
-    city: f?.city ?? "",
-    postcode: f?.postcode ?? "",
-    phone: f?.phone ?? null,
-    isFlagship: Boolean(f?.isFlagship),
-    coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
-    hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
-    clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
-    deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-    imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
-    bodyHtml: node.content ?? null,
-  };
+    const f = node.locationFields;
+    return {
+      id: node.id,
+      slug: node.slug,
+      name: node.title,
+      addressLine1: f?.addressLine1 ?? "",
+      addressLine2: f?.addressLine2 ?? null,
+      city: f?.city ?? "",
+      postcode: f?.postcode ?? "",
+      phone: f?.phone ?? null,
+      isFlagship: Boolean(f?.isFlagship),
+      coordinates: { lat: f?.lat ?? 0, lng: f?.lng ?? 0 },
+      hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
+      clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
+      deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
+      imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
+      bodyHtml: node.content ?? null,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch location by slug ${slug} from WordPress, falling back to mock:`, error);
+    const hit = MOCK_LOCATIONS.find((l) => l.slug === slug);
+    return hit ? { ...hit, bodyHtml: null } : null;
+  }
 }

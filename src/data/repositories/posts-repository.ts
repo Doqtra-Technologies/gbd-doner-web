@@ -28,19 +28,26 @@ function stripHtml(s: string | null | undefined): string {
 export async function getPosts(): Promise<Post[]> {
   if (dataConfig.useMocks) return MOCK_POSTS;
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawPostsResponse>(POSTS_QUERY);
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawPostsResponse>(POSTS_QUERY);
 
-  return (data.posts?.nodes ?? []).filter(Boolean).map((node): Post => ({
-    id: node.id,
-    slug: node.slug,
-    title: node.title,
-    excerpt: stripHtml(node.excerpt),
-    featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
-    publishedAt: node.date,
-    author: node.author?.node.name ?? "GBD Editorial",
-    category: node.categories?.nodes[0]?.name ?? "The Feed",
-  }));
+    return (data.posts?.nodes ?? [])
+      .filter((node) => node && node.slug)
+      .map((node): Post => ({
+        id: node.id,
+        slug: node.slug,
+        title: node.title,
+        excerpt: stripHtml(node.excerpt),
+        featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
+        publishedAt: node.date,
+        author: node.author?.node.name ?? "GBD Editorial",
+        category: node.categories?.nodes[0]?.name ?? "The Feed",
+      }));
+  } catch (error) {
+    console.error("Failed to fetch posts from WordPress, falling back to mock posts:", error);
+    return MOCK_POSTS;
+  }
 }
 
 export interface PostDetail extends Post {
@@ -71,20 +78,27 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
     return { ...mock, bodyHtml: `<p>${mock.excerpt}</p>` };
   }
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawPostBySlugResponse>(POST_BY_SLUG_QUERY, { slug });
-  const node = data.post;
-  if (!node) return null;
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawPostBySlugResponse>(POST_BY_SLUG_QUERY, { slug });
+    const node = data.post;
+    if (!node) return null;
 
-  return {
-    id: node.id,
-    slug: node.slug,
-    title: node.title,
-    excerpt: stripHtml(node.excerpt),
-    featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
-    publishedAt: node.date,
-    author: node.author?.node.name ?? "GBD Editorial",
-    category: node.categories?.nodes[0]?.name ?? "The Feed",
-    bodyHtml: node.content ?? "",
-  };
+    return {
+      id: node.id,
+      slug: node.slug,
+      title: node.title,
+      excerpt: stripHtml(node.excerpt),
+      featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
+      publishedAt: node.date,
+      author: node.author?.node.name ?? "GBD Editorial",
+      category: node.categories?.nodes[0]?.name ?? "The Feed",
+      bodyHtml: node.content ?? "",
+    };
+  } catch (error) {
+    console.error(`Failed to fetch post by slug ${slug} from WordPress, falling back to mock:`, error);
+    const mock = MOCK_POSTS.find((p) => p.slug === slug);
+    if (!mock) return null;
+    return { ...mock, bodyHtml: `<p>${mock.excerpt}</p>` };
+  }
 }

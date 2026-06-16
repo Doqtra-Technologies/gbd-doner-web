@@ -39,25 +39,32 @@ function stripHtml(s: string | null | undefined): string {
 export async function getMenuItems(): Promise<MenuItem[]> {
   if (dataConfig.useMocks) return MOCK_MENU_ITEMS;
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawMenuItemsResponse>(MENU_ITEMS_QUERY);
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawMenuItemsResponse>(MENU_ITEMS_QUERY);
 
-  return (data.menuItems?.nodes ?? []).filter(Boolean).map((node): MenuItem => {
-    const f = node.menuItemFields ?? null;
-    return {
-      id: node.id,
-      slug: node.slug,
-      title: node.title,
-      description: stripHtml(node.excerpt),
-      priceGBP: f?.priceGbp ?? null,
-      imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
-      category: (f?.category ?? "boxes") as MenuCategorySlug,
-      isBestSeller: Boolean(f?.isBestSeller),
-      dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-      allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
-      nutrition: f?.nutrition ?? null,
-    };
-  });
+    return (data.menuItems?.nodes ?? [])
+      .filter((node) => node && node.slug)
+      .map((node): MenuItem => {
+        const f = node.menuItemFields ?? null;
+        return {
+          id: node.id,
+          slug: node.slug,
+          title: node.title,
+          description: stripHtml(node.excerpt),
+          priceGBP: f?.priceGbp ?? null,
+          imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
+          category: (f?.category ?? "boxes") as MenuCategorySlug,
+          isBestSeller: Boolean(f?.isBestSeller),
+          dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
+          allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
+          nutrition: f?.nutrition ?? null,
+        };
+      });
+  } catch (error) {
+    console.error("Failed to fetch menu items from WordPress, falling back to mock menu items:", error);
+    return MOCK_MENU_ITEMS;
+  }
 }
 
 export interface MenuItemDetail extends MenuItem {
@@ -83,26 +90,32 @@ export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | 
     return hit ? { ...hit, bodyHtml: null } : null;
   }
 
-  const client = getGraphQLClient();
-  const data = await client.request<RawMenuItemBySlugResponse>(MENU_ITEM_BY_SLUG_QUERY, { slug });
-  const node = data.menuItem;
-  if (!node) return null;
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<RawMenuItemBySlugResponse>(MENU_ITEM_BY_SLUG_QUERY, { slug });
+    const node = data.menuItem;
+    if (!node) return null;
 
-  const f = node.menuItemFields ?? null;
-  return {
-    id: node.id,
-    slug: node.slug,
-    title: node.title,
-    description: stripHtml(node.excerpt),
-    priceGBP: f?.priceGbp ?? null,
-    imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
-    category: (f?.category ?? "boxes") as MenuCategorySlug,
-    isBestSeller: Boolean(f?.isBestSeller),
-    dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
-    allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
-    nutrition: f?.nutrition ?? null,
-    bodyHtml: node.content ?? null,
-  };
+    const f = node.menuItemFields ?? null;
+    return {
+      id: node.id,
+      slug: node.slug,
+      title: node.title,
+      description: stripHtml(node.excerpt),
+      priceGBP: f?.priceGbp ?? null,
+      imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
+      category: (f?.category ?? "boxes") as MenuCategorySlug,
+      isBestSeller: Boolean(f?.isBestSeller),
+      dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
+      allergens: (f?.allergens ?? []).filter((a) => a && a.code && a.label),
+      nutrition: f?.nutrition ?? null,
+      bodyHtml: node.content ?? null,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch menu item by slug ${slug} from WordPress, falling back to mock:`, error);
+    const hit = MOCK_MENU_ITEMS.find((i) => i.slug === slug);
+    return hit ? { ...hit, bodyHtml: null } : null;
+  }
 }
 
 export async function getBestSellers(limit = 4): Promise<MenuItem[]> {
