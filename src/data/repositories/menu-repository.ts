@@ -3,6 +3,7 @@ import type { MenuItem, MenuCategory, MenuCategorySlug } from "@/domain/menu-ite
 import { getGraphQLClient } from "@/data/graphql/client";
 import { MENU_ITEMS_QUERY, MENU_ITEM_BY_SLUG_QUERY } from "@/data/graphql/queries";
 import { MOCK_MENU_CATEGORIES, MOCK_MENU_ITEMS } from "@/data/graphql/mocks";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 interface RawMenuItemsResponse {
   menuItems: {
@@ -49,7 +50,7 @@ export async function getMenuItems(): Promise<MenuItem[]> {
       title: node.title,
       description: stripHtml(node.excerpt),
       priceGBP: f?.priceGbp ?? null,
-      imageUrl: f?.imageUrl || node.featuredImage?.node.sourceUrl || "",
+      imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
       category: (f?.category ?? "boxes") as MenuCategorySlug,
       isBestSeller: Boolean(f?.isBestSeller),
       dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],
@@ -94,7 +95,7 @@ export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | 
     title: node.title,
     description: stripHtml(node.excerpt),
     priceGBP: f?.priceGbp ?? null,
-    imageUrl: f?.imageUrl || node.featuredImage?.node.sourceUrl || "",
+    imageUrl: sanitizeImageUrl(f?.imageUrl || node.featuredImage?.node.sourceUrl || ""),
     category: (f?.category ?? "boxes") as MenuCategorySlug,
     isBestSeller: Boolean(f?.isBestSeller),
     dietaryFlags: (f?.dietaryFlags ?? []) as MenuItem["dietaryFlags"],

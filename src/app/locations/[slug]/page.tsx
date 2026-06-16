@@ -101,7 +101,7 @@ export default async function LocationDetailPage({
     "@context": "https://schema.org",
     "@type": "Restaurant",
     name: loc.name,
-    image: loc.imageUrl ? [`${siteConfig.url}${loc.imageUrl}`] : undefined,
+    image: loc.imageUrl ? [loc.imageUrl.startsWith("http") ? loc.imageUrl : `${siteConfig.url}${loc.imageUrl}`] : undefined,
     url: `${siteConfig.url}/locations/${loc.slug}`,
     telephone: loc.phone || undefined,
     address: {

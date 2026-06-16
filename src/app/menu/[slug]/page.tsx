@@ -54,7 +54,7 @@ export default async function MenuItemDetailPage({
     "@type": "MenuItem",
     name: item.title,
     description: item.description,
-    image: item.imageUrl ? `${siteConfig.url}${item.imageUrl}` : undefined,
+    image: item.imageUrl ? (item.imageUrl.startsWith("http") ? item.imageUrl : `${siteConfig.url}${item.imageUrl}`) : undefined,
     offers: {
       "@type": "Offer",
       price: item.priceGBP,

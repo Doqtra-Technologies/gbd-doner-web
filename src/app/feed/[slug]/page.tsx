@@ -52,7 +52,7 @@ export default async function FeedArticlePage({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    image: post.featuredImageUrl ? [`${siteConfig.url}${post.featuredImageUrl}`] : undefined,
+    image: post.featuredImageUrl ? [post.featuredImageUrl.startsWith("http") ? post.featuredImageUrl : `${siteConfig.url}${post.featuredImageUrl}`] : undefined,
     datePublished: post.publishedAt,
     author: [{
         "@type": "Person",

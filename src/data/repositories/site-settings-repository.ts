@@ -1,6 +1,7 @@
 import { dataConfig } from "@/lib/config";
 import { getGraphQLClient } from "@/data/graphql/client";
 import { SITE_SETTINGS_QUERY } from "@/data/graphql/queries";
+import { sanitizeImageUrl } from "@/lib/utils";
 import type {
   CateringFormSettings,
   FeedPageSettings,
@@ -256,7 +257,7 @@ function mergeHomeFields(defaults: HomePageSettings, raw: Partial<HomePageSettin
   const out = { ...defaults };
   if (!raw) return out;
 
-  if (raw.heroVideoUrl) out.heroVideoUrl = raw.heroVideoUrl;
+  if (raw.heroVideoUrl) out.heroVideoUrl = sanitizeImageUrl(raw.heroVideoUrl) || defaults.heroVideoUrl;
   if (raw.heroTitleLine1) out.heroTitleLine1 = raw.heroTitleLine1;
   if (raw.heroTitleLine2) out.heroTitleLine2 = raw.heroTitleLine2;
   if (raw.heroTitleLine3) out.heroTitleLine3 = raw.heroTitleLine3;
@@ -270,7 +271,7 @@ function mergeHomeFields(defaults: HomePageSettings, raw: Partial<HomePageSettin
       label: raw.cravingsCard1.label || defaults.cravingsCard1.label,
       title: raw.cravingsCard1.title || defaults.cravingsCard1.title,
       desc: raw.cravingsCard1.desc || defaults.cravingsCard1.desc,
-      imageUrl: raw.cravingsCard1.imageUrl || defaults.cravingsCard1.imageUrl,
+      imageUrl: sanitizeImageUrl(raw.cravingsCard1.imageUrl) || defaults.cravingsCard1.imageUrl,
     };
   }
   if (raw.cravingsCard2) {
@@ -278,7 +279,7 @@ function mergeHomeFields(defaults: HomePageSettings, raw: Partial<HomePageSettin
       label: raw.cravingsCard2.label || defaults.cravingsCard2.label,
       title: raw.cravingsCard2.title || defaults.cravingsCard2.title,
       desc: raw.cravingsCard2.desc || defaults.cravingsCard2.desc,
-      imageUrl: raw.cravingsCard2.imageUrl || defaults.cravingsCard2.imageUrl,
+      imageUrl: sanitizeImageUrl(raw.cravingsCard2.imageUrl) || defaults.cravingsCard2.imageUrl,
     };
   }
 
@@ -289,7 +290,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
   const out = { ...defaults };
   if (!raw) return out;
 
-  if (raw.heroImageUrl) out.heroImageUrl = raw.heroImageUrl;
+  if (raw.heroImageUrl) out.heroImageUrl = sanitizeImageUrl(raw.heroImageUrl) || defaults.heroImageUrl;
   if (raw.heroEyebrow) out.heroEyebrow = raw.heroEyebrow;
   if (raw.heroTitleLine1) out.heroTitleLine1 = raw.heroTitleLine1;
   if (raw.heroTitleLine2) out.heroTitleLine2 = raw.heroTitleLine2;
@@ -301,8 +302,8 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
   if (raw.philosophyLeadParagraph) out.philosophyLeadParagraph = raw.philosophyLeadParagraph;
   if (raw.philosophySecondaryText) out.philosophySecondaryText = raw.philosophySecondaryText;
   if (raw.philosophyTags) out.philosophyTags = raw.philosophyTags;
-  if (raw.philosophyImage1Url) out.philosophyImage1Url = raw.philosophyImage1Url;
-  if (raw.philosophyImage2Url) out.philosophyImage2Url = raw.philosophyImage2Url;
+  if (raw.philosophyImage1Url) out.philosophyImage1Url = sanitizeImageUrl(raw.philosophyImage1Url) || defaults.philosophyImage1Url;
+  if (raw.philosophyImage2Url) out.philosophyImage2Url = sanitizeImageUrl(raw.philosophyImage2Url) || defaults.philosophyImage2Url;
   if (raw.philosophyStatValue) out.philosophyStatValue = raw.philosophyStatValue;
   if (raw.philosophyStatLabel) out.philosophyStatLabel = raw.philosophyStatLabel;
   if (raw.philosophyTagLabel) out.philosophyTagLabel = raw.philosophyTagLabel;
@@ -316,7 +317,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
       eyebrow: raw.blueprintPt1.eyebrow || defaults.blueprintPt1.eyebrow,
       title: raw.blueprintPt1.title || defaults.blueprintPt1.title,
       desc: raw.blueprintPt1.desc || defaults.blueprintPt1.desc,
-      imageUrl: raw.blueprintPt1.imageUrl || defaults.blueprintPt1.imageUrl,
+      imageUrl: sanitizeImageUrl(raw.blueprintPt1.imageUrl) || defaults.blueprintPt1.imageUrl,
       watermark: null,
     };
   }
@@ -334,7 +335,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
       eyebrow: raw.blueprintPt3.eyebrow || defaults.blueprintPt3.eyebrow,
       title: raw.blueprintPt3.title || defaults.blueprintPt3.title,
       desc: raw.blueprintPt3.desc || defaults.blueprintPt3.desc,
-      imageUrl: raw.blueprintPt3.imageUrl || defaults.blueprintPt3.imageUrl,
+      imageUrl: sanitizeImageUrl(raw.blueprintPt3.imageUrl) || defaults.blueprintPt3.imageUrl,
       watermark: null,
     };
   }
@@ -346,7 +347,7 @@ function mergeStoryFields(defaults: OurStoryPageSettings, raw: Partial<OurStoryP
   if (Array.isArray(raw.recognitionItems) && raw.recognitionItems.length > 0) {
     out.recognitionItems = raw.recognitionItems.map((item, idx) => {
       const def = defaults.recognitionItems[idx] || defaults.recognitionItems[0];
-      let imageUrl = item.imageUrl || def.imageUrl;
+      let imageUrl = sanitizeImageUrl(item.imageUrl) || def.imageUrl;
       const label = item.label || def.label;
       const copy = item.copy || def.copy;
       const link = item.link || def.link;

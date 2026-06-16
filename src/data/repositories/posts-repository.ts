@@ -3,6 +3,7 @@ import type { Post } from "@/domain/post";
 import { getGraphQLClient } from "@/data/graphql/client";
 import { POSTS_QUERY, POST_BY_SLUG_QUERY } from "@/data/graphql/queries";
 import { MOCK_POSTS } from "@/data/graphql/mocks";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 interface RawPostsResponse {
   posts: {
@@ -35,7 +36,7 @@ export async function getPosts(): Promise<Post[]> {
     slug: node.slug,
     title: node.title,
     excerpt: stripHtml(node.excerpt),
-    featuredImageUrl: node.featuredImage?.node.sourceUrl ?? null,
+    featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
     publishedAt: node.date,
     author: node.author?.node.name ?? "GBD Editorial",
     category: node.categories?.nodes[0]?.name ?? "The Feed",
@@ -80,7 +81,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
     slug: node.slug,
     title: node.title,
     excerpt: stripHtml(node.excerpt),
-    featuredImageUrl: node.featuredImage?.node.sourceUrl ?? null,
+    featuredImageUrl: sanitizeImageUrl(node.featuredImage?.node.sourceUrl) || null,
     publishedAt: node.date,
     author: node.author?.node.name ?? "GBD Editorial",
     category: node.categories?.nodes[0]?.name ?? "The Feed",

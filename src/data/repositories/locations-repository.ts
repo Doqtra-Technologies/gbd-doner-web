@@ -3,6 +3,7 @@ import type { Location, OpeningHours, DeliveryLink } from "@/domain/location";
 import { getGraphQLClient } from "@/data/graphql/client";
 import { LOCATIONS_QUERY, LOCATION_BY_SLUG_QUERY } from "@/data/graphql/queries";
 import { MOCK_LOCATIONS } from "@/data/graphql/mocks";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 interface RawLocationsResponse {
   locations: {
@@ -50,7 +51,7 @@ export async function getLocations(): Promise<Location[]> {
       hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
       clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
       deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-      imageUrl: f?.imageUrl ?? null,
+      imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
     };
   });
 }
@@ -96,7 +97,7 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
     hours: (f?.hours ?? []).filter((h) => h && h.day && h.open && h.close),
     clickAndCollectUrl: f?.clickAndCollectUrl ?? null,
     deliveryLinks: (f?.deliveryLinks ?? []).filter((d) => d && d.provider && d.url),
-    imageUrl: f?.imageUrl ?? null,
+    imageUrl: sanitizeImageUrl(f?.imageUrl) || null,
     bodyHtml: node.content ?? null,
   };
 }
