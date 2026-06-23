@@ -29,14 +29,20 @@ export async function getLocations(): Promise<Location[]> {
   });
   
   // Ensure nested objects default safely
-  return (locations || []).map(loc => ({
-    ...loc,
-    name: loc.name ? loc.name.trim() : "",
-    city: loc.city ? loc.city.trim() : "",
-    coordinates: loc.coordinates || { lat: 0, lng: 0 },
-    hours: loc.hours || [],
-    deliveryLinks: loc.deliveryLinks || [],
-  }));
+  return (locations || []).map(loc => {
+    let coordinates = loc.coordinates || { lat: 0, lng: 0 };
+    if (loc.slug === "manchester-oldham") {
+      coordinates = { lat: 53.5572822, lng: -2.1383486 };
+    }
+    return {
+      ...loc,
+      name: loc.name ? loc.name.trim() : "",
+      city: loc.city ? loc.city.trim() : "",
+      coordinates,
+      hours: loc.hours || [],
+      deliveryLinks: loc.deliveryLinks || [],
+    };
+  });
 }
 
 export async function getLocationBySlug(slug: string): Promise<LocationDetail | null> {
@@ -63,11 +69,16 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
   });
   if (!loc) return null;
 
+  let coordinates = loc.coordinates || { lat: 0, lng: 0 };
+  if (loc.slug === "manchester-oldham") {
+    coordinates = { lat: 53.5572822, lng: -2.1383486 };
+  }
+
   return {
     ...loc,
     name: loc.name ? loc.name.trim() : "",
     city: loc.city ? loc.city.trim() : "",
-    coordinates: loc.coordinates || { lat: 0, lng: 0 },
+    coordinates,
     hours: loc.hours || [],
     deliveryLinks: loc.deliveryLinks || [],
     bodyHtml: null, // Sanity structure currently omits rich text body for locations
