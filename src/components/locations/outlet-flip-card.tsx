@@ -65,12 +65,12 @@ export function OutletFlipCard({ location }: { location: Location }) {
       className="relative flex-none w-[85vw] sm:w-[350px] md:w-[400px] aspect-square snap-center group overflow-hidden cursor-pointer bg-surface-inverse [perspective:1800px]"
     >
       {/* Image system — physical 3D photograph stack. */}
-      <PhotoStack images={images} title={location.name} isHovered={isHovered} />
+      <PhotoStack images={images} title={location.name.replace(" - ", " — ")} isHovered={isHovered} />
 
       {/* Red spring-glide overlay + staggered reveal (unchanged). */}
       <div className="absolute inset-0 bg-accent/90 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] ease-out flex flex-col items-center justify-center p-6 text-center z-10 pointer-events-none group-hover:pointer-events-auto">
         <h3 className="text-2xl md:text-3xl font-black font-display uppercase text-white mb-6 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          {location.name}
+          {location.name.replace(" - ", " — ")}
         </h3>
 
         <div className="flex flex-col gap-3 w-full max-w-[200px] transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-[700ms] delay-[75ms] ease-[cubic-bezier(0.16,1,0.3,1)]">

@@ -31,6 +31,8 @@ export async function getLocations(): Promise<Location[]> {
   // Ensure nested objects default safely
   return (locations || []).map(loc => ({
     ...loc,
+    name: loc.name ? loc.name.trim() : "",
+    city: loc.city ? loc.city.trim() : "",
     coordinates: loc.coordinates || { lat: 0, lng: 0 },
     hours: loc.hours || [],
     deliveryLinks: loc.deliveryLinks || [],
@@ -63,6 +65,8 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
 
   return {
     ...loc,
+    name: loc.name ? loc.name.trim() : "",
+    city: loc.city ? loc.city.trim() : "",
     coordinates: loc.coordinates || { lat: 0, lng: 0 },
     hours: loc.hours || [],
     deliveryLinks: loc.deliveryLinks || [],

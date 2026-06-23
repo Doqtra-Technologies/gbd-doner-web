@@ -178,7 +178,7 @@ function LedgerRow({
           </span>
           <div className="min-w-0">
             <h3 className="font-display font-bold uppercase tracking-display leading-tight text-lg lg:text-xl truncate">
-              {location.name}
+              {location.name.replace(" - ", " — ")}
             </h3>
             <p
               className={cn(

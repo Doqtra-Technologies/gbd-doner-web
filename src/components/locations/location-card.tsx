@@ -86,7 +86,7 @@ export function LocationCard({ location }: { location: Location }) {
           <div className="flex items-start justify-between gap-2">
             <div className="flex min-w-0 items-center gap-1.5">
               <h3 className="font-display font-bold uppercase tracking-display text-sm text-text-primary truncate">
-                {location.name}
+                {location.name.replace(" - ", " — ")}
               </h3>
               {location.isFlagship && <FlagshipChip />}
             </div>

@@ -227,16 +227,10 @@ export function OutletLocationsPage({ locations }: { locations: Location[] }) {
  */
 
 function OutletLocationCard({ location }: { location: Location }) {
-  const isManchester = location.city === "Manchester";
-  const isPiccadilly = location.slug.toLowerCase().includes("piccadilly");
   const isExpress = location.slug.toLowerCase().includes("express");
   const title = isExpress
     ? "Liverpool Express"
-    : isManchester && isPiccadilly
-      ? "Manchester — Piccadilly"
-      : isManchester
-        ? "Manchester — Deansgate"
-        : "Liverpool — Bold Street";
+    : location.name.replace(" - ", " — ");
 
   const address = [location.addressLine1, location.addressLine2, `${location.city} ${location.postcode}`]
     .filter(Boolean)

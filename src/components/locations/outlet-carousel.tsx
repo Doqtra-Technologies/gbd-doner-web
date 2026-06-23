@@ -88,7 +88,7 @@ function OutletCard({ location }: { location: Location }) {
               {location.city}
             </span>
             <h4 className="font-display text-[clamp(1.75rem,2.5vw,3rem)] font-[700] uppercase tracking-[-0.03em] leading-[0.95] text-white break-words whitespace-normal">
-              {location.name}
+              {location.name.replace(" - ", " — ")}
             </h4>
           </div>
 

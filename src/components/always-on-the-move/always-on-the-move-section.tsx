@@ -163,7 +163,7 @@ function NearestBranchPanel({
             {distanceLabel ? "Nearest Location" : "Featured Location"}
           </p>
           <p className="mt-1 truncate font-display text-sm font-bold uppercase tracking-display text-text-primary sm:text-base">
-            {location ? location.name : "Find your nearest GBD"}
+            {location ? location.name.replace(" - ", " — ") : "Find your nearest GBD"}
           </p>
           <p className="mt-1 font-body text-xs text-text-secondary">
             {location
@@ -246,7 +246,7 @@ function CityMotionVisual({
                 {label}
               </p>
               <p className="mt-1 truncate font-display text-xs font-bold uppercase tracking-display text-text-primary">
-                {location?.name ?? "Find your branch"}
+                {location ? location.name.replace(" - ", " — ") : "Find your branch"}
               </p>
               <p className="mt-1 font-body text-[11px] text-text-secondary">
                 {distanceLabel ?? "Fresh wraps, boxes and street food nearby."}
@@ -261,7 +261,7 @@ function CityMotionVisual({
               Live branch
             </p>
             <p className="mt-1 font-display text-sm font-bold uppercase tracking-display text-text-primary">
-              {location?.name ?? "Great British Doner"}
+              {location ? location.name.replace(" - ", " — ") : "Great British Doner"}
             </p>
           </div>
           <span className="h-3 w-3 rounded-full bg-accent" aria-hidden />

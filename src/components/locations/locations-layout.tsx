@@ -84,7 +84,7 @@ function LocationsLayoutInner({ pageSettings }: { pageSettings: LocationsPageSet
       {selectedLocation && (
         <DirectionsDialog
           isOpen={directionsLocationId !== null}
-          locationName={selectedLocation.name}
+          locationName={selectedLocation.name.replace(" - ", " — ")}
           onClose={() => setDirectionsLocationId(null)}
           onConfirm={handleDirectionsConfirm}
         />
