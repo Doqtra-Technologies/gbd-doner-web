@@ -23,11 +23,7 @@ export const siteConfig = {
 } as const;
 
 export const dataConfig = {
-  graphqlUrl: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL ?? "",
-  useMocks:
-    !process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL ||
-    process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true",
-  revalidateSeconds: Number(process.env.WORDPRESS_REVALIDATE_SECONDS ?? 60),
+  revalidateSeconds: Number(process.env.SANITY_REVALIDATE_SECONDS ?? 60),
 } as const;
 
 export const mapConfig = {

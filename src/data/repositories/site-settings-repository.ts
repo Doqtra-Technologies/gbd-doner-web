@@ -165,28 +165,22 @@ interface RawSiteSettingsResponse {
 }
 
 async function fetchAllSiteSettings(): Promise<RawSiteSettingsResponse | null> {
-  if (dataConfig.useMocks) return null;
-  try {
-    const query = `*[_type == "siteSettings"][0]`;
-    const data = await client.fetch<any>(query);
-    if (!data) return null;
-    
-    // Map Sanity schema to domain settings
-    return {
-      global: {
-        contactEmail: data.contactEmail,
-        copyright: data.copyright,
-        socialInstagram: data.socialInstagram,
-        socialTiktok: data.socialTiktok,
-        socialFacebook: data.socialFacebook,
-        newsletterHeading: data.newsletterHeading,
-        newsletterSubtext: data.newsletterSubtext,
-      }
-    };
-  } catch (err) {
-    console.error("Failed to fetch site settings from Sanity:", err);
-    return null;
-  }
+  const query = `*[_type == "siteSettings"][0]`;
+  const data = await client.fetch<any>(query);
+  if (!data) return null;
+  
+  // Map Sanity schema to domain settings
+  return {
+    global: {
+      contactEmail: data.contactEmail,
+      copyright: data.copyright,
+      socialInstagram: data.socialInstagram,
+      socialTiktok: data.socialTiktok,
+      socialFacebook: data.socialFacebook,
+      newsletterHeading: data.newsletterHeading,
+      newsletterSubtext: data.newsletterSubtext,
+    }
+  };
 }
 
 // ----------------------------------------------------------------------------

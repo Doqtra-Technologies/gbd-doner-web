@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Get the primary site URL configured in the .env file (without protocol)
-  const siteUrlEnv = process.env.NEXT_PUBLIC_SITE_URL || "https://greatbritishdoner.com";
+  const siteUrlEnv = process.env.NEXT_PUBLIC_SITE_URL || "https://gbddoner.com";
   let primaryHost = "greatbritishdoner.com";
   try {
     primaryHost = new URL(siteUrlEnv).hostname;
@@ -62,7 +62,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, icon.png, og.jpg (asset files)
+     * - sitemap.xml, robots.txt, sitemaps (SEO files)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|icon.png|og.jpg).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|icon.png|og.jpg|sitemap.xml|robots.txt|sitemaps).*)",
   ],
 };
