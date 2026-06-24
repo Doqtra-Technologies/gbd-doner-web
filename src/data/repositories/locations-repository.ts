@@ -33,6 +33,8 @@ export async function getLocations(): Promise<Location[]> {
     let coordinates = loc.coordinates || { lat: 0, lng: 0 };
     if (loc.slug === "manchester-oldham") {
       coordinates = { lat: 53.5572822, lng: -2.1383486 };
+      loc.clickAndCollectUrl = "https://order.britishdonner.com/menu";
+      loc.deliveryLinks = [{ provider: "deliveroo", url: "https://order.britishdonner.com/menu" }];
     }
     return {
       ...loc,
@@ -72,6 +74,8 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
   let coordinates = loc.coordinates || { lat: 0, lng: 0 };
   if (loc.slug === "manchester-oldham") {
     coordinates = { lat: 53.5572822, lng: -2.1383486 };
+    loc.clickAndCollectUrl = "https://order.britishdonner.com/menu";
+    loc.deliveryLinks = [{ provider: "deliveroo", url: "https://order.britishdonner.com/menu" }];
   }
 
   return {
