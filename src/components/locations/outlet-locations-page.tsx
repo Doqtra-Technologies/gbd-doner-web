@@ -239,7 +239,6 @@ function OutletLocationCard({ location }: { location: Location }) {
   const phone = location.phone;
   const hours = formatOpeningHours(location.hours, location.slug);
   const collectionHref = location.clickAndCollectUrl ?? "/locations";
-  const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/locations";
 
   return (
     // Lift the whole card (deck + info panel together) on hover.
@@ -255,9 +254,6 @@ function OutletLocationCard({ location }: { location: Location }) {
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <HoverAction href={collectionHref} external={Boolean(location.clickAndCollectUrl)}>
               Collection
-            </HoverAction>
-            <HoverAction href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
-              Delivery
             </HoverAction>
           </div>
         </div>
@@ -313,18 +309,10 @@ function OutletLocationCard({ location }: { location: Location }) {
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <a
-            href={deliveryHref}
-            target={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl) ? "_blank" : undefined}
-            rel="noreferrer noopener"
-            className="flex-1 inline-flex h-11 items-center justify-center rounded-full bg-accent px-4 font-display text-xs font-bold uppercase tracking-button text-text-inverse transition-colors hover:bg-accent/90"
-          >
-            Order Delivery
-          </a>
-          <a
             href={collectionHref}
             target={Boolean(location.clickAndCollectUrl) ? "_blank" : undefined}
             rel="noreferrer noopener"
-            className="flex-1 inline-flex h-11 items-center justify-center rounded-full border-2 border-accent bg-transparent px-4 font-display text-xs font-bold uppercase tracking-button text-accent transition-colors hover:bg-accent hover:text-text-inverse"
+            className="flex-1 inline-flex h-11 items-center justify-center rounded-full bg-accent px-4 font-display text-xs font-bold uppercase tracking-button text-text-inverse transition-colors hover:bg-accent/90"
           >
             Collection
           </a>

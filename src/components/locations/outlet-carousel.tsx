@@ -64,7 +64,6 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 
 function OutletCard({ location }: { location: Location }) {
   const orderHref = location.clickAndCollectUrl ?? "/order-now";
-  const deliveryHref = location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl ?? "/order-now";
 
   return (
     <article className="group relative w-[85vw] sm:w-[calc(50vw-32px)] lg:w-[calc(33.33vw-40px)] xl:w-[460px] 2xl:w-[480px] shrink-0 snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
@@ -97,9 +96,6 @@ function OutletCard({ location }: { location: Location }) {
             <div className="flex flex-row w-full gap-3 md:w-auto md:flex-col lg:flex-row">
               <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
                 Collection
-              </HoverPill>
-              <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={deliveryHref} external={Boolean(location.deliveryLinks[0]?.url ?? location.clickAndCollectUrl)}>
-                Delivery
               </HoverPill>
             </div>
           </div>

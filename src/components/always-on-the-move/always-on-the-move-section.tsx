@@ -32,7 +32,6 @@ export function AlwaysOnTheMoveSection({ locations }: { locations: Location[] })
       ? formatKilometres(nearestBranch.distance)
       : null;
 
-  const deliveryLink = activeLocation?.deliveryLinks[0]?.url ?? null;
   const collectionLink = activeLocation?.clickAndCollectUrl ?? null;
   const mapLink = activeLocation
     ? `https://www.google.com/maps/search/?api=1&query=${activeLocation.coordinates.lat},${activeLocation.coordinates.lng}`
@@ -119,7 +118,6 @@ export function AlwaysOnTheMoveSection({ locations }: { locations: Location[] })
               geoError={geoError}
               onFindNearest={handleFindNearest}
               mapLink={mapLink}
-              deliveryLink={deliveryLink}
               collectionLink={collectionLink}
             />
           </div>
@@ -140,7 +138,6 @@ function NearestBranchPanel({
   geoError,
   onFindNearest,
   mapLink,
-  deliveryLink,
   collectionLink,
 }: {
   location: Location | null;
@@ -149,7 +146,6 @@ function NearestBranchPanel({
   geoError: string | null;
   onFindNearest: () => void;
   mapLink: string;
-  deliveryLink: string | null;
   collectionLink: string | null;
 }) {
   return (
@@ -194,11 +190,6 @@ function NearestBranchPanel({
       )}
 
       <div className="flex flex-wrap gap-3">
-        {deliveryLink && (
-          <CTAButton href={deliveryLink} external size="md">
-            Delivery
-          </CTAButton>
-        )}
         {collectionLink && (
           <CTAButton href={collectionLink} external size="md">
             Collection

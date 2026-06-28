@@ -190,16 +190,6 @@ export default async function LocationDetailPage({
                 Click + Collect
               </a>
             )}
-            {loc.deliveryLinks && loc.deliveryLinks.length > 0 && (
-              <a
-                href={loc.deliveryLinks[0].url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-transparent border border-white text-white hover:bg-white hover:text-text-primary font-display font-bold uppercase tracking-button text-xs px-8 py-4 transition-colors"
-              >
-                Delivery
-              </a>
-            )}
           </div>
         </div>
       </section>

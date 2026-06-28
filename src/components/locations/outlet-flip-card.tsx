@@ -45,8 +45,6 @@ export function OutletFlipCard({ location }: { location: Location }) {
   );
 
   const orderHref = location.clickAndCollectUrl ?? "/order-now";
-  const deliveryHref =
-    location.deliveryLinks?.[0]?.url ?? `/locations/${location.slug}`;
 
   function navigate(href: string) {
     if (/^https?:\/\//.test(href)) {
@@ -80,13 +78,6 @@ export function OutletFlipCard({ location }: { location: Location }) {
             className="w-full bg-white text-accent text-xs font-bold tracking-widest uppercase py-3.5 px-4 hover:bg-surface-inverse hover:text-white transition-colors"
           >
             Order Now
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate(deliveryHref)}
-            className="w-full bg-transparent border border-white text-white text-xs font-bold tracking-widest uppercase py-3.5 px-4 hover:bg-white hover:text-accent transition-colors"
-          >
-            Delivery
           </button>
         </div>
       </div>

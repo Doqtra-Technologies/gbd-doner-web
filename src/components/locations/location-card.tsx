@@ -24,7 +24,6 @@ export function LocationCard({ location }: { location: Location }) {
   const isSelected = selectedId === location.id;
   const isHovered = hoveredId === location.id;
   const status = computeOpeningStatus(location.hours);
-  const delivery = location.deliveryLinks?.[0];
 
   const distanceLabel = activeCoordinates
     ? formatKilometres(
@@ -115,11 +114,6 @@ export function LocationCard({ location }: { location: Location }) {
       </div>
 
       <div className="mt-2 flex flex-wrap items-center gap-2" onClick={(e) => e.stopPropagation()}>
-        {delivery && (
-          <CardActionLink href={delivery.url} variant="primary" external>
-            Delivery
-          </CardActionLink>
-        )}
         {location.clickAndCollectUrl && (
           <CardActionLink href={location.clickAndCollectUrl} variant="primary" external>
             Click + Collect
