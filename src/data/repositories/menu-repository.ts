@@ -5,6 +5,21 @@ export interface MenuItemDetail extends MenuItem {
   bodyHtml: string | null;
 }
 
+function applyMenuItemOverrides<T extends MenuItem>(item: T): T {
+  let imageUrl = item.imageUrl;
+  if (item.slug === "vegan-doner-wrap") {
+    imageUrl = "/menu/Wraps/vegan-wrap.jpeg";
+  } else if (item.slug === "crispy-halloumi-burger") {
+    imageUrl = "/menu/Burgers/crispy halloumi burger.jpeg";
+  }
+  return {
+    ...item,
+    imageUrl,
+    allergens: item.allergens || [],
+    dietaryFlags: item.dietaryFlags || []
+  };
+}
+
 export async function getMenuItems(): Promise<MenuItem[]> {
   const query = `*[_type == "menuItem"] | order(title asc) {
     "id": _id,
@@ -21,14 +36,16 @@ export async function getMenuItems(): Promise<MenuItem[]> {
   }`;
 
   const items = await client.fetch<MenuItem[]>(query);
-  return (items || []).map(item => ({
-    ...item,
-    allergens: item.allergens || [],
-    dietaryFlags: item.dietaryFlags || []
-  }));
+  return (items || [])
+    .filter(item => item.slug && !["baklava", "banana-pudding", "homemade-cheesecake"].includes(item.slug))
+    .map(item => applyMenuItemOverrides(item));
 }
 
 export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | null> {
+  if (["baklava", "banana-pudding", "homemade-cheesecake"].includes(slug)) {
+    return null;
+  }
+
   const query = `*[_type == "menuItem" && slug.current == $slug][0] {
     "id": _id,
     "slug": slug.current,
@@ -47,9 +64,7 @@ export async function getMenuItemBySlug(slug: string): Promise<MenuItemDetail | 
   if (!item) return null;
 
   return {
-    ...item,
-    allergens: item.allergens || [],
-    dietaryFlags: item.dietaryFlags || [],
+    ...applyMenuItemOverrides(item),
     bodyHtml: null, // Basic schema omits rich body for menu items
   };
 }

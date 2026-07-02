@@ -5,6 +5,44 @@ export interface LocationDetail extends Location {
   bodyHtml: string | null;
 }
 
+function applyLocationOverrides<T extends Location>(loc: T): T {
+  let coordinates = loc.coordinates || { lat: 0, lng: 0 };
+  let clickAndCollectUrl = loc.clickAndCollectUrl;
+  let deliveryLinks = loc.deliveryLinks || [];
+  let hours = loc.hours || [];
+
+  if (loc.slug === "manchester-oldham") {
+    coordinates = { lat: 53.5572822, lng: -2.1383486 };
+    clickAndCollectUrl = "https://order.britishdonner.com/RestaurantSelection/1";
+    deliveryLinks = [{ provider: "deliveroo", url: "https://order.britishdonner.com/RestaurantSelection/1" }];
+    hours = [
+      { day: "Mon", open: "11:00", close: "23:00" },
+      { day: "Tue", open: "11:00", close: "23:00" },
+      { day: "Wed", open: "11:00", close: "23:00" },
+      { day: "Thu", open: "11:00", close: "23:00" },
+      { day: "Fri", open: "11:00", close: "23:00" },
+      { day: "Sat", open: "11:00", close: "23:00" },
+      { day: "Sun", open: "11:00", close: "23:00" },
+    ];
+  } else if (loc.slug === "deansgate") {
+    clickAndCollectUrl = "https://order.britishdonner.com/RestaurantSelection/3";
+  } else if (loc.slug === "liverpool") {
+    clickAndCollectUrl = "https://order.britishdonner.com/RestaurantSelection/4";
+  } else if (loc.slug === "piccadilly") {
+    clickAndCollectUrl = "https://order.britishdonner.com/RestaurantSelection/5";
+  }
+
+  return {
+    ...loc,
+    name: loc.name ? loc.name.trim() : "",
+    city: loc.city ? loc.city.trim() : "",
+    coordinates,
+    clickAndCollectUrl,
+    hours,
+    deliveryLinks,
+  };
+}
+
 export async function getLocations(): Promise<Location[]> {
   const query = `*[_type == "location"] | order(name asc) {
     "id": _id,
@@ -28,23 +66,7 @@ export async function getLocations(): Promise<Location[]> {
     next: { tags: ["location"] }
   });
   
-  // Ensure nested objects default safely
-  return (locations || []).map(loc => {
-    let coordinates = loc.coordinates || { lat: 0, lng: 0 };
-    if (loc.slug === "manchester-oldham") {
-      coordinates = { lat: 53.5572822, lng: -2.1383486 };
-      loc.clickAndCollectUrl = "https://order.britishdonner.com/menu";
-      loc.deliveryLinks = [{ provider: "deliveroo", url: "https://order.britishdonner.com/menu" }];
-    }
-    return {
-      ...loc,
-      name: loc.name ? loc.name.trim() : "",
-      city: loc.city ? loc.city.trim() : "",
-      coordinates,
-      hours: loc.hours || [],
-      deliveryLinks: loc.deliveryLinks || [],
-    };
-  });
+  return (locations || []).map(loc => applyLocationOverrides(loc));
 }
 
 export async function getLocationBySlug(slug: string): Promise<LocationDetail | null> {
@@ -71,20 +93,9 @@ export async function getLocationBySlug(slug: string): Promise<LocationDetail | 
   });
   if (!loc) return null;
 
-  let coordinates = loc.coordinates || { lat: 0, lng: 0 };
-  if (loc.slug === "manchester-oldham") {
-    coordinates = { lat: 53.5572822, lng: -2.1383486 };
-    loc.clickAndCollectUrl = "https://order.britishdonner.com/menu";
-    loc.deliveryLinks = [{ provider: "deliveroo", url: "https://order.britishdonner.com/menu" }];
-  }
-
   return {
-    ...loc,
-    name: loc.name ? loc.name.trim() : "",
-    city: loc.city ? loc.city.trim() : "",
-    coordinates,
-    hours: loc.hours || [],
-    deliveryLinks: loc.deliveryLinks || [],
+    ...applyLocationOverrides(loc),
     bodyHtml: null, // Sanity structure currently omits rich text body for locations
   };
 }
+
