@@ -72,6 +72,11 @@ export default async function FeedPage() {
     articles[0] ??
     { ...feedData.featuredArticle, image: localImageOrFallback(feedData.featuredArticle.image) };
 
+  const remainingCmsArticles = articles.filter((a) => a.slug !== featured.slug);
+  const gridArticles = [...remainingCmsArticles, ...feedData.gridArticles].filter(
+    (a, i, arr) => arr.findIndex((b) => b.slug === a.slug) === i && a.slug !== featured.slug,
+  );
+
   return (
     <main className="w-full bg-canvas">
       <PageBanner
@@ -81,7 +86,52 @@ export default async function FeedPage() {
         imagePosition="object-bottom"
       />
       <FeedFeatured featured={featured} />
+      {gridArticles.length > 0 && <FeedGrid articles={gridArticles} />}
     </main>
+  );
+}
+
+function FeedGrid({ articles }: { articles: FeedArticle[] }) {
+  return (
+    <section className="bg-canvas py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {articles.map((article) => (
+            <FeedGridCard key={article.slug} article={article} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeedGridCard({ article }: { article: FeedArticle }) {
+  return (
+    <Link
+      href={article.slug}
+      className="group flex flex-col overflow-hidden rounded-[20px] border border-border-hairline bg-canvas shadow-[0_8px_24px_rgba(15,30,45,0.06)] transition-transform duration-300 ease-out hover:-translate-y-1"
+    >
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-inverse">
+        <Image
+          src={article.image}
+          alt={article.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+        />
+      </div>
+      <div className="flex flex-1 flex-col gap-3 p-6">
+        <span className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
+          {article.category}
+        </span>
+        <h3 className="font-display text-lg font-bold uppercase tracking-display leading-[0.95] text-text-primary text-balance">
+          {article.title}
+        </h3>
+        <p className="font-body text-sm leading-[1.65] text-text-secondary line-clamp-3">
+          {article.excerpt}
+        </p>
+      </div>
+    </Link>
   );
 }
 

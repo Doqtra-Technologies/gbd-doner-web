@@ -216,7 +216,7 @@ function BaselineRow({ settings }: { settings?: GlobalSettings }) {
   const email = settings?.contactEmail || contact.email;
 
   return (
-    <div className="w-full px-6 py-4 sm:px-10 sm:py-6 lg:px-16 flex flex-row justify-between items-center gap-4 bg-surface-inverse border-t border-text-inverse/10">
+    <div className="w-full px-6 py-4 sm:px-10 sm:py-6 lg:px-16 flex flex-row flex-wrap justify-between items-center gap-x-4 gap-y-2 bg-surface-inverse border-t border-text-inverse/10">
       <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
         {copyright}
       </p>
@@ -226,6 +226,9 @@ function BaselineRow({ settings }: { settings?: GlobalSettings }) {
       >
         {email}
       </a>
+      <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
+        <span className="text-accent opacity-100">Created by</span> Gourmetica
+      </p>
     </div>
   );
 }
