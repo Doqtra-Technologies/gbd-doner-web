@@ -54,6 +54,7 @@ export function Footer({ settings }: { settings?: GlobalSettings }) {
         <CinematicBand />
         <DirectoryMatrix directory={directory} />
         <NewsletterRow settings={settings} />
+        <SignatureRow />
         <BaselineRow settings={settings} />
       </div>
     </footer>
@@ -226,6 +227,13 @@ function BaselineRow({ settings }: { settings?: GlobalSettings }) {
       >
         {email}
       </a>
+    </div>
+  );
+}
+
+function SignatureRow() {
+  return (
+    <div className="w-full px-6 py-4 sm:px-10 lg:px-16 flex justify-center items-center bg-surface-inverse border-t border-text-inverse/10">
       <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
         <span className="text-accent opacity-100">Created by</span> Gourmetica
       </p>

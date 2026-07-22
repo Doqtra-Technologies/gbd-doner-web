@@ -85,60 +85,24 @@ export default async function FeedPage() {
         headline="FEED"
         imagePosition="object-bottom"
       />
-      <FeedFeatured featured={featured} />
-      {gridArticles.length > 0 && <FeedGrid articles={gridArticles} />}
+      <FeedBanner article={featured} badge="Featured Story" eyebrow="Latest" priority />
+      {gridArticles.map((article) => (
+        <FeedBanner key={article.slug} article={article} eyebrow="From The Feed" />
+      ))}
     </main>
   );
 }
 
-function FeedGrid({ articles }: { articles: FeedArticle[] }) {
-  return (
-    <section className="bg-canvas py-16 lg:py-24">
-      <div className="mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
-            <FeedGridCard key={article.slug} article={article} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FeedGridCard({ article }: { article: FeedArticle }) {
-  return (
-    <Link
-      href={article.slug}
-      className="group flex flex-col overflow-hidden rounded-[20px] border border-border-hairline bg-canvas shadow-[0_8px_24px_rgba(15,30,45,0.06)] transition-transform duration-300 ease-out hover:-translate-y-1"
-    >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-inverse">
-        <Image
-          src={article.image}
-          alt={article.title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-        />
-      </div>
-      <div className="flex flex-1 flex-col gap-3 p-6">
-        <span className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
-          {article.category}
-        </span>
-        <h3 className="font-display text-lg font-bold uppercase tracking-display leading-[0.95] text-text-primary text-balance">
-          {article.title}
-        </h3>
-        <p className="font-body text-sm leading-[1.65] text-text-secondary line-clamp-3">
-          {article.excerpt}
-        </p>
-      </div>
-    </Link>
-  );
-}
-
-function FeedFeatured({
-  featured,
+function FeedBanner({
+  article,
+  badge,
+  eyebrow,
+  priority,
 }: {
-  featured: FeedArticle;
+  article: FeedArticle;
+  badge?: string;
+  eyebrow: string;
+  priority?: boolean;
 }) {
   return (
     <section className="border-b border-border-hairline bg-canvas py-16 lg:py-24">
@@ -148,23 +112,25 @@ function FeedFeatured({
 
             {/* Image pane */}
             <div className="relative min-h-[22rem] overflow-hidden bg-surface-inverse sm:min-h-[28rem]">
-              <Link href={featured.slug} aria-label={featured.title} className="group absolute inset-0 block">
+              <Link href={article.slug} aria-label={article.title} className="group absolute inset-0 block">
                 <Image
-                  src={featured.image}
-                  alt={featured.title}
+                  src={article.image}
+                  alt={article.title}
                   fill
-                  priority
+                  priority={priority}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,30,45,0.05)_0%,rgba(15,30,45,0.28)_100%)]" />
-                <div className="absolute left-5 top-5 z-10 rounded-full bg-surface-inverse/85 px-3 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-inverse backdrop-blur-sm">
-                  Featured Story
-                </div>
+                {badge && (
+                  <div className="absolute left-5 top-5 z-10 rounded-full bg-surface-inverse/85 px-3 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-inverse backdrop-blur-sm">
+                    {badge}
+                  </div>
+                )}
                 <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8">
                   <span className="inline-flex items-center gap-2 rounded-full bg-canvas/90 px-3 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-text-primary backdrop-blur-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    {featured.category}
+                    {article.category}
                   </span>
                 </div>
               </Link>
@@ -174,20 +140,20 @@ function FeedFeatured({
             <div className="flex flex-col justify-between gap-8 p-8 lg:p-12">
               <div className="flex flex-col gap-6">
                 <p className="font-display text-[10px] font-bold uppercase tracking-[0.34em] text-accent">
-                  Latest
+                  {eyebrow}
                 </p>
 
                 <h2 className="font-display text-[clamp(1.6rem,3vw,2.6rem)] font-bold uppercase tracking-display leading-[0.95] text-text-primary text-balance">
                   <Link
-                    href={featured.slug}
+                    href={article.slug}
                     className="inline-block transition-[color,transform] duration-300 ease-out hover:translate-x-1 hover:text-accent"
                   >
-                    {featured.title}
+                    {article.title}
                   </Link>
                 </h2>
 
                 <p className="font-body text-base leading-[1.75] text-text-secondary line-clamp-4">
-                  {featured.excerpt}
+                  {article.excerpt}
                 </p>
               </div>
 

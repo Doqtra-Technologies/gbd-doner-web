@@ -5,64 +5,44 @@ import type { ArticleBlock, EditorialArticle } from "@/data/content";
 
 export function EditorialArticlePage({ article }: { article: EditorialArticle }) {
   return (
-    <article className="w-full bg-canvas text-text-primary pt-16 lg:pt-20">
-      <NavAnchor category={article.category} />
-      <Masthead title={article.title} />
-      <HeroImage src={article.heroImage} alt={article.title} />
-      <ArticleBody content={article.content} />
-      <ClosingGallery images={article.inlineGallery} title={article.title} />
-    </article>
+    <main className="w-full bg-canvas text-text-primary pt-16 lg:pt-20">
+      <article className="border-b border-border-hairline">
+        <Header article={article} />
+        <ArticleBody content={article.content} />
+        <ClosingGallery images={article.inlineGallery} title={article.title} />
+      </article>
+    </main>
   );
 }
 
-function NavAnchor({ category }: { category: string }) {
+function Header({ article }: { article: EditorialArticle }) {
   return (
-    <nav
-      aria-label="Article navigation"
-      className="relative w-full border-b border-border-hairline bg-canvas"
-    >
-      <div className="mx-auto flex w-full max-w-shell items-center px-6 py-4 sm:px-8 lg:px-12">
+    <header className="grid grid-cols-1 border-b border-border-hairline md:grid-cols-12">
+      <div className="flex flex-col justify-center gap-8 p-10 md:col-span-5 lg:p-16">
         <Link
           href="/feed"
-          className="flex items-center gap-2 font-display text-[10px] font-bold uppercase tracking-eyebrow text-text-secondary transition-colors duration-300 hover:text-accent"
+          className="font-display text-[10px] font-bold uppercase tracking-eyebrow text-text-secondary transition-colors hover:text-accent"
         >
-          <span aria-hidden>←</span>
-          Back to The Feed
+          ← The Feed
         </Link>
-        <span className="absolute left-1/2 -translate-x-1/2 font-display text-[10px] font-bold uppercase tracking-eyebrow text-accent">
-          {category}
+        <span className="font-display text-[10px] font-bold uppercase tracking-eyebrow text-accent">
+          {article.category}
         </span>
+        <h1 className="font-display text-3xl font-bold uppercase tracking-display leading-[0.9] text-text-primary md:text-4xl lg:text-5xl">
+          {article.title}
+        </h1>
       </div>
-    </nav>
-  );
-}
-
-function Masthead({ title }: { title: string }) {
-  return (
-    <header className="w-full border-b border-border-hairline bg-canvas">
-      <div className="mx-auto w-full max-w-shell px-6 py-14 sm:px-8 lg:px-12 lg:py-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="font-display text-3xl font-bold uppercase tracking-display leading-[0.9] text-text-primary text-balance sm:text-4xl lg:text-5xl">
-            {title}
-          </h1>
-        </div>
+      <div className="relative w-full bg-surface-inverse md:col-span-7 md:min-h-[420px] aspect-square md:aspect-auto">
+        <Image
+          src={article.heroImage}
+          alt={article.title}
+          fill
+          priority
+          sizes="(max-width: 768px) 100vw, 58vw"
+          className="object-cover"
+        />
       </div>
     </header>
-  );
-}
-
-function HeroImage({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="relative w-full aspect-[21/9] border-b border-border-hairline bg-surface-inverse">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
-    </div>
   );
 }
 
