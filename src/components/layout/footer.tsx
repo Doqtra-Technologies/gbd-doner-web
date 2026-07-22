@@ -234,9 +234,15 @@ function BaselineRow({ settings }: { settings?: GlobalSettings }) {
 function SignatureRow() {
   return (
     <div className="w-full px-6 py-4 sm:px-10 lg:px-16 flex justify-center items-center bg-surface-inverse border-t border-text-inverse/10">
-      <p className="text-[10px] uppercase tracking-eyebrow text-text-inverse opacity-40">
-        <span className="text-accent opacity-100">Created by</span> Gourmetica
-      </p>
+      <a
+        href="https://gourmetica.co.uk/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[10px] uppercase tracking-eyebrow hover:opacity-80 transition-opacity duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+      >
+        <span className="text-text-inverse opacity-100">Created by</span>{" "}
+        <span className="text-accent opacity-100">Gourmetica</span>
+      </a>
     </div>
   );
 }
