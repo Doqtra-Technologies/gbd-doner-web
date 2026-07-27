@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Location } from "@/domain/location";
+import { siteConfig } from "@/lib/config";
 
 /**
  * OutletFlipCard — physical 3D "photograph stack" + red spring-glide reveal.
@@ -44,7 +45,7 @@ export function OutletFlipCard({ location }: { location: Location }) {
     [location.images, location.imageUrl],
   );
 
-  const orderHref = location.clickAndCollectUrl ?? "/order-now";
+  const orderHref = location.clickAndCollectUrl ?? siteConfig.orderUrl;
 
   function navigate(href: string) {
     if (/^https?:\/\//.test(href)) {

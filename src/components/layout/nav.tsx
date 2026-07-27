@@ -161,7 +161,8 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
             <CTAButton
               variant="primary"
               size="md"
-              href="/order-now"
+              href={siteConfig.orderUrl}
+              external
               className={cn(
                 "transition-colors duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent",
                 orderButtonClass,
@@ -285,12 +286,14 @@ export function Nav({ settings }: { settings?: GlobalSettings }) {
           isScrolled && !open && pathname !== "/catering" ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
         )}
       >
-        <Link
-          href="/order-now"
+        <a
+          href={siteConfig.orderUrl}
+          target="_blank"
+          rel="noreferrer noopener"
           className="flex h-14 items-center justify-center rounded-full bg-surface-inverse/85 px-10 font-display text-sm font-bold uppercase tracking-button text-white shadow-[0_16px_40px_-12px_rgba(10,18,28,0.8)] backdrop-blur-xl transition-[transform,background-color] active:scale-95 hover:bg-surface-inverse"
         >
           Order Now
-        </Link>
+        </a>
       </div>
     </>
   );

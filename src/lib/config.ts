@@ -5,6 +5,8 @@ export const siteConfig = {
   description:
     "Modern fast-casual doner. Ethically sourced, urban-kinetic, built for the city.",
   ogImage: "/og.jpg",
+  // External ordering platform — every "Order Now" CTA points here.
+  orderUrl: "https://order.britishdonner.com/RestaurantSelection",
   nav: [
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },

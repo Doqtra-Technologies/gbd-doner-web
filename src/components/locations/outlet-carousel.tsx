@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { LocationImageDeck } from "@/components/locations/location-image-deck";
 import type { Location } from "@/domain/location";
+import { siteConfig } from "@/lib/config";
 
 export function OutletCarousel({ locations }: { locations: Location[] }) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
@@ -63,7 +64,7 @@ export function OutletCarousel({ locations }: { locations: Location[] }) {
 }
 
 function OutletCard({ location }: { location: Location }) {
-  const orderHref = location.clickAndCollectUrl ?? "/order-now";
+  const orderHref = location.clickAndCollectUrl ?? siteConfig.orderUrl;
 
   return (
     <article className="group relative w-[85vw] sm:w-[calc(50vw-32px)] lg:w-[calc(33.33vw-40px)] xl:w-[460px] 2xl:w-[480px] shrink-0 snap-center flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2">
@@ -94,7 +95,7 @@ function OutletCard({ location }: { location: Location }) {
           {/* Interactive Hover Pills (Always visible on mobile, Hover on desktop) */}
           <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col items-center justify-end md:inset-0 md:justify-center md:opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:translate-y-4 md:group-hover:translate-y-0 md:group-hover:opacity-100 z-40 md:bg-black/20 rounded-[18px]">
             <div className="flex flex-row w-full gap-3 md:w-auto md:flex-col lg:flex-row">
-              <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={orderHref} external={Boolean(location.clickAndCollectUrl)}>
+              <HoverPill className="flex-1 md:flex-none min-w-0 md:min-w-[138px] px-2 md:px-5" href={orderHref} external>
                 Collection
               </HoverPill>
             </div>

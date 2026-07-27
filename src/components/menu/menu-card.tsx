@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import type { MenuItem } from "@/domain/menu-item";
+import { siteConfig } from "@/lib/config";
 
 /**
  * Clean White Matrix menu — tall portrait cards, RED kinetic hover, with the
@@ -94,13 +95,15 @@ export function MenuCard({ item, onOrder, onMoreInfo }: MenuCardProps) {
 
             {/* PHASE 6 — CTAs styled for the red hover background */}
             <div className="flex flex-row items-center justify-center gap-2 w-full mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] delay-[150ms] ease-out pb-1">
-              <button
-                type="button"
+              <a
+                href={siteConfig.orderUrl}
+                target="_blank"
+                rel="noreferrer noopener"
                 onClick={() => onOrder?.(item)}
-                className="flex-1 bg-white text-accent text-[11px] md:text-xs font-extrabold tracking-[0.15em] uppercase py-3 px-2 hover:bg-surface-inverse hover:text-white transition-colors"
+                className="flex flex-1 items-center justify-center bg-white text-accent text-[11px] md:text-xs font-extrabold tracking-[0.15em] uppercase py-3 px-2 hover:bg-surface-inverse hover:text-white transition-colors"
               >
                 Order Now
-              </button>
+              </a>
               <button
                 type="button"
                 onClick={() => onMoreInfo?.(item)}

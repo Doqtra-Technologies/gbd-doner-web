@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CTAButton } from "@/components/ui/cta-button";
 import { globalData } from "@/data/content";
+import { siteConfig } from "@/lib/config";
 import type { GlobalSettings } from "@/domain/site-settings";
 
 const { newsletter, footerLists, contact } = globalData;
@@ -91,7 +92,8 @@ function CinematicBand() {
           <CTAButton
             variant="primary"
             size="lg"
-            href="/order-now"
+            href={siteConfig.orderUrl}
+            external
             className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
           >
             Order Now

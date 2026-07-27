@@ -12,6 +12,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { DUR, EASE } from "@/brand/motion";
+import { siteConfig } from "@/lib/config";
 import type { HomePageSettings } from "@/domain/site-settings";
 /**
  * Hero — fullscreen cinematic video stage for the homepage.
@@ -211,7 +212,7 @@ export function Hero({ settings }: { settings?: HomePageSettings }) {
               className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
             >
               {/* Primary — solid red, magnetic, soft glow */}
-              <MagneticButton href="/order-now" reduceMotion={!!reduceMotion}>
+              <MagneticButton href={siteConfig.orderUrl} reduceMotion={!!reduceMotion}>
                 Choose Your Fuel
               </MagneticButton>
 
@@ -291,6 +292,10 @@ function MagneticButton({
     y.set(0);
   };
 
+  const isExternal = /^https?:\/\//.test(href);
+  const classes =
+    "group inline-flex h-14 w-full items-center justify-center rounded-full border border-transparent bg-accent px-10 font-display text-sm font-bold uppercase tracking-button text-white transition-colors duration-300 ease-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto";
+
   return (
     <motion.div
       ref={ref}
@@ -299,12 +304,15 @@ function MagneticButton({
       style={{ x: sx, y: sy }}
       className="w-full sm:w-auto"
     >
-      <Link
-        href={href}
-        className="group inline-flex h-14 w-full items-center justify-center rounded-full border border-transparent bg-accent px-10 font-display text-sm font-bold uppercase tracking-button text-white transition-colors duration-300 ease-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto"
-      >
-        {children}
-      </Link>
+      {isExternal ? (
+        <a href={href} target="_blank" rel="noreferrer noopener" className={classes}>
+          {children}
+        </a>
+      ) : (
+        <Link href={href} className={classes}>
+          {children}
+        </Link>
+      )}
     </motion.div>
   );
 }
